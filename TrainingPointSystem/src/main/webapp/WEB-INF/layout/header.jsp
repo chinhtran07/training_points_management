@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Logo</a>
+        <img class="navbar-brand" src="https://res.cloudinary.com/dk4uoxtsx/image/upload/v1712234809/LOGO-TRUONGV21-12-2018-01-300x300_jexwp0.png" width="70">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
