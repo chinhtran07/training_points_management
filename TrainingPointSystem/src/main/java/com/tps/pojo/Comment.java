@@ -1,7 +1,12 @@
+package com.tps.pojo;
+
+import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Data
 @Table(name = "comment")
 public class Comment {
     @Id
@@ -18,7 +23,7 @@ public class Comment {
     private String content;
 
     @Column(name = "is_active")
-    private java.lang.Byte isActive;
+    private Byte isActive;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
@@ -26,59 +31,5 @@ public class Comment {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    public Integer getId() {
-        return this.id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getPostId() {
-        return this.postId;
-    }
-
-    public void setPostId(Integer postId) {
-        this.postId = postId;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public java.lang.Byte getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(java.lang.Byte isActive) {
-        this.isActive = isActive;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return this.createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public LocalDateTime getUpdatedDate() {
-        return this.updatedDate;
-    }
-
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
-    }
 }

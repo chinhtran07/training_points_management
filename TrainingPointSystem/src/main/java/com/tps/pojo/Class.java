@@ -1,7 +1,13 @@
+package com.tps.pojo;
+
+import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+
 
 @Entity
+@Data
 @Table(name = "class")
 public class Class {
     @Id
@@ -12,7 +18,7 @@ public class Class {
     private String name;
 
     @Column(name = "is_active")
-    private java.lang.Byte isActive;
+    private Byte isActive;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
@@ -20,43 +26,5 @@ public class Class {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    public Integer getId() {
-        return this.id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public java.lang.Byte getIsActive() {
-        return this.isActive;
-    }
-
-    public void setIsActive(java.lang.Byte isActive) {
-        this.isActive = isActive;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return this.createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public LocalDateTime getUpdatedDate() {
-        return this.updatedDate;
-    }
-
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
-    }
 }
