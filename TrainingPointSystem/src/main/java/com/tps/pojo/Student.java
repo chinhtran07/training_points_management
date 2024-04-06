@@ -1,35 +1,47 @@
 package com.tps.pojo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.Instant;
 
+@Getter
+@Setter
 @Entity
-@Data
 @Table(name = "student")
 public class Student {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "student_id")
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id", nullable = false)
+    private User user;
+
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "student_id", nullable = false, length = 50)
     private String studentId;
 
-    @Column(name = "class_id")
-    private Integer classId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id")
+    private Class classField;
 
-    @Column(name = "faculty_id")
-    private Integer facultyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     @Column(name = "is_active")
-    private Byte isActive;
+    private Boolean isActive;
 
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
     @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
-
+    private Instant updatedDate;
 
 }

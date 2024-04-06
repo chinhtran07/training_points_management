@@ -1,28 +1,36 @@
 package com.tps.pojo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
-@Data
 @Table(name = "mission")
 public class Mission {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "name")
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "activity_id")
-    private Integer activityId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "activity_id")
+    private Activity activity;
 
     @Column(name = "point")
     private Integer point;
 
+    @Lob
     @Column(name = "content")
     private String content;
 
@@ -33,13 +41,12 @@ public class Mission {
     private LocalDate endDate;
 
     @Column(name = "is_active")
-    private Byte isActive;
+    private Boolean isActive;
 
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
     @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
-
+    private Instant updatedDate;
 
 }

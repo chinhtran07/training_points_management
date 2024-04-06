@@ -1,33 +1,40 @@
 package com.tps.pojo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
+@Getter
+@Setter
 @Entity
-@Data
 @Table(name = "missingreport")
 public class Missingreport {
-    @Id
-    @Column(name = "student_id")
-    private Integer studentId;
+    @EmbeddedId
+    private MissingreportId id;
 
-    @Id
-    @Column(name = "mission_id")
-    private Integer missionId;
+    @MapsId("studentId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
 
+    @MapsId("missionId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "mission_id", nullable = false)
+    private Mission mission;
+
+    @Lob
     @Column(name = "description")
     private String description;
 
     @Column(name = "is_active")
-    private Byte isActive;
+    private Boolean isActive;
 
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
     @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
-
+    private Instant updatedDate;
 
 }

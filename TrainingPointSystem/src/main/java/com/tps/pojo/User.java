@@ -1,49 +1,66 @@
 package com.tps.pojo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
-@Data
 @Table(name = "user")
 public class User {
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "first_name")
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
 
-    @Column(name = "email")
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "username")
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "username", nullable = false, length = 50)
     private String username;
 
-    @Column(name = "password")
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "phone")
+    @Size(max = 20)
+    @Column(name = "phone", length = 20)
     private String phone;
 
     @Column(name = "is_student")
-    private Byte isStudent;
+    private Boolean isStudent;
 
     @Column(name = "is_assistant")
-    private Byte isAssistant;
+    private Boolean isAssistant;
 
     @Column(name = "is_superuser")
-    private Byte isSuperuser;
+    private Boolean isSuperuser;
 
+    @Size(max = 255)
     @Column(name = "avatar")
     private String avatar;
 
+    @Lob
     @Column(name = "gender")
     private String gender;
 
@@ -51,12 +68,12 @@ public class User {
     private LocalDate dob;
 
     @Column(name = "is_active")
-    private Byte isActive;
+    private Boolean isActive;
 
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
     @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
+    private Instant updatedDate;
 
 }
