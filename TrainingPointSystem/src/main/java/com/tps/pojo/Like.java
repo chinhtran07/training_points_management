@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "`Like`")
-public class Like {
+public class Like implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;

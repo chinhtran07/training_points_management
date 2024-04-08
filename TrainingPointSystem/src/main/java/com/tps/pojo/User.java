@@ -1,11 +1,14 @@
 package com.tps.pojo;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 
@@ -13,8 +16,14 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
+    public static final long serialVersionUID = 3L;
+    public static final String ASSISTANT = "ROLE_ASSISTANT";
+    public static final String STUDENT = "ROLE_STUDENT";
+    public static final String ADMIN = "ROLE_ADMIN";
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -30,6 +39,8 @@ public class User {
 
     @Size(max = 255)
     @NotNull
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$",
+            message = "{user.email.error.invalidMsg}")
     @Column(name = "email", nullable = false)
     private String email;
 
@@ -40,6 +51,7 @@ public class User {
 
     @Size(max = 255)
     @NotNull
+    @NotEmpty(message = "{user.password.sizeMsg}")
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -75,5 +87,8 @@ public class User {
 
     @Column(name = "updated_date")
     private Instant updatedDate;
+
+    @Transient
+    private String userRole;
 
 }

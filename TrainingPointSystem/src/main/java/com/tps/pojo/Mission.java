@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "mission")
-public class Mission {
+public class Mission implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;

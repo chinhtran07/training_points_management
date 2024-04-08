@@ -9,13 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "class")
-public class Class {
+public class Class implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;

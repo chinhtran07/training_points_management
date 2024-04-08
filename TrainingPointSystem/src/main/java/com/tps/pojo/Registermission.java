@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "registermission")
-public class Registermission {
+public class Registermission implements Serializable {
     @EmbeddedId
     private RegistermissionId id;
 

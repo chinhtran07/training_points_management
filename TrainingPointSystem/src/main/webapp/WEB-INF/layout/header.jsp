@@ -17,12 +17,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Trang chu</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Category 1</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Category 2</a>
-                </li>
+
             </ul>
         </div>
     </div>
