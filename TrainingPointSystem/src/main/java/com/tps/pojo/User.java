@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,7 +50,6 @@ public class User implements Serializable {
 
     @Size(max = 255)
     @NotNull
-    @NotEmpty(message = "{user.password.sizeMsg}")
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -91,4 +89,6 @@ public class User implements Serializable {
     @Transient
     private String userRole;
 
+    @Transient
+    private String confirmPassword;
 }
