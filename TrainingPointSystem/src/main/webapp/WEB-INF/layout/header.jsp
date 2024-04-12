@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: chinh
@@ -15,9 +16,11 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Trang chu</a>
+                    <a class="nav-link" href="#">Trang chu1</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/login" />">Dang nhap</a>
+                </li>
             </ul>
         </div>
     </div>
