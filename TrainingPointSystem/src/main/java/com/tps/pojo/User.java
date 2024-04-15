@@ -1,7 +1,10 @@
 package com.tps.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,10 +13,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@JsonIgnoreProperties(value = { "roles", "authorities" })
 @Table(name = "user")
 public class User implements Serializable {
     public static final long serialVersionUID = 3L;
@@ -91,4 +97,10 @@ public class User implements Serializable {
 
     @Transient
     private String confirmPassword;
+
+    public List<GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(userRole));
+        return authorities;
+    }
 }

@@ -37,6 +37,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User addUser(User user) {
-        return null;
+        Session s = factoryBean.getObject().getCurrentSession();
+        s.save(user);
+
+        return user;
     }
 }

@@ -26,7 +26,7 @@ import java.util.Locale;
 @ComponentScan(basePackages = {
         "com.tps.controllers",
         "com.tps.repositories",
-        "com.tps.services"
+        "com.tps.services",
 })
 public class WebAppContextConfig implements WebMvcConfigurer {
     @Override

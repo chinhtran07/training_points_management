@@ -3,7 +3,7 @@ package com.tps.services.impl;
 import com.tps.pojo.User;
 import com.tps.repositories.UserRepository;
 import com.tps.services.UserService;
-import jdk.internal.org.objectweb.asm.commons.RemappingMethodAdapter;
+//import jdk.internal.org.objectweb.asm.commons.RemappingMethodAdapter;
 import org.hibernate.id.ForeignGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -58,8 +58,6 @@ public class UserServiceImpl implements UserService {
         u.setPhone(params.get("phone"));
         u.setUserRole(params.get("userRole"));
 
-        this.userRepository.addUser(u);
-
-        return u;
+        return this.userRepository.addUser(u);
     }
 }
