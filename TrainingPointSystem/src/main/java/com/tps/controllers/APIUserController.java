@@ -22,7 +22,7 @@ public class APIUserController {
     @Autowired
     JwtService jwtService;
 
-    @PostMapping(path="/user/register")
+    @PostMapping(path = "/user/register")
     @CrossOrigin
     public ResponseEntity<User> createUser(@RequestBody User user) {
         Map<String, String> params = new HashMap<>();
@@ -54,20 +54,32 @@ public class APIUserController {
 
     @GetMapping(path = "/user/current")
     @CrossOrigin
-    public ResponseEntity<User> getUser(@RequestHeader("Authorization") String authorizationHeader) throws ParseException {
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String authToken) throws ParseException {
+//        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
 
-        String authToken = authorizationHeader.substring(7); // Bỏ "Bearer " ở đầu
-        if(jwtService.validateTokenLogin(authToken)) {
-            String username = jwtService.getUsernameFormToken(authToken);
-            User user = userService.getUserByUsername(username);
+//        String authToken = authorizationHeader.substring(7); // Bỏ "Bearer " ở đầu
+        String username = jwtService.getUsernameFormToken(authToken);
+        User user = userService.getUserByUsername(username);
+
+        if(user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    @GetMapping(path = "/user/{id}")
+    public ResponseEntity<User> getUser(@PathVariable int id ) {
+        User user = userService.findById(id);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+//    @PatchMapping(path = "/user/{id}/update")
+//    public ResponseEntity<User> updateUser(@PathVariable int id) {
+//        User user = userService.updateUser()
+//    }
 
 }

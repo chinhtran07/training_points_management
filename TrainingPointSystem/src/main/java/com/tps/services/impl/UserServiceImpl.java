@@ -57,7 +57,13 @@ public class UserServiceImpl implements UserService {
         u.setEmail(params.get("email"));
         u.setPhone(params.get("phone"));
         u.setUserRole(params.get("userRole"));
+        u.setIsStudent(true);
 
         return this.userRepository.addUser(u);
+    }
+
+    @Override
+    public User findById(int id) {
+        return userRepository.findById(id);
     }
 }

@@ -20,11 +20,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @EnableTransactionManagement
 @Order(1)
-@ComponentScan( basePackages = {
+@ComponentScan(basePackages = {
         "com.tps.controllers",
         "com.tps.repositories",
         "com.tps.services",
-        "com.tps.components" }
+        "com.tps.components"}
 )
 public class JwtConfig extends WebSecurityConfigurerAdapter {
     @Bean
@@ -50,25 +50,32 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 
+    String[] POST_PUBLIC_ENDPOINT = {
+            "/api/login",
+            "/api/register"
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/api/**"); //Tat yeu cau csrf token khi truy cap den api
-        http.authorizeRequests().antMatchers("/api/login/").permitAll(); // Moi nguoi dung deu co the login
-        http.authorizeRequests().antMatchers("/api/user/register").permitAll();
-        http.authorizeRequests().antMatchers("/api/user/current").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/comment/").permitAll();
 
-//        http.antMatcher("/api/**")
-//                .httpBasic().authenticationEntryPoint(restServicesEntryPoint())
-//                .and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-//                .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-//                .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-//                .and()
-//                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+
+//        http.authorizeRequests(request ->
+//            request.antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
+//            .anyRequest().authenticated());
+
+
+        http.antMatcher("/api/**")
+                .httpBasic()
+                .authenticationEntryPoint(restServicesEntryPoint())
+                .and()
+                .authorizeRequests(request ->
+                    request.antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
+                    .anyRequest().authenticated()
+                );
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }
 }

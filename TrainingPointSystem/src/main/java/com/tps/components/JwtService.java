@@ -17,7 +17,7 @@ import java.util.Date;
 public class JwtService {
     private static final String SECRET = "99999999999999999999999999999999";
     private static final String USERNAME = "username";
-    private static final int EXPIRE_TIME = 3600 * 24;
+    private static final int EXPIRE_TIME = 1000 * 3600;
 
     public String generateTokenLogin(String username) {
         String token = null;
@@ -52,7 +52,6 @@ public class JwtService {
     }
 
     private JWTClaimsSet getClaimFromToken(String token) {
-        JWTClaimsSet claim = null;
         try {
             SignedJWT signedJwt = SignedJWT.parse(token);
             JWSVerifier verifier = new MACVerifier(generateShareSecret());
@@ -60,10 +59,10 @@ public class JwtService {
                 return signedJwt.getJWTClaimsSet();
             }
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (JOSEException | ParseException e) {
+            System.err.println(e.getMessage());
         }
-        return claim;
+        return null;
     }
 
     public String getUsernameFormToken(String token) throws ParseException {
@@ -71,8 +70,8 @@ public class JwtService {
         try {
             JWTClaimsSet claimsSet = getClaimFromToken(token);
             username = claimsSet.getStringClaim(USERNAME);
-        }catch (Exception ex) {
-            ex.printStackTrace();
+        }catch (ParseException ex) {
+            System.err.println(ex.getMessage());
         }
 
         return username;
@@ -81,7 +80,8 @@ public class JwtService {
     private Boolean isTokenExpired(String token) {
         JWTClaimsSet claims = getClaimFromToken(token);
         Date expiration = claims.getExpirationTime();
-
+        System.out.println(expiration);
+        System.out.println(new Date());
         return expiration.before(new Date());
     }
 
@@ -89,16 +89,10 @@ public class JwtService {
         if (token == null || token.trim().isEmpty()) {
             return false;
         }
+
         String username = getUsernameFormToken(token);
-        if (username == null || username.trim().isEmpty()) {
-            return false;
-        }
 
-        if (isTokenExpired(token)) {
-            return false;
-        }
-
-        return true;
+        return !(username == null || username.isEmpty() || isTokenExpired(token));
     }
 
 }

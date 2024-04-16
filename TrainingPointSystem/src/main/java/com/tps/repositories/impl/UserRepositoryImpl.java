@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Repository
 @Transactional
 public class UserRepositoryImpl implements UserRepository {
@@ -41,5 +43,11 @@ public class UserRepositoryImpl implements UserRepository {
         s.save(user);
 
         return user;
+    }
+
+    @Override
+    public User findById(int id) {
+        Session s = Objects.requireNonNull(factoryBean.getObject()).getCurrentSession();
+        return s.get(User.class, id);
     }
 }

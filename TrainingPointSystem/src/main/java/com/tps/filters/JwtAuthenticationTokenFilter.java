@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
-    private static final String TOKEN_HEADER = "Authentication";
+    private static final String TOKEN_HEADER = "authorization";
 
     @Autowired
     private JwtService jwtService;
@@ -29,32 +29,36 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
     @Autowired
     private UserService userService;
 
-    @SneakyThrows
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) req;
         String authToken = httpRequest.getHeader(TOKEN_HEADER);
+//        authToken = authToken.substring(7);
+//        System.out.println(authToken);
 
-        if (jwtService.validateTokenLogin(authToken)) {
-            String username = jwtService.getUsernameFormToken(authToken);
+        try {
+            if (jwtService.validateTokenLogin(authToken)) {
+                String username = jwtService.getUsernameFormToken(authToken);
 
-            User user = userService.getUserByUsername(username);
-            if (user != null) {
-                boolean enabled = true;
-                boolean accountNonExpired = true;
-                boolean credentialsNonExpired = true;
-                boolean accountNonLocked = true;
+                User user = userService.getUserByUsername(username);
+                if (user != null) {
+                    boolean enabled = true;
+                    boolean accountNonExpired = true;
+                    boolean credentialsNonExpired = true;
+                    boolean accountNonLocked = true;
 
-                UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                        username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, user.getAuthorities()
-                );
+                    UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                            username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, user.getAuthorities()
+                    );
 
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
-                        null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                            null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
 
         chain.doFilter(req, res);
