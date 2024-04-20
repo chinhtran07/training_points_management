@@ -13,8 +13,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
+import org.springframework.web.cors.CorsConfiguration;
 
 
 @Configuration
@@ -52,5 +53,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedPage("/login?accessDenied");
 //        http.authorizeRequests().antMatchers("/").permitAll();
         http.csrf().disable();
+
     }
 }
