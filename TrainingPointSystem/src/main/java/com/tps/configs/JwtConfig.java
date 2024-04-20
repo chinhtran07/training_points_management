@@ -1,5 +1,6 @@
 package com.tps.configs;
 
+import com.tps.filters.CorsFilter;
 import com.tps.filters.CustomAccessDeniedHandler;
 import com.tps.filters.JwtAuthenticationTokenFilter;
 import com.tps.filters.RestAuthenticationEntryPoint;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
@@ -34,6 +36,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
         return jwtAuthenticationTokenFilter;
     }
 
+
     @Bean
     public RestAuthenticationEntryPoint restServicesEntryPoint() {
         return new RestAuthenticationEntryPoint();
@@ -44,6 +47,12 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
         return new CustomAccessDeniedHandler();
     }
 
+
+    @Bean
+    public CorsFilter corsFilter() {
+        return new CorsFilter();
+    }
+
     @Bean
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -52,11 +61,12 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
 
     String[] POST_PUBLIC_ENDPOINT = {
             "/api/login",
-            "/api/register"
+            "/api/user/register"
     };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.csrf().ignoringAntMatchers("/api/**"); //Tat yeu cau csrf token khi truy cap den api
 
 
@@ -66,16 +76,17 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
 
 
         http.antMatcher("/api/**")
-                .httpBasic()
-                .authenticationEntryPoint(restServicesEntryPoint())
-                .and()
+//                .httpBasic()
+//                .authenticationEntryPoint(restServicesEntryPoint())
+//                .and()
                 .authorizeRequests(request ->
-                    request.antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
-                    .anyRequest().authenticated()
+                        request.antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
+                                .anyRequest().authenticated()
                 );
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }
 }

@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "/api")
 public class APIUserController {
@@ -23,7 +24,6 @@ public class APIUserController {
     JwtService jwtService;
 
     @PostMapping(path = "/user/register")
-    @CrossOrigin
     public ResponseEntity<User> createUser(@RequestBody User user) {
         Map<String, String> params = new HashMap<>();
         params.put("username", user.getUsername());
@@ -43,17 +43,19 @@ public class APIUserController {
     }
 
     @PostMapping(path = "/login")
-    @CrossOrigin
-    public ResponseEntity<String> login(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
+        Map<String, String> response = new HashMap<>();
         if (userService.authUser(user.getUsername(), user.getPassword())) {
             String token = jwtService.generateTokenLogin(user.getUsername());
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            response.put("token", token);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
-        return new ResponseEntity<>("Fail", HttpStatus.BAD_REQUEST);
+        response.put("error", "Unauthorized");
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping(path = "/user/current")
-    @CrossOrigin
     public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String authToken) throws ParseException {
 //        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
