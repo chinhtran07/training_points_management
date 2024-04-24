@@ -13,7 +13,11 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
                        value="/WEB-INF/layout/footer.jsp" />
     </definition>
     <definition name="index" extends="baseLayout">
-        <put-attribute name="title" value="Trang chủ" />
+        <put-attribute name="title" value="Training Point System"/>
         <put-attribute name="content" value="/WEB-INF/pages/index.jsp" />
+    </definition>
+    <definition name="admin" extends="baseLayout">
+        <put-attribute name="title" value="Admin" />
+        <put-attribute name="content" value="/WEB-INF/admin/admin.jsp" />
     </definition>
 </tiles-definitions>
