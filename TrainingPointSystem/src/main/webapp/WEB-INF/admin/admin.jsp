@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: chinh
@@ -8,3 +9,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <h1>Administrator</h1>
+<ul>
+<c:forEach items="${pointGroups}" var="p">
+    <li>
+        ${p.id},
+        ${p.name}
+    </li>
+</c:forEach>
+</ul>
