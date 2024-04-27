@@ -12,7 +12,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin()
 @RestController
 @RequestMapping(path = "/api")
 public class APIUserController {
