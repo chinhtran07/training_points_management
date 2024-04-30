@@ -2,6 +2,8 @@ package com.tps.pojo;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "activity")
 public class Activity implements Serializable {

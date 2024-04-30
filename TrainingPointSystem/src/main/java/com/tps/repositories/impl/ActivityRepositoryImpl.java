@@ -106,7 +106,7 @@ public class ActivityRepositoryImpl implements ActivityRepository {
             return null;
         }
 
-        Query query = session.createQuery("from Activity where updatedDate >= :currentDate or createdDate >= :currentDate and isAc qtive");
+        Query query = session.createQuery("from Activity where updatedDate >= :currentDate or createdDate >= :currentDate and isActive");
         List<Activity> activities = query.getResultList();
 
         return activities;

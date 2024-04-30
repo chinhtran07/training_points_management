@@ -83,7 +83,6 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
                         request.antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
                                 .anyRequest().authenticated()
                 );
-
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
