@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         u.setUsername(params.get("username"));
         u.setPassword(passwordEncoder.encode(params.get("password")));
         u.setEmail(params.get("email"));
-        u.setPhone(params.get("phone"));
+        u.setPhoneNumber(params.get("phoneNumber"));
         u.setUserRole(params.get("userRole"));
         u.setIsStudent(true);
 

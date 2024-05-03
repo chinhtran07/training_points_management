@@ -1,18 +1,21 @@
 package com.tps.controllers;
 
+import com.tps.components.EntityScanner;
+import com.tps.pojo.Pointgroup;
+import com.tps.services.PointGroupService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
-public class HomeController {
-    @RequestMapping("/")
-    public String index(Model model) {
-        return "index";
-    }
+import java.util.HashSet;
+import java.util.Set;
 
-    @RequestMapping("/login")
-    public String login(Model model){
-        return "login";
-    }
+@Controller
+@ControllerAdvice
+public class HomeController {
+
+
 }

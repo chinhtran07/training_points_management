@@ -1,5 +1,6 @@
 package com.tps.pojo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,13 +11,13 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "mission")
 public class Mission implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)

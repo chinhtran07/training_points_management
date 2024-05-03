@@ -20,7 +20,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@JsonIgnoreProperties(value = { "userRole", "updatedDate", "createdDate", "confirmPassword", "isActive" })
+@JsonIgnoreProperties(value = { "userRole", "updatedDate", "createdDate", "confirmPassword",
+        "isActive", "isStudent", "isAssistant", "isSuperuser"})
 @Table(name = "user")
 public class User implements Serializable {
     public static final long serialVersionUID = 3L;
@@ -62,7 +63,7 @@ public class User implements Serializable {
 
     @Size(max = 20)
     @Column(name = "phone", length = 20)
-    private String phone;
+    private String phoneNumber;
 
     @Column(name = "is_student")
     private Boolean isStudent;
