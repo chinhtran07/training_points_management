@@ -8,12 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page isELIgnored="false" %>
-<h1>Administrator</h1>
-<ul>
-<c:forEach items="${pointGroups}" var="p">
-    <li>
-        ${p.id},
-        ${p.name}
-    </li>
-</c:forEach>
-</ul>
+<div class="alert alert-info">
+    <h1>Xin chào, ${pageContext.request.userPrincipal.name}</h1>
+</div>
