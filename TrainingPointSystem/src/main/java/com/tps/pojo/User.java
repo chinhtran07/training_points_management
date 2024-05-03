@@ -63,7 +63,7 @@ public class User implements Serializable {
 
     @Size(max = 20)
     @Column(name = "phone", length = 20)
-    private String phone;
+    private String phoneNumber;
 
     @Column(name = "is_student")
     private Boolean isStudent;

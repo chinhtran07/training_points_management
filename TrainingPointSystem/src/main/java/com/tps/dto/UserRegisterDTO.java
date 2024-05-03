@@ -1,12 +1,11 @@
 package com.tps.dto;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
-public class UserDTO {
-    private int id;
+public class UserRegisterDTO {
     private String username;
+    private String password;
     private String firstName;
     private String lastName;
     private String email;
