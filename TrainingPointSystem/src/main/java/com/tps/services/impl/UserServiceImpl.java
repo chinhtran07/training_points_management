@@ -2,6 +2,7 @@ package com.tps.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tps.dto.UserDTO;
 import com.tps.pojo.User;
 import com.tps.repositories.UserRepository;
 import com.tps.services.UserService;
@@ -58,17 +59,17 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setIsStudent(true);
 
-        if (!user.getFile().isEmpty()) {
-
-            try {
-                Map res = this.cloudinary.uploader().upload(user.getFile().getBytes(),
-                        ObjectUtils.asMap("resource_type", "auto"));
-                user.setAvatar((String) res.get("secure_url"));
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+//        if (!user.getFile().isEmpty()) {
+//
+//            try {
+//                Map res = this.cloudinary.uploader().upload(user.getFile().getBytes(),
+//                        ObjectUtils.asMap("resource_type", "auto"));
+//                user.setAvatar((String) res.get("secure_url"));
+//
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
 
         return this.userRepository.addUser(user);
     }

@@ -1,24 +1,23 @@
 package com.tps.pojo;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "class")
 public class Class implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)

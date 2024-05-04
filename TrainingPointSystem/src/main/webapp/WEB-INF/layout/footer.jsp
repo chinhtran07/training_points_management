@@ -6,9 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<section>
-    <div class="jumbotron">
-        <h1>Apache Tiles</h1>
-        <p>SpringMVC DemoApp...</p>
+<footer>
+    <div class="mt-4 p-3 bg-primary text-white rounded">
+        <h3>HỆ THỐNG QUẢN LÝ ĐIỂM RÈN LUYỆN</h3>
+        <p>&copy; 2024</p>
     </div>
-</section>
+</footer>

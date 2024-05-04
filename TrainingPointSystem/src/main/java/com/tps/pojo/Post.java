@@ -1,5 +1,6 @@
 package com.tps.pojo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +9,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "post")
 public class Post implements Serializable {

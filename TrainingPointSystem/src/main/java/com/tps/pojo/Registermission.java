@@ -1,5 +1,6 @@
 package com.tps.pojo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,20 +8,19 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "registermission")
 public class Registermission implements Serializable {
-    @EmbeddedId
-    private RegistermissionId id;
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @MapsId("studentId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @MapsId("missionId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "mission_id", nullable = false)
     private Mission mission;
