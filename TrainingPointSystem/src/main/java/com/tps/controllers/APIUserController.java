@@ -5,6 +5,7 @@ import com.tps.dto.UserDTO;
 import com.tps.dto.UserRegisterDTO;
 import com.tps.pojo.User;
 import com.tps.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +27,7 @@ public class APIUserController {
 
     @Autowired
     JwtService jwtService;
+    private ModelMapper modelMapper;
 
 
     @PostMapping(path = "/user/register", consumes = {
@@ -95,24 +97,12 @@ public class APIUserController {
     }
 
     private UserDTO convertToDTO(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setUsername(user.getUsername());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setEmail(user.getEmail());
-        dto.setPhoneNumber(user.getPhoneNumber());
+        UserDTO dto = modelMapper.map(user, UserDTO.class);
         return dto;
     }
 
     private User convertDTOToUser(UserDTO dto) {
-        User user = new User();
-        user.setId(dto.getId());
-        user.setUsername(dto.getUsername());
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setEmail(dto.getEmail());
-        user.setPhoneNumber(dto.getPhoneNumber());
+        User user = modelMapper.map(dto, User.class);
         return user;
     }
 

@@ -1,5 +1,6 @@
 package com.tps.configs;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -62,6 +63,10 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         return resolver;
     }
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
 
 //    @Override
