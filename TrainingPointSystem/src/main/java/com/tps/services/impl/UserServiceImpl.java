@@ -1,5 +1,8 @@
 package com.tps.services.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.tps.dto.UserDTO;
 import com.tps.pojo.User;
 import com.tps.repositories.UserRepository;
 import com.tps.services.UserService;
@@ -13,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -24,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private Cloudinary cloudinary;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -48,18 +55,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(Map<String, String> params) {
-        User u = new User();
-        u.setFirstName(params.get("firstName"));
-        u.setLastName(params.get("lastName"));
-        u.setUsername(params.get("username"));
-        u.setPassword(passwordEncoder.encode(params.get("password")));
-        u.setEmail(params.get("email"));
-        u.setPhoneNumber(params.get("phoneNumber"));
-        u.setUserRole(params.get("userRole"));
-        u.setIsStudent(true);
+    public User addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setIsStudent(true);
 
-        return this.userRepository.addUser(u);
+//        if (!user.getFile().isEmpty()) {
+//
+//            try {
+//                Map res = this.cloudinary.uploader().upload(user.getFile().getBytes(),
+//                        ObjectUtils.asMap("resource_type", "auto"));
+//                user.setAvatar((String) res.get("secure_url"));
+//
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+
+        return this.userRepository.addUser(user);
     }
 
     @Override

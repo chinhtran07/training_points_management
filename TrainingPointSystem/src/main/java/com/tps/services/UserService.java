@@ -8,6 +8,6 @@ import java.util.Map;
 public interface UserService extends UserDetailsService {
     User getUserByUsername(String username);
     boolean authUser(String username, String password);
-    User addUser(Map<String, String> params);
+    User addUser(User user);
     User findById(int id);
 }

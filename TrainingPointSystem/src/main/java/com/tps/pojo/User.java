@@ -1,16 +1,19 @@
 package com.tps.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.File;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -99,6 +102,10 @@ public class User implements Serializable {
 
     @Transient
     private String confirmPassword;
+
+    @Transient
+    @JsonIgnore
+    private MultipartFile file;
 
     public List<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

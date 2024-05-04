@@ -66,6 +66,9 @@ public class JwtService {
     }
 
     public String getUsernameFormToken(String token) throws ParseException {
+        if (token.startsWith("Bearer")) {
+            token = token.substring(7);
+        }
         String username = null;
         try {
             JWTClaimsSet claimsSet = getClaimFromToken(token);
@@ -80,8 +83,6 @@ public class JwtService {
     private Boolean isTokenExpired(String token) {
         JWTClaimsSet claims = getClaimFromToken(token);
         Date expiration = claims.getExpirationTime();
-        System.out.println(expiration);
-        System.out.println(new Date());
         return expiration.before(new Date());
     }
 
@@ -90,6 +91,9 @@ public class JwtService {
             return false;
         }
 
+        if (token.startsWith("Bearer")) {
+            token = token.substring(7);
+        }
         String username = getUsernameFormToken(token);
 
         return !(username == null || username.isEmpty() || isTokenExpired(token));

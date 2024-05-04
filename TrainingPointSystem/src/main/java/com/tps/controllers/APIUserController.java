@@ -7,8 +7,10 @@ import com.tps.pojo.User;
 import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -25,17 +27,25 @@ public class APIUserController {
     @Autowired
     JwtService jwtService;
 
-    @PostMapping(path = "/user/register")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserRegisterDTO user) throws ParseException {
-        Map<String, String> params = new HashMap<>();
-        params.put("username", user.getUsername());
-        params.put("password", user.getPassword());
-        params.put("firstName", user.getFirstName());
-        params.put("lastName", user.getLastName());
-        params.put("email", user.getEmail());
-        params.put("phoneNumber", user.getPhoneNumber());
 
-        User createdUser = userService.addUser(params);
+    @PostMapping(path = "/user/register", consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.MULTIPART_FORM_DATA_VALUE,
+    })
+    public ResponseEntity<UserDTO> createUser(@RequestBody HashMap<String, String> params) {
+
+        User user = new User();
+        user.setFirstName(params.get("firstName"));
+        user.setLastName(params.get("lastName"));
+        user.setUsername(params.get("username"));
+        user.setPassword(params.get("password"));
+        user.setEmail(params.get("email"));
+
+//        if (files.length > 0) {
+//            user.setFile(files[0]);
+//        }
+
+        User createdUser = userService.addUser(user);
 
         if (createdUser != null) {
             UserDTO userDTO = convertToDTO(createdUser);
@@ -45,7 +55,10 @@ public class APIUserController {
         }
     }
 
-    @PostMapping(path = "/login")
+    @PostMapping(path = "/login", consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.MULTIPART_FORM_DATA_VALUE,
+    })
     public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
         Map<String, String> response = new HashMap<>();
         if (userService.authUser(user.getUsername(), user.getPassword())) {
@@ -60,11 +73,6 @@ public class APIUserController {
 
     @GetMapping(path = "/user/current")
     public ResponseEntity<UserDTO> getCurrentUser(@RequestHeader("Authorization") String authToken) throws ParseException {
-//        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-
-//        String authToken = authorizationHeader.substring(7); // Bỏ "Bearer " ở đầu
         String username = jwtService.getUsernameFormToken(authToken);
         User user = userService.getUserByUsername(username);
 
@@ -86,10 +94,6 @@ public class APIUserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @PatchMapping(path = "/user/{id}/update")
-//    public ResponseEntity<User> updateUser(@PathVariable int id) {
-//        User user = userService.updateUser()
-//    }
     private UserDTO convertToDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
