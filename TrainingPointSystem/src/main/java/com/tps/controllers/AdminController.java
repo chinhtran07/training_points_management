@@ -7,6 +7,7 @@ import com.tps.services.PointGroupService;
 import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,17 +24,12 @@ import java.util.Set;
 public class AdminController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private PointGroupService pointGroupService;
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
 
-    @GetMapping("/auth/user")
+
+
+    @GetMapping("/")
     public String admin(Model model) {
         return "admin";
     }

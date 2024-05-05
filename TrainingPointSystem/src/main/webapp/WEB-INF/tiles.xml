@@ -8,7 +8,6 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="title" value="" />
         <put-attribute name="header"
                        value="/WEB-INF/layout/header.jsp" />
-        <put-attribute name="sidebar" value="/WEB-INF/layout/sidebar.jsp" />
         <put-attribute name="content" value="" />
         <put-attribute name="footer"
                        value="/WEB-INF/layout/footer.jsp" />
@@ -20,5 +19,9 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
     <definition name="content" extends="baseLayout">
         <put-attribute name="title" value="Training Point System" />
         <put-attribute name="content" value="/WEB-INF/admin/content.jsp"/>
+    </definition>
+    <definition name="login" template="/WEB-INF/admin/login.jsp">
+        <put-attribute name="title" value="Admin Login"/>
+        <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
     </definition>
 </tiles-definitions>

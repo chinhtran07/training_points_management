@@ -17,9 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static com.tps.pojo.User.*;
 
 @Service("userDetailService")
 public class UserServiceImpl implements UserService {
@@ -38,10 +38,7 @@ public class UserServiceImpl implements UserService {
         if (u == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(u.getUserRole()));
-
-        return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), getAuthorities(u));
     }
 
     @Override
@@ -77,5 +74,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(int id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        this.userRepository.updateUser(user);
+    }
+
+    @Override
+    public void deleteUser(User user) {
+        this.userRepository.deleteUser(user);
+    }
+
+    @Override
+    public List<User> getAllUsers(Map<String, String> params) {
+        return this.userRepository.getAllUsers(params);
+    }
+
+
+    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        if(user.getIsStudent() != null && user.getIsStudent()) authorities.add(new SimpleGrantedAuthority(STUDENT));
+        if(user.getIsAssistant() != null && user.getIsAssistant()) authorities.add(new SimpleGrantedAuthority(ASSISTANT));
+        if(user.getIsSuperuser() != null && user.getIsSuperuser()) authorities.add(new SimpleGrantedAuthority(ADMIN));
+
+        return authorities;
     }
 }

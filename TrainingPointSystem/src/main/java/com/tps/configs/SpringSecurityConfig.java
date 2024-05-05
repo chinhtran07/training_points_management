@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 
 @Configuration
@@ -26,7 +27,7 @@ import org.springframework.web.cors.CorsConfiguration;
 @ComponentScan(basePackages = {
         "com.tps.controllers",
         "com.tps.repositories",
-        "com.tps.services"
+        "com.tps.services",
 })
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -53,16 +54,23 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()
+        http
+                .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN");
+        http
+                .formLogin()
                 .usernameParameter("username")
-                .passwordParameter("password");
-        http.formLogin().defaultSuccessUrl("/")
-                .failureUrl("/login?error");
-        http.logout().logoutSuccessUrl("/login");
-        http.exceptionHandling()
-                .accessDeniedPage("/login?accessDenied");
-//        http.authorizeRequests().antMatchers("/").permitAll();
+                .passwordParameter("password")
+                .defaultSuccessUrl("/admin/")
+                .failureUrl("/login?error")
+                .permitAll();
+        http
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .permitAll();
         http.csrf().disable();
-
     }
+
+
 }

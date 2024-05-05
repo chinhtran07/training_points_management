@@ -20,6 +20,11 @@ public class PointGroupServiceImpl implements PointGroupService {
     }
 
     @Override
+    public void delete(Pointgroup pointgroup) {
+        this.pointGroupRepository.delete(pointgroup);
+    }
+
+    @Override
     public Pointgroup getPointgroup(int id) {
         return this.pointGroupRepository.getPointgroup(id);
     }

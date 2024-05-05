@@ -32,6 +32,7 @@ public class User implements Serializable {
     public static final String STUDENT = "ROLE_STUDENT";
     public static final String ADMIN = "ROLE_ADMIN";
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -96,9 +97,6 @@ public class User implements Serializable {
 
     @Column(name = "updated_date")
     private Instant updatedDate;
-
-    @Transient
-    private String userRole;
 
     @Transient
     private String confirmPassword;

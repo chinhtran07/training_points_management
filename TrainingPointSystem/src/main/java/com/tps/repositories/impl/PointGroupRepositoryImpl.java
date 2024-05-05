@@ -31,6 +31,12 @@ public class PointGroupRepositoryImpl implements PointGroupRepository {
     }
 
     @Override
+    public void delete(Pointgroup pointgroup) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        session.delete(pointgroup);
+    }
+
+    @Override
     public Pointgroup getPointgroup(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Pointgroup pointgroup = (Pointgroup) session.get(Pointgroup.class, id);
@@ -45,7 +51,6 @@ public class PointGroupRepositoryImpl implements PointGroupRepository {
         Root<Pointgroup> root = cq.from(Pointgroup.class);
 
         cq.select(root);
-
 
         Query q = session.createQuery(cq);
         List<Pointgroup> pointgroups = q.getResultList();
