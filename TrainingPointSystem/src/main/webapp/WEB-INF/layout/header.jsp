@@ -26,8 +26,9 @@
                     ${pageContext.request.userPrincipal.name}
                 </a>
             </li>
-            <li class="nav-item mx-2"><a href="#" class="nav-link text-bg-primary">Đổi mật khẩu</a></li>
-            <li class="nav-item"><a href="#" class="nav-link text-bg-danger">Đăng xuất</a></li>
+            <li class="nav-item mx-2 btn btn-info"><a href="#" class="nav-link"> Thống kê</a></li>
+            <li class="nav-item mx-2 btn btn-info"><a href="#" class="nav-link ">Đổi mật khẩu</a></li>
+            <li class="nav-item btn btn-danger"><a href="#" class="nav-link ">Đăng xuất</a></li>
         </ul>
     </header>
 </div>

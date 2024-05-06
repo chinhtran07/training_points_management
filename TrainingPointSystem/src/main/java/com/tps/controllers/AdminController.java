@@ -15,7 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -26,21 +28,18 @@ public class AdminController {
     @Autowired
     private PointGroupService pointGroupService;
 
-
-
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public String admin(Model model) {
+        Set<String> pojos = new HashSet<>();
+        pojos.add("User");
+        pojos.add("Faculty");
+        pojos.add("Pointgroup");
+        pojos.add("Class");
+        model.addAttribute("pojos", pojos);
         return "admin";
-    }
-
-    @ModelAttribute
-    public void commonAttr(Model model) {
-        EntityScanner entityScanner = new EntityScanner();
-        Set<String> names = entityScanner.scanEntities("com.tps.pojo");
-        Set<String> modifiedNames = new HashSet<>();
-        names.forEach(n -> modifiedNames.add(n.substring(13)));
-        model.addAttribute("entityNames", modifiedNames);
     }
 
     @GetMapping("/pointgroup")
@@ -48,6 +47,8 @@ public class AdminController {
         model.addAttribute("pointGroups", this.pointGroupService.getAllPointGroups());
         return "content";
     }
+
+
 
     @RequestMapping("")
     public String home(Model model) {
