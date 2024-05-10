@@ -33,7 +33,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-<tiles:insertAttribute name="footer"/>
 </body>
 </html>
 

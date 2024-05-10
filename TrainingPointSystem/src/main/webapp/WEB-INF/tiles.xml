@@ -22,6 +22,9 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
     </definition>
     <definition name="login" template="/WEB-INF/admin/login.jsp">
         <put-attribute name="title" value="Admin Login"/>
-        <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp"/>
+    </definition>
+    <definition name="user" extends="baseLayout">
+        <put-attribute name="title" value="Quan ly nguoi dung"/>
+        <put-attribute name="content" value="/WEB-INF/admin/user.jsp"/>
     </definition>
 </tiles-definitions>
