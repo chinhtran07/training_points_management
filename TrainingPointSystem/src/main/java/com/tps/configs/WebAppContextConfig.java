@@ -64,11 +64,6 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         return resolver;
     }
 
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
 //    @Override
 //    public void addViewControllers(ViewControllerRegistry registry) {
 //        registry.addViewController("/login").setViewName("login");

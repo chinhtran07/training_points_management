@@ -1,6 +1,7 @@
 package com.tps.controllers;
 
 import com.tps.components.JwtService;
+import com.tps.components.UserConverter;
 import com.tps.dto.UserDTO;
 import com.tps.dto.UserRegisterDTO;
 import com.tps.pojo.User;
@@ -23,12 +24,13 @@ import java.util.Map;
 public class APIUserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    JwtService jwtService;
-    private ModelMapper modelMapper;
+    private JwtService jwtService;
 
+    @Autowired
+    private UserConverter userConverter;
 
     @PostMapping(path = "/user/register", consumes = {
             MediaType.APPLICATION_JSON_VALUE,
@@ -50,7 +52,7 @@ public class APIUserController {
         User createdUser = userService.addUser(user);
 
         if (createdUser != null) {
-            UserDTO userDTO = convertToDTO(createdUser);
+            UserDTO userDTO = this.userConverter.convertToDTO(createdUser);
             return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -79,7 +81,7 @@ public class APIUserController {
         User user = userService.getUserByUsername(username);
 
         if(user != null) {
-            UserDTO userDTO = convertToDTO(user);
+            UserDTO userDTO = this.userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -90,20 +92,10 @@ public class APIUserController {
     public ResponseEntity<UserDTO> getUser(@PathVariable int id ) {
         User user = userService.findById(id);
         if(user != null) {
-            UserDTO userDTO = convertToDTO(user);
+            UserDTO userDTO = this.userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    private UserDTO convertToDTO(User user) {
-        UserDTO dto = modelMapper.map(user, UserDTO.class);
-        return dto;
-    }
-
-    private User convertDTOToUser(UserDTO dto) {
-        User user = modelMapper.map(dto, User.class);
-        return user;
     }
 
 }

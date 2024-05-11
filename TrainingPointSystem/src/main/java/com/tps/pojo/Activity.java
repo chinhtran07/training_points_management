@@ -1,5 +1,6 @@
 package com.tps.pojo;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -22,9 +23,12 @@ public class Activity implements Serializable {
 
     @Size(max = 255)
     @NotNull
+    @NotBlank(message = "{activity.name.notBlank}")
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull
+    @NotBlank(message = "{activity.pointGroup.notNull}")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pointgroup_id")
     private Pointgroup pointgroup;
