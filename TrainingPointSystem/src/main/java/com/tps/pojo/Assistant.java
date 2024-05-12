@@ -1,17 +1,21 @@
 package com.tps.pojo;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "assistant")
 public class Assistant implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,20 +23,12 @@ public class Assistant implements Serializable {
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id", nullable = false, referencedColumnName = "id")
     private User user;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "faculty_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    @JsonIgnore
     private Faculty faculty;
-
-    @Column(name = "created_date")
-    private Instant createdDate;
-
-    @Column(name = "updated_date")
-    private Instant updatedDate;
 
 }

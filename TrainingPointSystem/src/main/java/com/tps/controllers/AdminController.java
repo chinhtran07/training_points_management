@@ -1,14 +1,18 @@
 package com.tps.controllers;
 
 
+import com.tps.pojo.Assistant;
 import com.tps.pojo.User;
+import com.tps.services.AssistantService;
 import com.tps.services.PointGroupService;
 import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -20,15 +24,7 @@ public class AdminController {
     private PointGroupService pointGroupService;
 
     @Autowired
-    private UserService userService;
-
-    @ModelAttribute
-    public void commonAttribute(Model model) {
-        HashMap<String, String> views = new HashMap<>();
-        views.put("users", "Quan ly nguoi dung");
-        views.put("pointGroups", "Quan ly dieu");
-        model.addAttribute("views", views);
-    }
+    private AssistantService assistantService;
 
 
     @GetMapping("/")
@@ -55,19 +51,37 @@ public class AdminController {
         field.add("First name");
         field.add("Last name");
         field.add("Active");
+        field.add("Faculty");
 
+        params.put("role", User.ASSISTANT);
         model.addAttribute("field", field);
-        model.addAttribute("users", this.userService.getAllUsers(params));
-
+        model.addAttribute("users", this.assistantService.getUserAssistants(params));
         return "user";
     }
 
 
-    @GetMapping("/users/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        return "user";
+    @GetMapping("/assistants")
+    public String addAssistantView(Model model) {
+        Assistant assistant = new Assistant();
+        model.addAttribute("assistant", new Assistant());
+        return "new-user";
     }
+
+    @PostMapping("/assistants")
+    public String addAssistantProcess(Model model, @ModelAttribute(value = "assistant") @Valid Assistant user, BindingResult rs) {
+
+        if (!rs.hasErrors()) {
+            try {
+                this.assistantService.addAssistant(user);
+                return "redirect:/admin/users";
+            } catch (Exception e) {
+                model.addAttribute("errMsg", e.toString());
+            }
+        }
+
+        return "new-user";
+    }
+
 
     @RequestMapping("")
     public String home(Model model) {

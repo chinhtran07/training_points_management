@@ -21,7 +21,9 @@
 </head>
 <body>
 <tiles:insertAttribute name="header"/>
+<section class="container-fluid">
 <tiles:insertAttribute name="content"/>
+</section>
 <tiles:insertAttribute name="footer"/>
 </body>
 </html>

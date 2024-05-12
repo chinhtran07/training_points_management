@@ -15,7 +15,7 @@
                 <h2> Select members to change </h2>
             </div>
             <div>
-                <a class="btn btn-secondary rounded-pill" href="${pageContext.request.contextPath}/new" >
+                <a class="btn btn-secondary rounded-pill" href="${pageContext.request.contextPath}/admin/assistants">
                     ADD MEMBERS <span class="fw-bold fs-6">+</span>
                 </a>
             </div>
@@ -40,33 +40,38 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${users}" var="u">
-                            <td>
-                                <label>
-                                    <input type="checkbox" id="element${u.getId()}" class="element">
-                                </label>
-                            </td>
-                            <td>
-                                    ${u.getId()}
-                            </td>
-                            <td>
-                                    ${u.getUsername()}
-                            </td>
-                            <td>
-                                    ${u.getFirstName()}
-                            </td>
-                            <td>
-                                    ${u.getLastName()}
-                            </td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${u.getIsActive()}">
-                                        Activate
-                                    </c:when>
-                                    <c:otherwise>
-                                        Deactivate
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" id="element${u[0]}" class="element">
+                                    </label>
+                                </td>
+                                <td>
+                                        ${u[0]}
+                                </td>
+                                <td>
+                                        ${u[1]}
+                                </td>
+                                <td>
+                                        ${u[2]}
+                                </td>
+                                <td>
+                                        ${u[3]}
+                                </td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${u[4]}">
+                                            Activate
+                                        </c:when>
+                                        <c:otherwise>
+                                            Deactivate
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    ${u[5]}
+                                </td>
+                            </tr>
                         </c:forEach>
                         </tbody>
                     </table>

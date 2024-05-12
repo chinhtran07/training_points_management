@@ -1,6 +1,6 @@
 package com.tps.pojo;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +10,16 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "mission")
 public class Mission implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,5 +55,13 @@ public class Mission implements Serializable {
 
     @Column(name = "updated_date")
     private Instant updatedDate;
+
+    @OneToMany(mappedBy = "mission")
+    @JsonIgnore
+    private Set<Missingreport> missingreports = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "mission")
+    @JsonIgnore
+    private Set<Registermission> registermissions = new LinkedHashSet<>();
 
 }

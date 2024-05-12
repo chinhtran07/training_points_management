@@ -1,5 +1,6 @@
 package com.tps.services;
 
+import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

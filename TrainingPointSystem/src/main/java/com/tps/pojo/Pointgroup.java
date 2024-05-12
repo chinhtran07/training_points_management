@@ -1,20 +1,23 @@
 package com.tps.pojo;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "pointgroup")
 public class Pointgroup implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +35,8 @@ public class Pointgroup implements Serializable {
     @Column(name = "max_point")
     private Integer maxPoint;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
-
-    @Column(name = "created_date")
-    private Instant createdDate;
-
-    @Column(name = "updated_date")
-    private Instant updatedDate;
+    @OneToMany(mappedBy = "pointgroup")
+    @JsonIgnore
+    private Set<Activity> activities = new LinkedHashSet<>();
 
 }

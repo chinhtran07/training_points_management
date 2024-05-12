@@ -1,5 +1,6 @@
 package com.tps.repositories;
 
+import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.User;
 
 import java.util.List;

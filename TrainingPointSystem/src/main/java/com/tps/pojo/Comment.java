@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +7,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @Entity
+@Table(name = "comment")
 public class Comment implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

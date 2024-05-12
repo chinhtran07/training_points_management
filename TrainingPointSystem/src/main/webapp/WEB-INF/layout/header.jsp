@@ -10,9 +10,10 @@
 <%@page isELIgnored="false" %>
 <div class="container-fluid bg-secondary p-3 mb-2">
     <div class="d-flex align-items-center">
-        <c:url var="home" value="/admin/" />
+        <c:url var="contextPath" value="${pageContext.request.contextPath}" />
+        <c:url var="home" value="${contextPath}/admin/" />
         <div>
-            <a href="${home}" class="text-uppercase fs-2 fw-bold text-white text-decoration-none">Quan tri he thong</a>
+            <a href="${home}" class="text-uppercase fs-2 fw-bold text-white text-decoration-none">Quản trị hệ thống</a>
         </div>
         <c:forEach items="${views}" var="view">
             <div>
@@ -20,10 +21,10 @@
             </div>
         </c:forEach>
         <div>
-            <a href="#" class="text-white text-decoration-none fs-5 mx-2">Thong ke</a>
+            <a href="#" class="text-white text-decoration-none fs-5 mx-2">Thống kê</a>
         </div>
         <div>
-            <a href="#" class="text-white text-decoration-none fs-5 mx-2">Dang xuat</a>
+            <a href="#" class="text-white text-decoration-none fs-5 mx-2">Đăng xuất</a>
         </div>
     </div>
 </div>

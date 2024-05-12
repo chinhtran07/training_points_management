@@ -1,5 +1,8 @@
 package com.tps.repositories.impl;
 
+import com.tps.dto.UserAssistantDTO;
+import com.tps.pojo.Assistant;
+import com.tps.pojo.Faculty;
 import com.tps.pojo.User;
 import com.tps.repositories.UserRepository;
 import org.hibernate.Session;
@@ -10,10 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,24 +91,14 @@ public class UserRepositoryImpl implements UserRepository {
             predicates.add(containsName);
         }
 
+        String role = params.get("role");
+        if (role != null && !role.isEmpty()) {
+            predicates.add(builder.like(root.get("role"), role));
+        }
+
         String gender = params.get("gender");
         if (gender != null && !gender.isEmpty()) {
             predicates.add(builder.equal(root.get("gender"), gender));
-        }
-
-        if (params.containsKey("isStudent")) {
-            Boolean isStudent = Boolean.parseBoolean(params.get("isStudent"));
-            predicates.add(builder.equal(root.get("isStudent"), isStudent));
-        }
-
-        if (params.containsKey("isAssistant")) {
-            Boolean isAssistant = Boolean.parseBoolean(params.get("isAssistant"));
-            predicates.add(builder.equal(root.get("isAssistant"), isAssistant));
-        }
-
-        if (params.containsKey("isSuperuser")) {
-            Boolean isSuperuser = Boolean.parseBoolean(params.get("isSuperuser"));
-            predicates.add(builder.equal(root.get("isSuperuser"), isSuperuser));
         }
 
         predicates.add(builder.equal(root.get("isActive"), true));
@@ -116,8 +106,8 @@ public class UserRepositoryImpl implements UserRepository {
         criteria.where(predicates.toArray(Predicate[]::new));
         criteria.orderBy(builder.asc(root.get("id")));
 
-
         Query<User> query = s.createQuery(criteria);
         return query.getResultList();
     }
+
 }

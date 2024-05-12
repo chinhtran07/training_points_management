@@ -1,21 +1,25 @@
 package com.tps.pojo;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "activity")
 public class Activity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +27,9 @@ public class Activity implements Serializable {
 
     @Size(max = 255)
     @NotNull
-    @NotBlank(message = "{activity.name.notBlank}")
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
-    @NotBlank(message = "{activity.pointGroup.notNull}")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pointgroup_id")
     private Pointgroup pointgroup;
@@ -41,5 +42,13 @@ public class Activity implements Serializable {
 
     @Column(name = "updated_date")
     private Instant updatedDate;
+
+    @OneToMany(mappedBy = "activity")
+    @JsonIgnore
+    private Set<Mission> missions = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "activity")
+    @JsonIgnore
+    private Set<Post> posts = new LinkedHashSet<>();
 
 }

@@ -2,6 +2,7 @@ package com.tps.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tps.dto.UserAssistantDTO;
 import com.tps.dto.UserDTO;
 import com.tps.pojo.User;
 import com.tps.repositories.UserRepository;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setIsStudent(true);
+        user.setRole(STUDENT);
 
 //        if (!user.getFile().isEmpty()) {
 //
@@ -91,12 +92,9 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.getAllUsers(params);
     }
 
-
     private Collection<? extends GrantedAuthority> getAuthorities(User user) {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        if(user.getIsStudent() != null && user.getIsStudent()) authorities.add(new SimpleGrantedAuthority(STUDENT));
-        if(user.getIsAssistant() != null && user.getIsAssistant()) authorities.add(new SimpleGrantedAuthority(ASSISTANT));
-        if(user.getIsSuperuser() != null && user.getIsSuperuser()) authorities.add(new SimpleGrantedAuthority(ADMIN));
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
 
         return authorities;
     }

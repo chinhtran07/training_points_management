@@ -13,18 +13,22 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
                        value="/WEB-INF/layout/footer.jsp" />
     </definition>
     <definition name="admin" extends="baseLayout">
-        <put-attribute name="title" value="Training Point System"/>
+        <put-attribute name="title" value="Hệ thống quản lý điểm rèn luyện"/>
         <put-attribute name="content" value="/WEB-INF/admin/admin.jsp" />
     </definition>
     <definition name="content" extends="baseLayout">
-        <put-attribute name="title" value="Training Point System" />
+        <put-attribute name="title" value="Hệ thống quản lý điểm rèn luyện" />
         <put-attribute name="content" value="/WEB-INF/admin/content.jsp"/>
     </definition>
     <definition name="login" template="/WEB-INF/admin/login.jsp">
-        <put-attribute name="title" value="Admin Login"/>
+        <put-attribute name="title" value="Đăng nhập"/>
     </definition>
     <definition name="user" extends="baseLayout">
-        <put-attribute name="title" value="Quan ly nguoi dung"/>
-        <put-attribute name="content" value="/WEB-INF/admin/user.jsp"/>
+        <put-attribute name="title" value="Quản lý người dùng"/>
+        <put-attribute name="content" value="/WEB-INF/admin/user/user.jsp"/>
+    </definition>
+    <definition name="new-user" extends="baseLayout">
+        <put-attribute name="title" value="Thêm người dùng"/>
+        <put-attribute name="content" value="/WEB-INF/admin/user/new-user.jsp"/>
     </definition>
 </tiles-definitions>
