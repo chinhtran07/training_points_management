@@ -81,7 +81,6 @@ public class User implements Serializable {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @NotNull
     @Lob
     @Column(name = "role", nullable = false)
     private String role;

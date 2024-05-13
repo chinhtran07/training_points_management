@@ -47,7 +47,9 @@
                                     </label>
                                 </td>
                                 <td>
+                                    <a href="${pageContext.request.contextPath}/admin/assistants/${u[0]}">
                                         ${u[0]}
+                                    </a>
                                 </td>
                                 <td>
                                         ${u[1]}
@@ -69,7 +71,7 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    ${u[5]}
+                                        ${u[5]}
                                 </td>
                             </tr>
                         </c:forEach>

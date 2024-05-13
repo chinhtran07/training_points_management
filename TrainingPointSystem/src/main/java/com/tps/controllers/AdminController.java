@@ -7,11 +7,17 @@ import com.tps.services.AssistantService;
 import com.tps.services.PointGroupService;
 import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -56,7 +62,7 @@ public class AdminController {
         params.put("role", User.ASSISTANT);
         model.addAttribute("field", field);
         model.addAttribute("users", this.assistantService.getUserAssistants(params));
-        return "user";
+        return "assistant";
     }
 
 
@@ -64,7 +70,29 @@ public class AdminController {
     public String addAssistantView(Model model) {
         Assistant assistant = new Assistant();
         model.addAttribute("assistant", new Assistant());
-        return "new-user";
+        return "new-assistant";
+    }
+
+    @GetMapping("/assistants/{id}")
+    public String updateAssistantView(Model model, @PathVariable int id) {
+        Assistant assistant = this.assistantService.getAssistantById(id);
+        model.addAttribute("assistant", assistant);
+        return "update-assistant";
+    }
+
+    @PostMapping("/assistants/{id}")
+    public String updateAssistantProcess(Model model, @ModelAttribute(value = "assistant") @Valid Assistant assistant, BindingResult rs) {
+        if (!rs.hasErrors()) {
+            try {
+                this.assistantService.updateAssistant(assistant);
+                model.addAttribute("alert", "Cập nhật thành công");
+                return "update-assistant";
+            } catch (Exception e) {
+                model.addAttribute("errMsg", e.toString());
+            }
+        }
+
+        return "update-assistant";
     }
 
     @PostMapping("/assistants")
@@ -79,12 +107,22 @@ public class AdminController {
             }
         }
 
-        return "new-user";
+        return "new-assistant";
     }
 
 
     @RequestMapping("")
     public String home(Model model) {
         return "admin";
+    }
+
+    @GetMapping("/admin/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+
+        return "redirect:/login?logout";
     }
 }

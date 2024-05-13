@@ -38,7 +38,7 @@ public class AssistantServiceImpl implements AssistantService {
         user.setAvatar(assistant.getUser().getAvatar());
         user.setRole(User.ASSISTANT);
         user.setPhone(assistant.getUser().getPhone());
-        user.setIsActive(true);
+        user.setIsActive(assistant.getUser().getIsActive());
 
         this.userRepository.addUser(user);
         assistant.setUser(this.userRepository.getUserByUsername(user.getUsername()));
@@ -51,6 +51,10 @@ public class AssistantServiceImpl implements AssistantService {
 
     @Override
     public void updateAssistant(Assistant assistant) {
+        assistant.getUser().setRole(assistant.getUser().getRole());
+        this.userRepository.updateUser(assistant.getUser());
+        Faculty faculty = this.facultyRepository.getFacultyById(assistant.getFaculty().getId());
+        assistant.setFaculty(faculty);
         this.assistantRepository.updateAssistant(assistant);
     }
 
@@ -65,7 +69,7 @@ public class AssistantServiceImpl implements AssistantService {
     }
 
     @Override
-    public Assistant getAssistantById(String id) {
+    public Assistant getAssistantById(int id) {
         return this.assistantRepository.getAssistantById(id);
     }
 

@@ -10,6 +10,6 @@ public interface AssistantRepository {
     void updateAssistant(Assistant assistant);
     void deleteAssistant(Assistant assistant);
     List<Assistant> getAllAssistants(Map<String, String> params);
-    Assistant getAssistantById(String id);
+    Assistant getAssistantById(int id);
     List<Object[]> getUserAssistants(Map<String, String> params);
 }

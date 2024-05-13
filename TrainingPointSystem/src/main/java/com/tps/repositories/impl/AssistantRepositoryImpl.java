@@ -53,7 +53,7 @@ public class AssistantRepositoryImpl implements AssistantRepository {
     }
 
     @Override
-    public Assistant getAssistantById(String id) {
+    public Assistant getAssistantById(int id) {
         Session session = this.factoryBean.getObject().getCurrentSession();
 
         return session.get(Assistant.class, id);
