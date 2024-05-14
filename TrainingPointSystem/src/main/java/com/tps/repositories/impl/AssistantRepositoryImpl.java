@@ -4,12 +4,12 @@ import com.tps.pojo.Assistant;
 import com.tps.pojo.Faculty;
 import com.tps.repositories.AssistantRepository;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class AssistantRepositoryImpl implements AssistantRepository {
         CriteriaQuery<Assistant> cq = cb.createQuery(Assistant.class);
         Root<Assistant> root = cq.from(Assistant.class);
 
-        Query query = session.createQuery(cq);
+        Query<Assistant> query = session.createQuery(cq);
 
         return query.getResultList();
     }
@@ -77,7 +77,19 @@ public class AssistantRepositoryImpl implements AssistantRepository {
                 facultyJoin.get("name")
         );
 
-        org.hibernate.query.Query<Object[]> query = session.createQuery(criteria);
+        Query<Object[]> query = session.createQuery(criteria);
         return query.getResultList();
+    }
+
+    @Override
+    public void deleteAsistantsByIds(List<Integer> ids) {
+        Session session = this.factoryBean.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaDelete<Assistant> criteria = builder.createCriteriaDelete(Assistant.class);
+        Root<Assistant> root = criteria.from(Assistant.class);
+        criteria.where(root.get("id").in(ids));
+
+        Query query = session.createQuery(criteria);
+        query.executeUpdate();
     }
 }

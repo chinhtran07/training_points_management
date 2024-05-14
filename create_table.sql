@@ -24,15 +24,13 @@ CREATE TABLE user (
     username VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
-    is_student BOOLEAN DEFAULT FALSE,
-    is_assistant BOOLEAN DEFAULT FALSE,
-    is_superuser BOOLEAN DEFAULT FALSE,
+    role ENUM('ADMIN', 'STUDENT', 'ASSISTANT'),
     avatar VARCHAR(255),
     gender ENUM('Male', 'Female', 'Other'),
     dob DATE,
     is_active BOOLEAN DEFAULT TRUE,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    
+    unique(username)
 );
 
 CREATE TABLE student (
@@ -40,9 +38,6 @@ CREATE TABLE student (
     student_id VARCHAR(50) NOT NULL,
     class_id INT,
     faculty_id INT,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (id) REFERENCES user(id),
     FOREIGN KEY (class_id) REFERENCES class(id),
     FOREIGN KEY (faculty_id) REFERENCES faculty(id)
@@ -50,10 +45,7 @@ CREATE TABLE student (
 
 CREATE TABLE assistant (
     id INT PRIMARY KEY,
-    is_active BOOLEAN DEFAULT TRUE,
     faculty_id INT,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (id) REFERENCES user(id),
     FOREIGN KEY (faculty_id) REFERENCES faculty(id)
 );
@@ -62,10 +54,7 @@ CREATE TABLE pointgroup (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     content TEXT,
-    max_point INT,
-    is_active BOOLEAN DEFAULT TRUE,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    max_point INT
 );
 
 CREATE TABLE activity (
@@ -97,12 +86,12 @@ CREATE TABLE post (
     content TEXT,
     image VARCHAR(255),
     activity_id INT,
-    assistant_id INT,
+    user_id INT,
     is_active BOOLEAN DEFAULT TRUE,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (activity_id) REFERENCES activity(id),
-    FOREIGN KEY (assistant_id) REFERENCES assistant(id)
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 CREATE TABLE `Like` (

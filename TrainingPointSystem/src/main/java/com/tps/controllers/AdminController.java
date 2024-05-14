@@ -2,6 +2,7 @@ package com.tps.controllers;
 
 
 import com.tps.pojo.Assistant;
+import com.tps.pojo.Pointgroup;
 import com.tps.pojo.User;
 import com.tps.services.AssistantService;
 import com.tps.services.PointGroupService;
@@ -44,11 +45,45 @@ public class AdminController {
 
     @GetMapping("/pointgroups")
     public String pointgroup(Model model) {
+        List<String> fields = new ArrayList<>();
+        fields.add("id");
+        fields.add("Name");
+        fields.add("Content");
+        fields.add("Max point");
+        model.addAttribute("fields", fields);
         model.addAttribute("pointGroups", this.pointGroupService.getAllPointGroups());
-        return "content";
+        return "pointgroup";
     }
 
-    @GetMapping("/users")
+    @GetMapping("/pointgroups/new")
+    public String addPointGroupView(Model model) {
+        model.addAttribute("pointGroup", new Pointgroup());
+        return "new-or-update-pointgroup";
+    }
+
+    @GetMapping("/pointgroups/{id}")
+    public String updatePointGroupView(Model model, @PathVariable int id) {
+        model.addAttribute("pointGroup", this.pointGroupService.getPointgroup(id));
+        return "new-or-update-pointgroup";
+    }
+
+
+    @PostMapping("/pointgroups")
+    public String addOrUpdatePointGroupProcess(Model model, @ModelAttribute(value = "pointgroup") @Valid Pointgroup pointGroup, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            try {
+                this.pointGroupService.addOrUpdate(pointGroup);
+                return "redirect: /admin/pointgroups";
+            } catch (Exception ex) {
+                model.addAttribute("errMsg", ex.toString());
+            }
+        }
+
+        return "new-or-update-pointgroup";
+    }
+
+
+    @GetMapping("/assistants")
     public String user(Model model, @RequestParam(required = false) Map<String, String> params) {
         List<String> field = new ArrayList<>();
 
@@ -66,9 +101,8 @@ public class AdminController {
     }
 
 
-    @GetMapping("/assistants")
+    @GetMapping("/assistants/new")
     public String addAssistantView(Model model) {
-        Assistant assistant = new Assistant();
         model.addAttribute("assistant", new Assistant());
         return "new-assistant";
     }
@@ -80,33 +114,26 @@ public class AdminController {
         return "update-assistant";
     }
 
-    @PostMapping("/assistants/{id}")
-    public String updateAssistantProcess(Model model, @ModelAttribute(value = "assistant") @Valid Assistant assistant, BindingResult rs) {
-        if (!rs.hasErrors()) {
-            try {
-                this.assistantService.updateAssistant(assistant);
-                model.addAttribute("alert", "Cập nhật thành công");
-                return "update-assistant";
-            } catch (Exception e) {
-                model.addAttribute("errMsg", e.toString());
-            }
-        }
-
-        return "update-assistant";
-    }
 
     @PostMapping("/assistants")
-    public String addAssistantProcess(Model model, @ModelAttribute(value = "assistant") @Valid Assistant user, BindingResult rs) {
+    public String addOrUpdateAssistantProcess(Model model, @ModelAttribute(value = "assistant") @Valid Assistant user, BindingResult rs) {
 
         if (!rs.hasErrors()) {
             try {
-                this.assistantService.addAssistant(user);
-                return "redirect:/admin/users";
+                if (user.getId() > 0)
+                    this.assistantService.updateAssistant(user);
+                else {
+                    this.assistantService.addAssistant(user);
+                }
+                return "redirect:/admin/assistants";
             } catch (Exception e) {
                 model.addAttribute("errMsg", e.toString());
             }
         }
 
+        if (user.getId() > 0) {
+            return "update-assistant";
+        }
         return "new-assistant";
     }
 
@@ -116,13 +143,18 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("/admin/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-
-        return "redirect:/login?logout";
+    @GetMapping("/stats")
+    public String stats(Model model) {
+        return "stats";
     }
+
+//    @GetMapping("/admin/logout")
+//    public String logout(HttpServletRequest request, HttpServletResponse response) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth != null) {
+//            new SecurityContextLogoutHandler().logout(request, response, auth);
+//        }
+//
+//        return "redirect:/login?logout";
+//    }
 }

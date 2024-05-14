@@ -51,4 +51,7 @@ public class Activity implements Serializable {
     @JsonIgnore
     private Set<Post> posts = new LinkedHashSet<>();
 
+    @Column(name = "max_point")
+    private Integer maxPoint;
+
 }

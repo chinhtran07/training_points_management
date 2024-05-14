@@ -12,4 +12,6 @@ public interface AssistantService {
     List<Assistant> getAllAssistants(Map<String, String> params);
     Assistant getAssistantById(int id);
     List<Object[]> getUserAssistants(Map<String, String> params);
+    void deleteAsistantsByIds(List<Integer> ids);
+
 }

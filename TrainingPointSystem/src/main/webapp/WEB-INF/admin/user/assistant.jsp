@@ -15,14 +15,26 @@
                 <h2> Select members to change </h2>
             </div>
             <div>
-                <a class="btn btn-secondary rounded-pill" href="${pageContext.request.contextPath}/admin/assistants">
+                <a class="btn btn-secondary rounded-pill" href="${pageContext.request.contextPath}/admin/assistants/new">
                     ADD MEMBERS <span class="fw-bold fs-6">+</span>
                 </a>
             </div>
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid min-vh-100">
             <div class="row">
                 <div class="col-md-9">
+                    <div>
+                        <label class="form-label" for="action"></label>
+                        <select class="form-select" id="action" name="action">
+                            <option value="delete">delete</option>
+                            <option value="filter">filter</option>
+                        </select>
+                        <div>
+                            <div>
+                                <button class="btn btn-success" type="button" onclick="">Action</button>
+                            </div>
+                        </div>
+                    </div>
                     <table class="table table-striped">
                         <thead class="table-bordered">
                         <tr>
@@ -48,7 +60,7 @@
                                 </td>
                                 <td>
                                     <a href="${pageContext.request.contextPath}/admin/assistants/${u[0]}">
-                                        ${u[0]}
+                                            ${u[0]}
                                     </a>
                                 </td>
                                 <td>
@@ -97,6 +109,43 @@
         const checkboxes = document.getElementsByClassName('element');
         for (let i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = source.checked;
+        }
+    }
+    
+    function performAction() {
+        const action = document.getElementById('action').value;
+        if (action === 'delete') {
+            const selectedUserIds = [];
+            const checkboxes = document.querySelectorAll('.element:checked')
+            checkboxes.forEach((checkbox) => {
+                selectedUserIds.push(checkbox.value);
+            })
+
+            if(selectedUserIds.length === 0) {
+                alert("Chọn ít nhất 1 người dùng để xóa");
+                return;
+            }
+
+            fetch('${pageContext.request.contextPath}/admin/assistants', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({userIds: selectedUserIds})
+            })
+                .then(response => response.json())
+                .then(data =>{
+                    if(data.status === 204) {
+                        alert("Xóa thành công");
+                        location.reload();
+                    } else {
+                        alert("Lỗi");
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Lỗi");
+                })
         }
     }
 </script>

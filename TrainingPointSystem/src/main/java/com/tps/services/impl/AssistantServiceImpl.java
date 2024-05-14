@@ -77,4 +77,9 @@ public class AssistantServiceImpl implements AssistantService {
     public List<Object[]> getUserAssistants(Map<String, String> params) {
         return this.assistantRepository.getUserAssistants(params);
     }
+
+    @Override
+    public void deleteAsistantsByIds(List<Integer> ids) {
+        this.assistantRepository.deleteAsistantsByIds(ids);
+    }
 }

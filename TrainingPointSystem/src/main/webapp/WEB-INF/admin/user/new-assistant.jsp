@@ -12,7 +12,7 @@
 
 <div class="px-5 mx-5">
     <div class="my-3">
-        <a href="<c:url value="/admin/users"/>">
+        <a href="<c:url value="/admin/assistants"/>">
             <button type="button" class="btn btn-secondary">Quay lại</button>
         </a>
     </div>

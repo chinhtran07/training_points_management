@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JpaBuddyIdeaProjectConfig" reUseTableSchema="true">
     <option name="reLastEntityCreationPackage" value="src/main/java/com/tps/pojo" />
-    <option name="reverseEngineeringLastDbConnectionId" value="33c41a50-d813-42c5-a9a8-0021d5e2fcd0__training_point" />
+    <option name="reverseEngineeringLastDbConnectionId" value="626a4810-b71e-45d9-bbd0-f62ae9d8c156__training_point" />
   </component>
   <component name="JpaPluginProjectSettings" reExcludeTablePrefixes="" reExcludeColumnPrefixes="" reExcludeTableSuffixes="" reExcludeColumnSuffixes="" />
 </project>
