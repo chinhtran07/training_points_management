@@ -41,6 +41,6 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
     </definition>
     <definition name="stats" extends="baseLayout">
         <put-attribute name="title" value="Thống kê"/>
-        <put-attribute name="content" value="/WEB-INF/admin/user/stats.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/admin/stats.jsp"/>
     </definition>
 </tiles-definitions>

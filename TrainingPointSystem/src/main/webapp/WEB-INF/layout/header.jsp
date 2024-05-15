@@ -21,10 +21,10 @@
             </div>
         </c:forEach>
         <div>
-            <a href="#" class="text-white text-decoration-none fs-5 mx-2">Thống kê</a>
+            <a href="/stats" class="text-white text-decoration-none fs-5 mx-2">Thống kê</a>
         </div>
         <div>
-            <a href="${pageContext.request.contextPath}/logout" class="text-white text-decoration-none fs-5 mx-2">Đăng xuất</a>
+            <a href="${contextPath}/logout" class="text-white text-decoration-none fs-5 mx-2">Đăng xuất</a>
         </div>
     </div>
 </div>

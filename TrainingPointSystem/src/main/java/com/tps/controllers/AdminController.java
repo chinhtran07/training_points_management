@@ -6,19 +6,12 @@ import com.tps.pojo.Pointgroup;
 import com.tps.pojo.User;
 import com.tps.services.AssistantService;
 import com.tps.services.PointGroupService;
-import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -120,7 +113,7 @@ public class AdminController {
 
         if (!rs.hasErrors()) {
             try {
-                if (user.getId() > 0)
+                if (user.getId() != null)
                     this.assistantService.updateAssistant(user);
                 else {
                     this.assistantService.addAssistant(user);
@@ -146,6 +139,12 @@ public class AdminController {
     @GetMapping("/stats")
     public String stats(Model model) {
         return "stats";
+    }
+
+    @PostMapping("/assistants/delete")
+    public String delete(@RequestParam int id) {
+        this.assistantService.deleteAssistant(this.assistantService.getAssistantById(id));
+        return "redirect: /assistants";
     }
 
 //    @GetMapping("/admin/logout")

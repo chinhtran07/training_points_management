@@ -8,6 +8,7 @@ import com.tps.repositories.FacultyRepository;
 import com.tps.repositories.UserRepository;
 import com.tps.services.AssistantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +25,14 @@ public class AssistantServiceImpl implements AssistantService {
 
     @Autowired
     private FacultyRepository facultyRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public void addAssistant(Assistant assistant) {
         User user = new User();
         user.setUsername(assistant.getUser().getUsername());
-        user.setPassword(assistant.getUser().getPassword());
+        user.setPassword(passwordEncoder.encode(assistant.getUser().getPassword()));
         user.setEmail(assistant.getUser().getEmail());
         user.setDob(assistant.getUser().getDob());
         user.setFirstName(assistant.getUser().getFirstName());

@@ -38,7 +38,7 @@
                 <label for="username">Tên đăng nhập</label>
             </div>
             <div class="form-floating mb-3 mt-3">
-                <form:password class="form-control" path="user.password" id="password" placeholder="Mật khẩu"
+                <form:input class="form-control" path="user.password" id="password" placeholder="Mật khẩu"
                                name="password"/>
                 <label for="password">Mật khẩu</label>
             </div>

@@ -33,7 +33,7 @@
                 <label for="name">Tên điều</label>
             </div>
             <div class="form-floating mb-3 mt-3">
-                <form:textarea path="content" id="content" name="content"/>
+                <form:input path="content" class="form-control" id="content" name="content" maxlength="255"/>
                 <label for="content">Nội dung</label>
             </div>
             <div class="form-floating mb-3 mt-3">

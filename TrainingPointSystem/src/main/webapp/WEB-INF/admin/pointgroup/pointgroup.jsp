@@ -15,7 +15,7 @@
                 <h2> Select members to change </h2>
             </div>
             <div>
-                <a class="btn btn-secondary rounded-pill" href="${pageContext.request.contextPath}/admin/assistants">
+                <a class="btn btn-secondary rounded-pill" href="${pageContext.request.contextPath}/admin/pointgroups/new">
                     ADD MEMBERS <span class="fw-bold fs-6">+</span>
                 </a>
             </div>

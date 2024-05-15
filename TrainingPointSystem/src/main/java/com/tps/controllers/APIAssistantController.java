@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@RestController("/api/assistants")
 public class APIAssistantController {
 
     @Autowired
@@ -18,7 +18,7 @@ public class APIAssistantController {
     @DeleteMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteAssistants(@RequestBody Map<String, List<Integer>> request) {
-        List<Integer> userIds = (List<Integer>) request.get("userId");
+        List<Integer> userIds = (List<Integer>) request.get("userIds");
         this.assistantService.deleteAsistantsByIds(userIds);
     }
 }
