@@ -26,11 +26,6 @@
                     <table class="table table-striped">
                         <thead class="table-bordered">
                         <tr>
-                            <th>
-                                <label>
-                                    <input type="checkbox" id="all" onchange="checkAll(this)"/>
-                                </label>
-                            </th>
                             <c:forEach items="${fields}" var="f">
                                 <th>
                                         ${f}
