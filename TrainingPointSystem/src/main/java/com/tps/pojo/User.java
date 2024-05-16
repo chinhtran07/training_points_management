@@ -56,7 +56,6 @@ public class User implements Serializable {
     @Size(max = 255)
     @NotNull
     @Column(name = "password", nullable = false)
-    @JsonIgnore
     private String password;
 
     @Transient

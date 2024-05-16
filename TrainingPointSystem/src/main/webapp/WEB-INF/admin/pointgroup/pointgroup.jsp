@@ -15,7 +15,8 @@
                 <h2> Select members to change </h2>
             </div>
             <div>
-                <a class="btn btn-secondary rounded-pill" href="${pageContext.request.contextPath}/admin/pointgroups/new">
+                <a class="btn btn-secondary rounded-pill"
+                   href="${pageContext.request.contextPath}/admin/pointgroups/new">
                     ADD MEMBERS <span class="fw-bold fs-6">+</span>
                 </a>
             </div>
@@ -37,11 +38,6 @@
                         <jsp:useBean id="pointGroups" scope="request" type="java.util.List"/>
                         <c:forEach items="${pointGroups}" var="p">
                             <tr>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" id="element${p.id}" class="element">
-                                    </label>
-                                </td>
                                 <td>
                                     <a href="${pageContext.request.contextPath}/admin/pointgroups/${p.id}">
                                             ${p.id}

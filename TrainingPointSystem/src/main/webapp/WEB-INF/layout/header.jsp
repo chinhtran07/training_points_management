@@ -21,7 +21,7 @@
             </div>
         </c:forEach>
         <div>
-            <a href="/stats" class="text-white text-decoration-none fs-5 mx-2">Thống kê</a>
+            <a href="admin/stats" class="text-white text-decoration-none fs-5 mx-2">Thống kê</a>
         </div>
         <div>
             <a href="${contextPath}/logout" class="text-white text-decoration-none fs-5 mx-2">Đăng xuất</a>
