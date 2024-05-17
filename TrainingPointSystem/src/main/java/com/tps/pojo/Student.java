@@ -24,7 +24,7 @@ public class Student implements Serializable {
     private Integer id;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id", nullable = false)
     private User user;
 

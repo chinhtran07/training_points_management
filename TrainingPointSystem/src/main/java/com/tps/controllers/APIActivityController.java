@@ -31,14 +31,6 @@ public class APIActivityController {
         return new ResponseEntity<>(this.activityService.getActivities(params), HttpStatus.OK);
     }
 
-    @PostMapping(consumes = {
-            MediaType.APPLICATION_JSON_VALUE
-    })
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createActivity(@RequestBody ActivityDTO activity) {
-        Activity createdActivity = converter.toEntity(activity);
-        this.activityService.addActivity(createdActivity);
-    }
 
     @GetMapping("/{activityId}")
     public ResponseEntity<ActivityDetailDTO> getActivity(@PathVariable int activityId) {

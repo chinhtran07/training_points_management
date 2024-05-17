@@ -30,7 +30,8 @@ public class Activity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinColumn(name = "pointgroup_id")
     private Pointgroup pointgroup;
 

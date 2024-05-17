@@ -10,8 +10,7 @@
 <%@page isELIgnored="false" %>
 <div class="container-fluid bg-secondary p-3 mb-2">
     <div class="d-flex align-items-center">
-        <c:url var="contextPath" value="${pageContext.request.contextPath}" />
-        <c:url var="home" value="${contextPath}/admin/" />
+        <c:url var="home" value="${pageContext.request.contextPath}/admin/" />
         <div>
             <a href="${home}" class="text-uppercase fs-2 fw-bold text-white text-decoration-none">Quản trị hệ thống</a>
         </div>
@@ -21,10 +20,10 @@
             </div>
         </c:forEach>
         <div>
-            <a href="admin/stats" class="text-white text-decoration-none fs-5 mx-2">Thống kê</a>
+            <a href="${pageContext.request.contextPath}/admin/stats" class="text-white text-decoration-none fs-5 mx-2">Thống kê</a>
         </div>
         <div>
-            <a href="${contextPath}/logout" class="text-white text-decoration-none fs-5 mx-2">Đăng xuất</a>
+            <a href="${pageContext.request.contextPath}/logout" class="text-white text-decoration-none fs-5 mx-2">Đăng xuất</a>
         </div>
     </div>
 </div>

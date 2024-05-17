@@ -18,12 +18,12 @@ public class Registermission implements Serializable {
     private RegistermissionId id;
 
     @MapsId("studentId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     @MapsId("missionId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "mission_id", nullable = false)
     private Mission mission;
 

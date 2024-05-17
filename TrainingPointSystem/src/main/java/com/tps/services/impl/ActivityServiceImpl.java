@@ -19,15 +19,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private ActivityRepository activityRepository;
 
-    @Autowired
-    private PointGroupRepository pointGroupRepository;
-
 
     @Override
     public void addActivity(Activity activity) {
         activity.setCreatedDate(Instant.now());
-        Pointgroup pointgroup = this.pointGroupRepository.getPointgroup(activity.getPointgroup().getId());
-        activity.setPointgroup(pointgroup);
         this.activityRepository.addActivity(activity);
     }
 
