@@ -23,16 +23,16 @@ public class APIStatsController {
 
     @GetMapping("/training-points")
     public ResponseEntity<List<StudentTotalPointsDTO>> statsTrainingPointByFaculty(@RequestParam Map<String, String> params) {
-        List<Object[]> result = this.statsService.statsTrainingPoint(params);
+        List<Map<String, Object>> result = this.statsService.statsTrainingPoint(params);
         List<StudentTotalPointsDTO> studentTotalPointsDTOList = new ArrayList<>();
-        for (Object[] row : result) {
+        for (Map<String, Object> row : result) {
             StudentTotalPointsDTO dto = new StudentTotalPointsDTO();
-            dto.setId(Integer.parseInt(row[0].toString()));
-            dto.setFirstName(row[1].toString());
-            dto.setLastName(row[2].toString());
-            dto.setClassName(row[3].toString());
-            dto.setFacultyName(row[4].toString());
-            dto.setTotalPoints(Integer.parseInt(row[5].toString()));
+            dto.setId(Integer.parseInt(row.get("id").toString()));
+            dto.setFirstName(row.get("first_name").toString());
+            dto.setLastName(row.get("last_name").toString());
+            dto.setClassName(row.get("class_name").toString());
+            dto.setFacultyName(row.get("faculty_name").toString());
+            dto.setTotalPoints(Integer.parseInt(row.get("total_points").toString()));
             studentTotalPointsDTOList.add(dto);
         }
         return new ResponseEntity<>(studentTotalPointsDTOList, HttpStatus.OK);
