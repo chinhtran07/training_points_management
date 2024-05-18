@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "student")
+@Table(name = "student", uniqueConstraints = {@UniqueConstraint(columnNames = {"student_id"})})
 public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
 

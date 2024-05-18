@@ -1,5 +1,6 @@
 package com.tps.pojo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;

@@ -96,6 +96,9 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<Post> posts = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "assistant")
+    private Set<Activity> activities = new LinkedHashSet<>();
+
     public List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 

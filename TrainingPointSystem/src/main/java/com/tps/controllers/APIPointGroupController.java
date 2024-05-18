@@ -19,10 +19,8 @@ public class APIPointGroupController {
     @Autowired
     private PointGroupService pointGroupService;
 
-    @PostMapping(path = "/{id}/activities")
-    public void addActivity(@PathVariable int id, @RequestBody Activity activity) {
-        Pointgroup pointgroup = this.pointGroupService.getPointgroup(id);
-        activity.setPointgroup(pointgroup);
-        this.activityService.addActivity(activity);
+    @PostMapping(path = "/{pointGroupId}/activities")
+    public void addActivity(@PathVariable int pointGroupId, @RequestBody Activity activity) {
+        this.activityService.addActivity(pointGroupId ,activity);
     }
 }

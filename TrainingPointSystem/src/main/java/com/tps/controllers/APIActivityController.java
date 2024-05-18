@@ -38,4 +38,6 @@ public class APIActivityController {
         ActivityDetailDTO dto = converter.toDetailDTO(activity);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+
 }

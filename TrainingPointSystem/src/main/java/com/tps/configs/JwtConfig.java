@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import static com.tps.pojo.User.ADMIN;
+
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
@@ -82,6 +84,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests(request ->
                                 request
                                         .antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
+                                        .antMatchers("/api/register-mission/upload").access("hasAnyRole('ROLE_ADMIN','ROLE_ASSISTANT')")
 //                                .antMatchers("/api/stats/training-points").hasAnyRole(User.ASSISTANT, User.ADMIN)
                                         .anyRequest().authenticated()
                 );

@@ -55,4 +55,9 @@ public class Activity implements Serializable {
     @Column(name = "max_point")
     private Integer maxPoint;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assistant_id")
+    private User assistant;
+
 }
