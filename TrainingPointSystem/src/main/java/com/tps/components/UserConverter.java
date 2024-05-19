@@ -2,9 +2,11 @@ package com.tps.components;
 
 import com.tps.dto.UserDTO;
 import com.tps.pojo.User;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Component;
+
+import java.text.SimpleDateFormat;
 
 @Component
 public class UserConverter {
@@ -17,6 +19,7 @@ public class UserConverter {
         dto.setLastName(user.getLastName());
         dto.setEmail(user.getEmail());
         dto.setAvatar(user.getAvatar());
+        dto.setDob(user.getDob().toString());
         return dto;
     }
 

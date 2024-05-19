@@ -73,8 +73,12 @@ public class AssistantRepositoryImpl implements AssistantRepository {
                 userRoot.get("user").get("username"),
                 userRoot.get("user").get("firstName"),
                 userRoot.get("user").get("lastName"),
-                userRoot.get("user").get("isActive"),
-                facultyJoin.get("name")
+                userRoot.get("user").get("email"),
+                userRoot.get("user").get("phone"),
+                userRoot.get("user").get("gender"),
+                userRoot.get("user").get("dob"),
+                facultyJoin.get("name"),
+                userRoot.get("user").get("isActive")
         );
 
         Query<Object[]> query = session.createQuery(criteria);

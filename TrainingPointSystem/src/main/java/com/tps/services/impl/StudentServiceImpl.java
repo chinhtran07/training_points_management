@@ -14,6 +14,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudentByStudentId(String studentId) {
-        return this.studentRepository.getStudentByStudentId(studentId);
+        return this.studentRepository.findStudentByStudentId(studentId);
     }
 }

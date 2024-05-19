@@ -1,5 +1,6 @@
 package com.tps.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -74,8 +76,7 @@ public class User implements Serializable {
     @Column(name = "gender")
     private String gender;
 
-    @Column(name = "dob")
-    private LocalDate dob;
+
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -92,13 +93,23 @@ public class User implements Serializable {
     @JsonIgnore
     private Student student;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Assistant assistant;
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Post> posts = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "assistant")
+    @JsonIgnore
     private Set<Activity> activities = new LinkedHashSet<>();
 
+    @Column(name = "dob")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate dob;
+
+    @JsonIgnore
     public List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 

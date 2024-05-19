@@ -1,5 +1,6 @@
 package com.tps.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -11,12 +12,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "activity")
+@JsonIgnoreProperties(value = {"createdDate, updatedDate"})
 public class Activity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -38,11 +41,6 @@ public class Activity implements Serializable {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @Column(name = "created_date")
-    private Instant createdDate;
-
-    @Column(name = "updated_date")
-    private Instant updatedDate;
 
     @OneToMany(mappedBy = "activity")
     @JsonIgnore
@@ -59,5 +57,14 @@ public class Activity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assistant_id")
     private User assistant;
+
+
+    @Column(name = "created_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDateTime createdDate;
+
+    @Column(name = "updated_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDateTime updatedDate;
 
 }

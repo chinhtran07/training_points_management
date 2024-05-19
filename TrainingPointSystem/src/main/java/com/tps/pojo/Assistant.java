@@ -32,4 +32,7 @@ public class Assistant implements Serializable {
     @JsonIgnore
     private Faculty faculty;
 
+    @OneToMany(mappedBy = "assistant")
+    private Set<Activity> activities = new LinkedHashSet<>();
+
 }

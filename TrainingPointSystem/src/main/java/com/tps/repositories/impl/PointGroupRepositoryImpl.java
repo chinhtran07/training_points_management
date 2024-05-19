@@ -39,7 +39,7 @@ public class PointGroupRepositoryImpl implements PointGroupRepository {
     @Override
     public Pointgroup getPointgroup(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        Pointgroup pointgroup = (Pointgroup) session.get(Pointgroup.class, id);
+        Pointgroup pointgroup = session.get(Pointgroup.class, id);
         return pointgroup;
     }
 

@@ -56,6 +56,23 @@
                 <form:input type="text" class="form-control" path="user.email" id="email" placeholder="Email" name="email"/>
                 <label for="email">Email</label>
             </div>
+            <div class="form-floating mb-3 mt-3">
+                <form:input path="user.phone" type="tel" class="form-control" id="phone" placeholder="Phone number"
+                            name="phone" pattern="^([+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+[0-9]{8}$"/>
+                <label for="phone">Số điện thoai</label>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <form:select class="form-select" path="user.gender" id="gender" name="gender">
+                    <option value="Male" >Nam</option>
+                    <option value="Female">Nữ</option>
+                </form:select>
+                <label for="gender" class="form-label">Giới tính</label>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <form:input type="date" path="user.dob" class="form-control" id="dob" placeholder="Date of birth"
+                            name="dob"/>
+                <label for="dob">Ngày/tháng/năm sinh</label>
+            </div>
             <div class="form-floating">
                 <form:select class="form-select" path="faculty.id" id="faculty" name="faculty">
                     <c:forEach items="${faculties}" var="f">
@@ -69,7 +86,7 @@
                         </c:choose>
                     </c:forEach>
                 </form:select>
-                <label for="faculty" class="form-label">Faculty</label>
+                <label for="faculty" class="form-label">Khoa</label>
             </div>
             <div class="mb-3 mt-3">
                 <label for="file">Ảnh đại diện</label>
@@ -80,7 +97,7 @@
             </div>
             <div class="form-check form-switch mb-3 mt-3">
                 <form:checkbox class="form-check-input" id="isActive" path="user.isActive" name="isActive" />
-                <label class="form-check-label" for="isActive">Is Active</label>
+                <label class="form-check-label" for="isActive">Hoạt động</label>
             </div>
             <div class="form-floating mb-3 mt-3">
                 <button type="submit" class="btn btn-info">Lưu</button>

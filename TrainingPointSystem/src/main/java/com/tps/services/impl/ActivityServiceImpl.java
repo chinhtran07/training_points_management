@@ -25,7 +25,6 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public void addActivity(int pointGroupId, Activity activity) {
-        activity.setCreatedDate(Instant.now());
         activity.setPointgroup(this.pointGroupRepository.getPointgroup(pointGroupId));
         this.activityRepository.addActivity(activity);
     }
@@ -42,7 +41,6 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public void updateActivity(Activity activity) {
-        activity.setUpdatedDate(Instant.now());
         this.activityRepository.updateActivity(activity);
     }
 

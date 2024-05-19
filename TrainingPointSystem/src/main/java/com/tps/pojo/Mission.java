@@ -1,6 +1,8 @@
 package com.tps.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -17,6 +20,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "mission")
+@JsonIgnoreProperties(value = {"createdDate, updatedDate"})
 public class Mission implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -50,12 +54,6 @@ public class Mission implements Serializable {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @Column(name = "created_date")
-    private Instant createdDate;
-
-    @Column(name = "updated_date")
-    private Instant updatedDate;
-
     @OneToMany(mappedBy = "mission")
     @JsonIgnore
     private Set<Missingreport> missingreports = new LinkedHashSet<>();
@@ -63,5 +61,13 @@ public class Mission implements Serializable {
     @OneToMany(mappedBy = "mission")
     @JsonIgnore
     private Set<Registermission> registermissions = new LinkedHashSet<>();
+
+    @Column(name = "created_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss:SSSZ", timezone = "UTC")
+    private LocalDateTime createdDate;
+
+    @Column(name = "updated_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss:SSSZ", timezone = "UTC")
+    private LocalDateTime updatedDate;
 
 }

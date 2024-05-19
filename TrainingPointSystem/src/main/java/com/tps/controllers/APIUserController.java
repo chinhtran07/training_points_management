@@ -6,7 +6,6 @@ import com.tps.dto.UserDTO;
 import com.tps.dto.UserRegisterDTO;
 import com.tps.pojo.User;
 import com.tps.services.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,7 +51,7 @@ public class APIUserController {
         User createdUser = userService.addUser(user);
 
         if (createdUser != null) {
-            UserDTO userDTO = this.userConverter.convertToDTO(createdUser);
+            UserDTO userDTO = UserConverter.convertToDTO(createdUser);
             return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,7 +80,7 @@ public class APIUserController {
         User user = userService.getUserByUsername(username);
 
         if(user != null) {
-            UserDTO userDTO = this.userConverter.convertToDTO(user);
+            UserDTO userDTO = UserConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -92,7 +91,7 @@ public class APIUserController {
     public ResponseEntity<UserDTO> getUser(@PathVariable int id ) {
         User user = userService.findById(id);
         if(user != null) {
-            UserDTO userDTO = this.userConverter.convertToDTO(user);
+            UserDTO userDTO = UserConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

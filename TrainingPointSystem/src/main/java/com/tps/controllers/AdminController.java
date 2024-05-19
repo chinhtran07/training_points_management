@@ -1,6 +1,7 @@
 package com.tps.controllers;
 
 
+import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.Assistant;
 import com.tps.pojo.Pointgroup;
 import com.tps.pojo.User;
@@ -84,12 +85,19 @@ public class AdminController {
         field.add("Username");
         field.add("First name");
         field.add("Last name");
-        field.add("Active");
+        field.add("Email");
+        field.add("Phone number");
+        field.add("Gender");
+        field.add("DOB");
         field.add("Faculty");
+        field.add("Active");
+
 
         params.put("role", User.ASSISTANT);
+        List<Object[]> infos = this.assistantService.getUserAssistants(params);
+        List<UserAssistantDTO> userAssistants = UserAssistantDTO.toDtoList(infos);
         model.addAttribute("field", field);
-        model.addAttribute("users", this.assistantService.getUserAssistants(params));
+        model.addAttribute("users", userAssistants);
         return "assistant";
     }
 
@@ -124,7 +132,7 @@ public class AdminController {
             }
         }
 
-        if (user.getId() > 0) {
+        if (user.getId() != null) {
             return "update-assistant";
         }
         return "new-assistant";
@@ -144,7 +152,7 @@ public class AdminController {
     @PostMapping("/assistants/delete")
     public String delete(@RequestParam int id) {
         this.assistantService.deleteAssistant(this.assistantService.getAssistantById(id));
-        return "redirect: /assistants";
+        return "redirect:/admin/assistants";
     }
 
 //    @GetMapping("/admin/logout")

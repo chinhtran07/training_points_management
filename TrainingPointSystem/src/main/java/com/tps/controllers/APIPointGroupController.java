@@ -1,5 +1,7 @@
 package com.tps.controllers;
 
+import com.tps.components.ActivityConverter;
+import com.tps.dto.ActivityDTO;
 import com.tps.pojo.Activity;
 import com.tps.pojo.Pointgroup;
 import com.tps.repositories.ActivityRepository;
@@ -19,8 +21,12 @@ public class APIPointGroupController {
     @Autowired
     private PointGroupService pointGroupService;
 
+    @Autowired
+    private ActivityConverter activityConverter;
+
     @PostMapping(path = "/{pointGroupId}/activities")
-    public void addActivity(@PathVariable int pointGroupId, @RequestBody Activity activity) {
+    public void addActivity(@PathVariable int pointGroupId, @RequestBody ActivityDTO activityDTO) {
+        Activity activity = activityConverter.toEntity(activityDTO);
         this.activityService.addActivity(pointGroupId ,activity);
     }
 }

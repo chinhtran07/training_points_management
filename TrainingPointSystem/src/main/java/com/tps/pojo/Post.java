@@ -1,6 +1,8 @@
 package com.tps.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -15,6 +18,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "post")
+@JsonIgnoreProperties(value = {"createdDate, updatedDate"})
 public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -42,12 +46,6 @@ public class Post implements Serializable {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @Column(name = "created_date")
-    private Instant createdDate;
-
-    @Column(name = "updated_date")
-    private Instant updatedDate;
-
     @OneToMany(mappedBy = "post")
     @JsonIgnore
     private Set<Comment> comments = new LinkedHashSet<>();
@@ -55,5 +53,13 @@ public class Post implements Serializable {
     @OneToMany(mappedBy = "post")
     @JsonIgnore
     private Set<Like> likes = new LinkedHashSet<>();
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss:SSSZ", timezone = "UTC")
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss:SSSZ", timezone = "UTC")
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
 
 }

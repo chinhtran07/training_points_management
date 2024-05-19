@@ -4,6 +4,7 @@ package com.tps.repositories.impl;
 import com.tps.repositories.StatsRepository;
 import org.hibernate.Session;
 import org.hibernate.procedure.ProcedureCall;
+import org.hibernate.query.Query;
 import org.hibernate.result.ResultSetOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.object.StoredProcedure;
@@ -27,8 +28,10 @@ public class StatsRepositoryImpl implements StatsRepository {
     @Override
     public List<Map<String, Object>> statsTrainingPoint(Map<String, String> params) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        // Execute the stored procedure by creating temporary tables and selecting the final result
 
-        return session.createStoredProcedureQuery("CALL CalculateStudentPoints()").getResultList();
+        String hql = ""                                                                                                                                                                                                                                                                                     ;
+        Query query = session.createQuery(hql, Object.class);
+
+        return
     }
 }

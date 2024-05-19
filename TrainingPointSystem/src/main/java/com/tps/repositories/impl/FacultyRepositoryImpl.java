@@ -48,7 +48,7 @@ public class FacultyRepositoryImpl implements FacultyRepository {
     @Override
     public Faculty getFacultyById(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        return (Faculty) session.get(Faculty.class, id);
+        return session.get(Faculty.class, id);
     }
 
     @Override

@@ -3,9 +3,12 @@ package com.tps.services.impl;
 import com.opencsv.CSVReader;
 
 import com.opencsv.exceptions.CsvValidationException;
+import com.tps.pojo.Activity;
 import com.tps.pojo.Registermission;
 import com.tps.pojo.RegistermissionId;
 import com.tps.pojo.Student;
+import com.tps.repositories.ActivityRepository;
+import com.tps.repositories.MissionRepository;
 import com.tps.repositories.RegisterMissionRepository;
 import com.tps.repositories.StudentRepository;
 import com.tps.services.RegisterMissionService;
@@ -26,20 +29,24 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private MissionRepository missionRepository;
+
     @Override
     public void addRegisterMission(Registermission registermission) {
         this.registerMissionRepository.addOrUpdateStatus(registermission);
     }
 
     @Override
-    public void updateRegisterMission(MultipartFile file) {
+    public void updateRegisterMission(MultipartFile file, int activityId) {
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream()))) {
             String[] nextLine;
             while ((nextLine = csvReader.readNext()) != null) {
                 String studentId = nextLine[0];
                 int missionId = Integer.parseInt(nextLine[1]);
                 boolean isCompleted = Boolean.parseBoolean(nextLine[2]);
-                updateRegisterMissionEntry(studentId, missionId, isCompleted);
+                if (this.missionRepository.checkMissionBelongToActivity(activityId, missionId))
+                    updateRegisterMissionEntry(studentId, missionId, isCompleted);
             }
         } catch (IOException | CsvValidationException e) {
             throw new RuntimeException(e);
@@ -51,7 +58,6 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
             Student student = this.studentRepository.findStudentByStudentId(studentId);
             Registermission registermission = this.registerMissionRepository.findById(student.getId(), missionId);
             registermission.setIsCompleted(isCompleted);
-            registermission.setUpdatedDate(Instant.now());
             this.registerMissionRepository.addOrUpdateStatus(registermission);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Invalid student id " + studentId);
