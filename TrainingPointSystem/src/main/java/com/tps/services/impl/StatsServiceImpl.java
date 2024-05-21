@@ -18,7 +18,7 @@ public class StatsServiceImpl implements StatsService {
 
 
     @Override
-    public List<Map<String,Object>> statsTrainingPoint(Map<String, String> params) {
+    public List<Object[]> statsTrainingPoint(Map<String, String> params) {
         return this.statsRepository.statsTrainingPoint(params);
     }
 }

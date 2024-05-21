@@ -57,8 +57,9 @@ public class FacultyRepositoryImpl implements FacultyRepository {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Faculty> cq = cb.createQuery(Faculty.class);
         Root<Faculty> root = cq.from(Faculty.class);
+        cq.select(root);
 
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
 
         String kw = params.get("kw");
         if (kw != null && !kw.isEmpty()) {
@@ -67,7 +68,7 @@ public class FacultyRepositoryImpl implements FacultyRepository {
 
         cq.where(predicates.toArray(Predicate[]::new));
 
-        Query<Faculty> query = session.createQuery(cq);
+        Query query = session.createQuery(cq);
 
         return query.getResultList();
     }

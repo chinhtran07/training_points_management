@@ -3,10 +3,13 @@ package com.tps.controllers;
 
 import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.Assistant;
+import com.tps.pojo.Faculty;
 import com.tps.pojo.Pointgroup;
 import com.tps.pojo.User;
 import com.tps.services.AssistantService;
+import com.tps.services.FacultyService;
 import com.tps.services.PointGroupService;
+import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +29,9 @@ public class AdminController {
 
     @Autowired
     private AssistantService assistantService;
+
+    @Autowired
+    private FacultyService facultyService;
 
 
     @GetMapping("/")
@@ -145,7 +151,12 @@ public class AdminController {
     }
 
     @GetMapping("/stats")
-    public String stats(Model model) {
+    public String stats(Model model, @RequestParam Map<String, String> params) {
+//        List<Faculty> faculties = this.facultyService.getAllFaculty(params);
+//        for(Faculty f : faculties) {
+//            System.out.println(f.getId());
+//        }
+        model.addAttribute("faculties", this.facultyService.getAllFaculty(params));
         return "stats";
     }
 

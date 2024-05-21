@@ -1,5 +1,6 @@
 package com.tps.controllers;
 
+import com.tps.components.StatsConverter;
 import com.tps.dto.StudentTotalPointsDTO;
 import com.tps.services.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,16 @@ public class APIStatsController {
     @Autowired
     private StatsService statsService;
 
+    @Autowired
+    private StatsConverter statsConverter;
+
     @GetMapping("/training-points")
     public ResponseEntity<List<StudentTotalPointsDTO>> statsTrainingPointByFaculty(@RequestParam Map<String, String> params) {
-        List<Map<String, Object>> result = this.statsService.statsTrainingPoint(params);
+        List<Object[]> result = this.statsService.statsTrainingPoint(params);
         List<StudentTotalPointsDTO> studentTotalPointsDTOList = new ArrayList<>();
-        for (Map<String, Object> row : result) {
-            StudentTotalPointsDTO dto = new StudentTotalPointsDTO();
-            dto.setId(Integer.parseInt(row.get("id").toString()));
-            dto.setFirstName(row.get("first_name").toString());
-            dto.setLastName(row.get("last_name").toString());
-            dto.setClassName(row.get("class_name").toString());
-            dto.setFacultyName(row.get("faculty_name").toString());
-            dto.setTotalPoints(Integer.parseInt(row.get("total_points").toString()));
-            studentTotalPointsDTOList.add(dto);
+        for(Object[] o : result) {
+            StudentTotalPointsDTO s = statsConverter.toDTO(o);
+            studentTotalPointsDTOList.add(s);
         }
         return new ResponseEntity<>(studentTotalPointsDTOList, HttpStatus.OK);
     }

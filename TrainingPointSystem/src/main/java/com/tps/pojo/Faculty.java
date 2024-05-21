@@ -41,9 +41,4 @@ public class Faculty implements Serializable {
             joinColumns = @JoinColumn(name = "faculty_id"),
             inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<User> users = new LinkedHashSet<>();
-
-    @Override
-    public String toString() {
-        return getName();
-    }
 }

@@ -1,6 +1,7 @@
 package com.tps.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tps.dto.StudentTotalPointsDTO;
 import lombok.Getter;
 import lombok.Setter;
 
