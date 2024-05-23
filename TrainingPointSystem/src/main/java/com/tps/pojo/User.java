@@ -1,10 +1,8 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -12,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -22,13 +19,13 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "training_point")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String ADMIN = "ROLE_ADMIN";
-    public static final String STUDENT = "ROLE_STUDENT";
     public static final String ASSISTANT = "ROLE_ASSISTANT";
+    public static final String STUDENT = "ROLE_STUDENT";
 
     @Id
     @Column(name = "id", nullable = false)
@@ -60,13 +57,13 @@ public class User implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Transient
-    private String confirmPassword;
-
     @Size(max = 20)
     @Column(name = "phone", length = 20)
-    @JsonIgnore
     private String phone;
+
+    @Lob
+    @Column(name = "role")
+    private String role;
 
     @Size(max = 255)
     @Column(name = "avatar")
@@ -76,47 +73,35 @@ public class User implements Serializable {
     @Column(name = "gender")
     private String gender;
 
-
+    @Column(name = "dob")
+    private LocalDate dob;
 
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @Lob
-    @Column(name = "role", nullable = false)
-    private String role;
-
-    @ManyToMany(mappedBy = "users")
-    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "assistant",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "faculty_id"))
     private Set<Faculty> faculties = new LinkedHashSet<>();
 
-    @OneToOne(mappedBy = "user")
-    @JsonIgnore
-    private Student student;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Assistant assistant;
-
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
     private Set<Post> posts = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "assistant")
-    @JsonIgnore
-    private Set<Activity> activities = new LinkedHashSet<>();
+    @OneToOne(mappedBy = "user")
+    private Student student;
 
-    @Column(name = "dob")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate dob;
+    private String confirmPassword;
+
 
     @JsonIgnore
     public List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(new SimpleGrantedAuthority(ADMIN));
-        authorities.add(new SimpleGrantedAuthority(STUDENT));
         authorities.add(new SimpleGrantedAuthority(ASSISTANT));
-
+        authorities.add(new SimpleGrantedAuthority(STUDENT));
         return authorities;
     }
+
 }

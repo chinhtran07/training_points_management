@@ -1,13 +1,10 @@
 package com.tps.services.impl;
 
-import com.opencsv.CSVReader;
 
+import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import com.tps.pojo.Activity;
-import com.tps.pojo.Registermission;
-import com.tps.pojo.RegistermissionId;
+import com.tps.pojo.RegisterMission;
 import com.tps.pojo.Student;
-import com.tps.repositories.ActivityRepository;
 import com.tps.repositories.MissionRepository;
 import com.tps.repositories.RegisterMissionRepository;
 import com.tps.repositories.StudentRepository;
@@ -33,7 +30,7 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
     private MissionRepository missionRepository;
 
     @Override
-    public void addRegisterMission(Registermission registermission) {
+    public void addRegisterMission(RegisterMission registermission) {
         this.registerMissionRepository.addOrUpdateStatus(registermission);
     }
 
@@ -56,7 +53,7 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
     private void updateRegisterMissionEntry(String studentId, int missionId, boolean isCompleted) {
         try {
             Student student = this.studentRepository.findStudentByStudentId(studentId);
-            Registermission registermission = this.registerMissionRepository.findById(student.getId(), missionId);
+            RegisterMission registermission = this.registerMissionRepository.findById(student.getId(), missionId);
             registermission.setIsCompleted(isCompleted);
             this.registerMissionRepository.addOrUpdateStatus(registermission);
         } catch (IllegalArgumentException e) {

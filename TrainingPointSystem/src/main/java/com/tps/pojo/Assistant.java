@@ -1,18 +1,15 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "assistant")
+@Table(name = "assistant", schema = "training_point")
 public class Assistant implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -22,17 +19,12 @@ public class Assistant implements Serializable {
     private Integer id;
 
     @MapsId
-    @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", nullable = false, referencedColumnName = "id")
-    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "faculty_id")
     private Faculty faculty;
-
-    @OneToMany(mappedBy = "assistant")
-    private Set<Activity> activities = new LinkedHashSet<>();
 
 }

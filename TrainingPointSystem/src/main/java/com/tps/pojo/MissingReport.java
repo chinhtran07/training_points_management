@@ -10,8 +10,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "comment", schema = "training_point")
-public class Comment implements Serializable {
+@Table(name = "missing_report", schema = "training_point")
+public class MissingReport implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -24,12 +24,12 @@ public class Comment implements Serializable {
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
 
     @Lob
-    @Column(name = "content")
-    private String content;
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "is_active")
     private Boolean isActive;

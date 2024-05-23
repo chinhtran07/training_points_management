@@ -1,11 +1,9 @@
 package com.tps.repositories.impl;
 
 
-import com.tps.pojo.Registermission;
-import com.tps.pojo.RegistermissionId;
+import com.tps.pojo.RegisterMission;
 import com.tps.repositories.RegisterMissionRepository;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
@@ -24,17 +22,17 @@ public class RegisterMissionRepositoryImpl implements RegisterMissionRepository 
     private LocalSessionFactoryBean sessionFactory;
 
     @Override
-    public void addOrUpdateStatus(Registermission mission) {
+    public void addOrUpdateStatus(RegisterMission mission) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         session.saveOrUpdate(mission);
     }
 
     @Override
-    public Registermission findById(int studentId, int missionId) {
+    public RegisterMission findById(int studentId, int missionId) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Registermission> cq = cb.createQuery(Registermission.class);
-        Root<Registermission> root = cq.from(Registermission.class);
+        CriteriaQuery<RegisterMission> cq = cb.createQuery(RegisterMission.class);
+        Root<RegisterMission> root = cq.from(RegisterMission.class);
         cq.where(cb.equal(root.get("studentId"), studentId));
         cq.where(cb.equal(root.get("missionId"), missionId));
 

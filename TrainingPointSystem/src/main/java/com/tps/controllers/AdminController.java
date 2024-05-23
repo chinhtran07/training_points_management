@@ -4,7 +4,7 @@ package com.tps.controllers;
 import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.Assistant;
 import com.tps.pojo.Faculty;
-import com.tps.pojo.Pointgroup;
+import com.tps.pojo.PointGroup;
 import com.tps.pojo.User;
 import com.tps.services.AssistantService;
 import com.tps.services.FacultyService;
@@ -38,7 +38,7 @@ public class AdminController {
     public String admin(Model model) {
         Set<String> pojos = new HashSet<>();
         pojos.add("Users");
-        pojos.add("Pointgroups");
+        pojos.add("PointGroups");
         model.addAttribute("pojos", pojos);
         return "admin";
     }
@@ -57,19 +57,19 @@ public class AdminController {
 
     @GetMapping("/pointgroups/new")
     public String addPointGroupView(Model model) {
-        model.addAttribute("pointGroup", new Pointgroup());
+        model.addAttribute("pointGroup", new PointGroup());
         return "new-or-update-pointgroup";
     }
 
     @GetMapping("/pointgroups/{id}")
     public String updatePointGroupView(Model model, @PathVariable int id) {
-        model.addAttribute("pointGroup", this.pointGroupService.getPointgroup(id));
+        model.addAttribute("pointGroup", this.pointGroupService.getPointGroup(id));
         return "new-or-update-pointgroup";
     }
 
 
     @PostMapping("/pointgroups")
-    public String addOrUpdatePointGroupProcess(Model model, @ModelAttribute(value = "pointgroup") @Valid Pointgroup pointGroup, BindingResult bindingResult) {
+    public String addOrUpdatePointGroupProcess(Model model, @ModelAttribute(value = "pointgroup") @Valid PointGroup pointGroup, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             try {
                 this.pointGroupService.addOrUpdate(pointGroup);

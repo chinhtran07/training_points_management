@@ -1,25 +1,24 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "activity")
-@JsonIgnoreProperties(value = {"createdDate, updatedDate"})
+@Table(name = "activity", schema = "training_point")
 public class Activity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -33,38 +32,30 @@ public class Activity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
-    @JoinColumn(name = "pointgroup_id")
-    private Pointgroup pointgroup;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "point_group_id")
+    private PointGroup pointGroup;
 
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @Column(name = "updated_date")
+    private Instant updatedDate;
 
     @OneToMany(mappedBy = "activity")
-    @JsonIgnore
     private Set<Mission> missions = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "activity")
-    @JsonIgnore
     private Set<Post> posts = new LinkedHashSet<>();
-
-    @Column(name = "max_point")
-    private Integer maxPoint;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assistant_id")
     private User assistant;
 
-
-    @Column(name = "created_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDateTime createdDate;
-
-    @Column(name = "updated_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDateTime updatedDate;
+    @Column(name = "max_point")
+    private Integer maxPoint;
 
 }

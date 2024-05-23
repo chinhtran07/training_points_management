@@ -3,7 +3,7 @@ package com.tps.controllers;
 import com.tps.components.ActivityConverter;
 import com.tps.dto.ActivityDTO;
 import com.tps.pojo.Activity;
-import com.tps.pojo.Pointgroup;
+import com.tps.pojo.PointGroup;
 import com.tps.repositories.ActivityRepository;
 import com.tps.services.ActivityService;
 import com.tps.services.PointGroupService;

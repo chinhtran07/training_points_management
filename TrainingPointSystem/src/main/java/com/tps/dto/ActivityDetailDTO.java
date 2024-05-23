@@ -1,6 +1,5 @@
 package com.tps.dto;
 
-import com.tps.pojo.Pointgroup;
 import lombok.Data;
 
 @Data

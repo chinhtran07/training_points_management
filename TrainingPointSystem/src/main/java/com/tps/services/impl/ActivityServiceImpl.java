@@ -1,8 +1,8 @@
 package com.tps.services.impl;
 
-import com.tps.dto.ActivityDTO;
+
 import com.tps.pojo.Activity;
-import com.tps.pojo.Pointgroup;
+
 import com.tps.repositories.ActivityRepository;
 import com.tps.repositories.PointGroupRepository;
 import com.tps.services.ActivityService;
@@ -25,7 +25,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public void addActivity(int pointGroupId, Activity activity) {
-        activity.setPointgroup(this.pointGroupRepository.getPointgroup(pointGroupId));
+        activity.setPointGroup(this.pointGroupRepository.getPointGroup(pointGroupId));
         this.activityRepository.addActivity(activity);
     }
 
