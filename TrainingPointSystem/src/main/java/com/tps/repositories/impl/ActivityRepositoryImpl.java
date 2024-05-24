@@ -33,9 +33,11 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     private Environment env;
 
     @Override
-    public void addActivity(Activity activity) {
+    public int addActivity(Activity activity) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         session.save(activity);
+        Activity a = (Activity) session.getIdentifier(activity);
+        return a.getId();
     }
 
     @Override

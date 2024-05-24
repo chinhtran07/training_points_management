@@ -91,6 +91,7 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "user")
     private Student student;
 
+    @Transient
     private String confirmPassword;
 
 

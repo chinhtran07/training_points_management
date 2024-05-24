@@ -29,14 +29,4 @@ public class ActivityConverter {
 
         return dto;
     }
-
-//    public ActivityDetailDTO toDetailDTO(Activity activity) {
-//        ActivityDetailDTO dto = new ActivityDetailDTO();
-//
-//        dto.setId(activity.getId());
-//        dto.setName(activity.getName());
-//        dto.setPointGroup(PointGroupConverter.toDTO(pointGroupService.getPointgroup(activity.getPointgroup().getId())));
-//
-//        return dto;
-//    }
 }

@@ -24,9 +24,9 @@ public class ActivityServiceImpl implements ActivityService {
 
 
     @Override
-    public void addActivity(int pointGroupId, Activity activity) {
+    public int addActivity(int pointGroupId, Activity activity) {
         activity.setPointGroup(this.pointGroupRepository.getPointGroup(pointGroupId));
-        this.activityRepository.addActivity(activity);
+        return this.activityRepository.addActivity(activity);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.tps.services.impl;
 
-import com.tps.dto.StudentTotalPointsDTO;
 import com.tps.repositories.StatsRepository;
 import com.tps.services.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class StatsServiceImpl implements StatsService {
@@ -18,7 +16,17 @@ public class StatsServiceImpl implements StatsService {
 
 
     @Override
-    public List<Object[]> statsTrainingPoint(Map<String, String> params) {
-        return this.statsRepository.statsTrainingPoint(params);
+    public List<Object[]> statsTrainingPointByFaculty(String facultyId) {
+        return this.statsRepository.statsTrainingPointByFaculty(facultyId);
+    }
+
+    @Override
+    public List<Object[]> statsTrainingPointByRank() {
+        return this.statsRepository.statsTrainingPointByRank();
+    }
+
+    @Override
+    public List<Object[]> statsTrainingPoints() {
+        return this.statsRepository.statsTrainingPoint();
     }
 }

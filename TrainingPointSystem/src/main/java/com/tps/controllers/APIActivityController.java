@@ -28,9 +28,6 @@ public class APIActivityController {
     private ActivityService activityService;
 
     @Autowired
-    private ActivityConverter converter;
-
-    @Autowired
     private MissionService missionService;
 
     @Autowired
@@ -56,7 +53,9 @@ public class APIActivityController {
         this.missionService.addOrUpdateMission(mission, activityId);
     }
 
-    @PostMapping("/{activityId}/upload")
+    @PostMapping(value = "/{activityId}/upload", consumes = {
+            MediaType.MULTIPART_FORM_DATA_VALUE
+    })
     @ResponseStatus(HttpStatus.OK)
     public void upload(@RequestParam("file")MultipartFile file, @PathVariable int activityId) {
         this.registerMissionService.updateRegisterMission(file, activityId);

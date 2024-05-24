@@ -8,6 +8,8 @@ import com.tps.repositories.ActivityRepository;
 import com.tps.services.ActivityService;
 import com.tps.services.PointGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +27,10 @@ public class APIPointGroupController {
     private ActivityConverter activityConverter;
 
     @PostMapping(path = "/{pointGroupId}/activities")
-    public void addActivity(@PathVariable int pointGroupId, @RequestBody ActivityDTO activityDTO) {
+    public ResponseEntity<Integer> addActivity(@PathVariable int pointGroupId, @RequestBody ActivityDTO activityDTO) {
         Activity activity = activityConverter.toEntity(activityDTO);
-        this.activityService.addActivity(pointGroupId ,activity);
+        int activityId = this.activityService.addActivity(pointGroupId ,activity);
+
+        return new ResponseEntity(activityId, HttpStatus.CREATED);
     }
 }

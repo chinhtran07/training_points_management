@@ -1,7 +1,7 @@
 package com.tps.controllers;
 
 import com.tps.components.StatsConverter;
-import com.tps.dto.StudentTotalPointsDTO;
+import com.tps.dto.ClassTotalPointsDTO;
 import com.tps.services.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,15 +25,28 @@ public class APIStatsController {
     @Autowired
     private StatsConverter statsConverter;
 
-    @GetMapping("/training-points")
-    public ResponseEntity<List<StudentTotalPointsDTO>> statsTrainingPointByFaculty(@RequestParam Map<String, String> params) {
-        List<Object[]> result = this.statsService.statsTrainingPoint(params);
-        List<StudentTotalPointsDTO> studentTotalPointsDTOList = new ArrayList<>();
+    @GetMapping("/training-points/faculty")
+    public ResponseEntity<List<ClassTotalPointsDTO>> statsTrainingPointByFaculty(@RequestParam String facultyId) {
+        List<Object[]> result = this.statsService.statsTrainingPointByFaculty(facultyId);
+        List<ClassTotalPointsDTO> list = new ArrayList<>();
         for(Object[] o : result) {
-            StudentTotalPointsDTO s = statsConverter.toDTO(o);
-            studentTotalPointsDTOList.add(s);
+            ClassTotalPointsDTO s = statsConverter.toDTO(o);
+            list.add(s);
         }
-        return new ResponseEntity<>(studentTotalPointsDTOList, HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @GetMapping("/training-points/rank")
+    public ResponseEntity<List<Object[]>> statsTrainingPointByRank() {
+        List<Object[]> result = this.statsService.statsTrainingPointByRank();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/training-points")
+    public ResponseEntity<List<Object[]>> statsTrainingPoint() {
+        List<Object[]> result = this.statsService.statsTrainingPoints();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
 }
