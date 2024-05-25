@@ -94,6 +94,9 @@ public class User implements Serializable {
     @Transient
     private String confirmPassword;
 
+    @OneToMany(mappedBy = "assistant")
+    private Set<Activity> activities = new LinkedHashSet<>();
+
 
     @JsonIgnore
     public List<GrantedAuthority> getGrantedAuthorities() {
