@@ -33,7 +33,6 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) req;
         String authToken = httpRequest.getHeader(TOKEN_HEADER);
-        System.out.println(authToken);
 
         try {
             if (jwtService.validateTokenLogin(authToken)) {

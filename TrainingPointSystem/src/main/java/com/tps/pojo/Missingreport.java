@@ -2,6 +2,8 @@ package com.tps.pojo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,15 +16,15 @@ import java.time.Instant;
 public class Missingreport implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId
-    private MissingreportId id;
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @MapsId("studentId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @MapsId("missionId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "mission_id", nullable = false)
     private Mission mission;
@@ -32,12 +34,14 @@ public class Missingreport implements Serializable {
     private String description;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @Column(name = "created_date")
+    @CreationTimestamp
     private Instant createdDate;
 
     @Column(name = "updated_date")
+    @UpdateTimestamp
     private Instant updatedDate;
 
 }

@@ -17,7 +17,8 @@ import java.util.Date;
 public class JwtService {
     private static final String SECRET = "99999999999999999999999999999999";
     private static final String USERNAME = "username";
-    private static final int EXPIRE_TIME = 1000 * 3600;
+
+    private static final int EXPIRE_TIME = 1000 * 3600 * 10;
 
     public String generateTokenLogin(String username) {
         String token = null;

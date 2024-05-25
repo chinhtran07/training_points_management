@@ -3,6 +3,8 @@ package com.tps.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,11 +33,13 @@ public class Like implements Serializable {
     private Post post;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive=true;
 
     @Column(name = "created_date")
+    @CreationTimestamp
     private Instant createdDate;
 
     @Column(name = "updated_date")
+    @UpdateTimestamp
     private Instant updatedDate;
 }

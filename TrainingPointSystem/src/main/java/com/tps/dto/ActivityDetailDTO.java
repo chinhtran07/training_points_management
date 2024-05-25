@@ -1,7 +1,10 @@
 package com.tps.dto;
 
+import com.tps.pojo.Mission;
 import com.tps.pojo.Pointgroup;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ActivityDetailDTO {
@@ -9,4 +12,5 @@ public class ActivityDetailDTO {
     private int Id;
     private String Name;
     private PointGroupDTO pointGroup;
+    private List<MissionDTO> missions;
 }

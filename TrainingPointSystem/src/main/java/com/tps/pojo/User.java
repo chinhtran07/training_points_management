@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -78,7 +79,7 @@ public class User implements Serializable {
     private LocalDate dob;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive =true;
 
     @Lob
     @Column(name = "role", nullable = false)
@@ -95,6 +96,10 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Post> posts = new LinkedHashSet<>();
+
+
+    @Transient
+    private MultipartFile file;
 
     public List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

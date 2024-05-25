@@ -3,9 +3,7 @@ package com.tps.repositories.impl;
 
 import com.tps.pojo.Activity;
 import com.tps.repositories.ActivityRepository;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -85,9 +83,10 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     }
 
     @Override
-    public void updateActivity(Activity activity) {
+    public Activity updateActivity(Activity activity) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         session.update(activity);
+        return activity;
     }
 
     @Override

@@ -37,9 +37,9 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public void updateActivity(Activity activity) {
+    public Activity updateActivity(Activity activity) {
         activity.setUpdatedDate(Instant.now());
-        this.activityRepository.updateActivity(activity);
+        return this.activityRepository.updateActivity(activity);
     }
 
     @Override

@@ -38,6 +38,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User getUserById(int id) {
+        Session s = factoryBean.getObject().getCurrentSession();
+        return s.get(User.class, id);
+    }
+
+    @Override
     public boolean authUser(String username, String password) {
         User u = this.getUserByUsername(username);
         if (u != null && u.getIsActive()) {
