@@ -1,5 +1,6 @@
 package com.tps.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -74,6 +75,7 @@ public class User implements Serializable {
     private String gender;
 
     @Column(name = "dob")
+    @JsonIgnore
     private LocalDate dob;
 
     @Column(name = "is_active")

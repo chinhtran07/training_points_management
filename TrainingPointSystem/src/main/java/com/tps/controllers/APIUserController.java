@@ -51,7 +51,7 @@ public class APIUserController {
         User createdUser = userService.addUser(user);
 
         if (createdUser != null) {
-            UserDTO userDTO = UserConverter.convertToDTO(createdUser);
+            UserDTO userDTO = userConverter.convertToDTO(createdUser);
             return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,10 +62,10 @@ public class APIUserController {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE,
     })
-    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> login(@RequestParam String username, @RequestParam String password) {
         Map<String, String> response = new HashMap<>();
-        if (userService.authUser(user.getUsername(), user.getPassword())) {
-            String token = jwtService.generateTokenLogin(user.getUsername());
+        if (userService.authUser(username, password)) {
+            String token = jwtService.generateTokenLogin(username);
             response.put("token", token);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -80,7 +80,7 @@ public class APIUserController {
         User user = userService.getUserByUsername(username);
 
         if(user != null) {
-            UserDTO userDTO = UserConverter.convertToDTO(user);
+            UserDTO userDTO = userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -91,7 +91,7 @@ public class APIUserController {
     public ResponseEntity<UserDTO> getUser(@PathVariable int id ) {
         User user = userService.findById(id);
         if(user != null) {
-            UserDTO userDTO = UserConverter.convertToDTO(user);
+            UserDTO userDTO = userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -34,7 +34,7 @@ public class StatsRepositoryImpl implements StatsRepository {
                 "                               JOIN training_point.register_mission rm ON s.id = rm.student_id " +
                 "                               JOIN training_point.mission m ON m.id = rm.mission_id " +
                 "                               JOIN training_point.activity a ON m.activity_id = a.id " +
-                "                               JOIN training_point.point_group p ON a.point_group_id = p.id " +
+                "                               JOIN training_point.point_group p ON a.pointgroup_id = p.id " +
                 "                               GROUP BY student_id, pointgroup_id, a.max_point), " +
                 "point_group_points AS (SELECT s.id AS student_id, LEAST(SUM(ap.point), pg.max_point) AS point " +
                 "                       FROM student s " +

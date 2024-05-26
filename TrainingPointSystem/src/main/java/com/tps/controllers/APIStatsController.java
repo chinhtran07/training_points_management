@@ -2,6 +2,8 @@ package com.tps.controllers;
 
 import com.tps.components.StatsConverter;
 import com.tps.dto.ClassTotalPointsDTO;
+import com.tps.dto.RankTotalPointsDTO;
+import com.tps.dto.TotalPointsDTO;
 import com.tps.services.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,22 +32,32 @@ public class APIStatsController {
         List<Object[]> result = this.statsService.statsTrainingPointByFaculty(facultyId);
         List<ClassTotalPointsDTO> list = new ArrayList<>();
         for(Object[] o : result) {
-            ClassTotalPointsDTO s = statsConverter.toDTO(o);
+            ClassTotalPointsDTO s = statsConverter.toClassTotalPointDTO(o);
             list.add(s);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @GetMapping("/training-points/rank")
-    public ResponseEntity<List<Object[]>> statsTrainingPointByRank() {
+    public ResponseEntity<List<RankTotalPointsDTO>> statsTrainingPointByRank() {
         List<Object[]> result = this.statsService.statsTrainingPointByRank();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        List<RankTotalPointsDTO> dtoList = new ArrayList<>();
+        for(Object[] o : result) {
+            RankTotalPointsDTO s = statsConverter.toRankTotalPointsDTO(o);
+            dtoList.add(s);
+        }
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
     @GetMapping("/training-points")
-    public ResponseEntity<List<Object[]>> statsTrainingPoint() {
+    public ResponseEntity<List<TotalPointsDTO>> statsTrainingPoint() {
         List<Object[]> result = this.statsService.statsTrainingPoints();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        List<TotalPointsDTO> dtoList = new ArrayList<>();
+        for(Object[] o : result) {
+            TotalPointsDTO s = statsConverter.toTotalPointsDTO(o);
+            dtoList.add(s);
+        }
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
 

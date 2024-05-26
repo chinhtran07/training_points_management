@@ -49,19 +49,6 @@
                         <td>${u.username}</td>
                         <td>${u.firstName}</td>
                         <td>${u.lastName}</td>
-                        <td>${u.email}</td>
-                        <td>${u.phone}</td>
-                        <td>${u.gender}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${u.dob != null}">
-                                    <fmt:formatDate value="${u.dob}" pattern="dd-MM-yyyy"/>
-                                </c:when>
-                                <c:otherwise>
-                                    N/A
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
                         <td>${u.faculty}</td>
                         <td>
                             <c:choose>

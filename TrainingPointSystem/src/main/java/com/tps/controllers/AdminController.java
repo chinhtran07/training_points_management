@@ -1,6 +1,7 @@
 package com.tps.controllers;
 
 
+import com.tps.components.UserConverter;
 import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.Assistant;
 import com.tps.pojo.Faculty;
@@ -32,6 +33,11 @@ public class AdminController {
 
     @Autowired
     private FacultyService facultyService;
+
+    @Autowired
+    private UserConverter converter;
+    @Autowired
+    private UserConverter userConverter;
 
 
     @GetMapping("/")
@@ -91,17 +97,17 @@ public class AdminController {
         field.add("Username");
         field.add("First name");
         field.add("Last name");
-        field.add("Email");
-        field.add("Phone number");
-        field.add("Gender");
-        field.add("DOB");
         field.add("Faculty");
         field.add("Active");
 
 
         params.put("role", User.ASSISTANT);
         List<Object[]> infos = this.assistantService.getUserAssistants(params);
-        List<UserAssistantDTO> userAssistants = UserAssistantDTO.toDtoList(infos);
+        List<UserAssistantDTO> userAssistants = new ArrayList<>();
+        for (Object[] info : infos) {
+            UserAssistantDTO assistant = userConverter.toUserAssistantDTO(info);
+            userAssistants.add(assistant);
+        }
         model.addAttribute("field", field);
         model.addAttribute("users", userAssistants);
         return "assistant";
