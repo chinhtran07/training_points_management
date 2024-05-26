@@ -3,6 +3,8 @@ package com.tps.dto;
 import lombok.Data;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Data
 public class UserDTO {
     private Integer id;
@@ -12,4 +14,5 @@ public class UserDTO {
     private String email;
     private String phoneNumber;
     private String avatar;
+    private String dob;
 }

@@ -12,7 +12,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "comment")
+@Table(name = "comment", schema = "training_point")
 public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;
 

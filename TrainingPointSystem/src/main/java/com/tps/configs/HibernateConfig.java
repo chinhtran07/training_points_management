@@ -26,9 +26,7 @@ public class HibernateConfig {
     @Bean
     public LocalSessionFactoryBean getSessionFactory() {
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-        factoryBean.setPackagesToScan(new String[]{
-                "com.tps.pojo"
-        });
+        factoryBean.setPackagesToScan("com.tps.pojo");
         factoryBean.setDataSource(dataSource());
         factoryBean.setHibernateProperties(hibernateProperties());
 

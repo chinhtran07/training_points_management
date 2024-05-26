@@ -6,7 +6,6 @@ import com.tps.dto.UserDTO;
 import com.tps.dto.UserRegisterDTO;
 import com.tps.pojo.User;
 import com.tps.services.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,10 +66,10 @@ public class APIUserController {
             MediaType.MULTIPART_FORM_DATA_VALUE,
             MediaType.APPLICATION_JSON_VALUE
     })
-    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> login(@RequestParam String username, @RequestParam String password) {
         Map<String, String> response = new HashMap<>();
-        if (userService.authUser(user.getUsername(), user.getPassword())) {
-            String token = jwtService.generateTokenLogin(user.getUsername());
+        if (userService.authUser(username, password)) {
+            String token = jwtService.generateTokenLogin(username);
             response.put("token", token);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -83,7 +82,7 @@ public class APIUserController {
     public ResponseEntity<UserDTO> getCurrentUser(Principal principal) throws ParseException {
         User user = userService.getUserByUsername(principal.getName());
 
-        if (user != null) {
+        if(user != null) {
             UserDTO userDTO = this.userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }

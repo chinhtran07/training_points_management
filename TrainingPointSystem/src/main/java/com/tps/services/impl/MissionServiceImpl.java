@@ -5,7 +5,10 @@ import com.tps.dto.MissionCreateDTO;
 import com.tps.dto.MissionDTO;
 import com.tps.dto.RegisterMissionDTO;
 import com.tps.pojo.Mission;
-import com.tps.pojo.Registermission;
+import com.tps.pojo.RegisterMission;
+import com.tps.pojo.Activity;
+import com.tps.pojo.Mission;
+import com.tps.repositories.ActivityRepository;
 import com.tps.repositories.MissionRepository;
 import com.tps.services.MissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class MissionServiceImpl implements MissionService {
     @Autowired
     MissionConverter missionConverter;
 
+    @Autowired
+    private ActivityRepository activityRepository;
+
     @Override
     public List<Mission> getMission(Map<String, String> params) {
         return null;
@@ -37,8 +43,8 @@ public class MissionServiceImpl implements MissionService {
                     String registerDate = null;
 
                     if (result[1] != null) {
-                        isCompleted = ((Registermission) result[1]).getIsCompleted();
-                        registerDate = ((Registermission) result[1]).getCreatedDate().toString();
+                        isCompleted = ((RegisterMission) result[1]).getIsCompleted();
+                        registerDate = ((RegisterMission) result[1]).getCreatedDate().toString();
                     }
 
                     RegisterMissionDTO registerMissionDTO = new RegisterMissionDTO();
@@ -85,5 +91,17 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public void deleteMission(int id) {
         this.missionRepository.deleteMission(id);
+    }
+
+    @Override
+    public void addOrUpdateMission(Mission mission, int activityId) {
+        Activity activity = this.activityRepository.getActivityById(activityId);
+        mission.setActivity(activity);
+        this.missionRepository.addOrUpdateMission(mission);
+    }
+
+    @Override
+    public boolean checkMissionBelongToActivity(int missionId, int activityId) {
+        return this.missionRepository.checkMissionBelongToActivity(missionId, activityId);
     }
 }

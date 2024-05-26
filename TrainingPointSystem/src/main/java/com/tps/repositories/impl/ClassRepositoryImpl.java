@@ -57,4 +57,17 @@ public class ClassRepositoryImpl implements ClassRepository {
 
         return query.getResultList();
     }
+
+    @Override
+    public List<Class> getClassesByFaculty(int facultyId) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        String hql = "Select distinct Class.id, Class.name " +
+                "from Class " +
+                "left join Student s on Class.id = s.classField.id " +
+                "left join Faculty f on s.faculty.id = f.id " +
+                "where f.id =: facultyId";
+        Query query = session.createQuery(hql);
+        query.setParameter("facultyId", facultyId);
+        return query.getResultList();
+    }
 }

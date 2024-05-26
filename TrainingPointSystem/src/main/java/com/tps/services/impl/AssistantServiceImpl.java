@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +57,10 @@ public class AssistantServiceImpl implements AssistantService {
     @Override
     public void updateAssistant(Assistant assistant) {
         assistant.getUser().setRole(assistant.getUser().getRole());
+        User user = this.userRepository.getUserByUsername(assistant.getUser().getUsername());
+        if (passwordEncoder.matches(assistant.getUser().getPassword(), user.getPassword())) {
+            assistant.getUser().setPassword(passwordEncoder.encode(assistant.getUser().getPassword()));
+        }
         this.userRepository.updateUser(assistant.getUser());
         Faculty faculty = this.facultyRepository.getFacultyById(assistant.getFaculty().getId());
         assistant.setFaculty(faculty);

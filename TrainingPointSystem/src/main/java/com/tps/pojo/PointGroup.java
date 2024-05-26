@@ -1,11 +1,9 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -15,8 +13,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "pointgroup")
-public class Pointgroup implements Serializable {
+@Table(name = "point_group", schema = "training_point")
+public class PointGroup implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -33,12 +31,10 @@ public class Pointgroup implements Serializable {
     @Column(name = "content")
     private String content;
 
-    @Max(value = 20)
     @Column(name = "max_point")
     private Integer maxPoint;
 
-    @OneToMany(mappedBy = "pointgroup")
-    @JsonIgnore
+    @OneToMany(mappedBy = "pointGroup")
     private Set<Activity> activities = new LinkedHashSet<>();
 
 }

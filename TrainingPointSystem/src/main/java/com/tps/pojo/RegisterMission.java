@@ -12,8 +12,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "registermission")
-public class Registermission implements Serializable {
+@Table(name = "register_mission", schema = "training_point")
+public class RegisterMission implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

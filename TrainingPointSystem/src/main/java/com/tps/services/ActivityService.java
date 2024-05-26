@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ActivityService {
-    void addActivity(Activity activity);
+    int addActivity(int pointGroupId, Activity activity);
     List<Activity> getActivities(Map<String, String> params);
     Activity getActivityById(int id);
     Activity updateActivity(Activity activity);

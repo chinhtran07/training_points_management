@@ -12,8 +12,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "missingreport")
-public class Missingreport implements Serializable {
+@Table(name = "reaction", schema = "training_point")
+public class Reaction implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -21,20 +21,16 @@ public class Missingreport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "student_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "mission_id", nullable = false)
-    private Mission mission;
-
-    @Lob
-    @Column(name = "description")
-    private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     @Column(name = "is_active")
-    private Boolean isActive = true;
+    private Boolean isActive=true;
 
     @Column(name = "created_date")
     @CreationTimestamp

@@ -1,14 +1,14 @@
 package com.tps.components;
 
 import com.tps.dto.PointGroupDTO;
-import com.tps.pojo.Pointgroup;
+import com.tps.pojo.PointGroup;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PointGroupConverter {
 
-    public static Pointgroup toEntity(PointGroupDTO pointGroup) {
-        Pointgroup pointGroupEntity = new Pointgroup();
+    public static PointGroup toEntity(PointGroupDTO pointGroup) {
+        PointGroup pointGroupEntity = new PointGroup();
 
         pointGroupEntity.setId(pointGroup.getId());
         pointGroupEntity.setName(pointGroup.getName());
@@ -18,7 +18,7 @@ public class PointGroupConverter {
         return pointGroupEntity;
     }
 
-    public static PointGroupDTO toDTO(Pointgroup pointGroup) {
+    public static PointGroupDTO toDTO(PointGroup pointGroup) {
         PointGroupDTO pointGroupDTO = new PointGroupDTO();
 
         pointGroupDTO.setId(pointGroup.getId());

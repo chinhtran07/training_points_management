@@ -27,7 +27,6 @@ public class ActivityConverter {
         activity.setName(dto.getName());
         activity.setPointgroup(pointGroupService.getPointgroup(dto.getPointGroupId()));
         activity.setMaxPoint(dto.getMaxPoint());
-
         return activity;
     }
 

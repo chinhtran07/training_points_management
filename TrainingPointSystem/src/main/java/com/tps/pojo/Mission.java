@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "mission")
+@Table(name = "mission", schema = "training_point")
 public class Mission implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -61,11 +60,9 @@ public class Mission implements Serializable {
     private Instant updatedDate;
 
     @OneToMany(mappedBy = "mission")
-    @JsonIgnore
-    private Set<Missingreport> missingreports = new LinkedHashSet<>();
+    private Set<MissingReport> missingReports = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "mission")
-    @JsonIgnore
-    private Set<Registermission> registermissions = new LinkedHashSet<>();
+    private Set<RegisterMission> registerMissions = new LinkedHashSet<>();
 
 }

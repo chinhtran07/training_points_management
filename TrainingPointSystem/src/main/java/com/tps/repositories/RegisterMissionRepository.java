@@ -1,10 +1,12 @@
 package com.tps.repositories;
 
-import com.tps.pojo.Registermission;
+import com.tps.pojo.RegisterMission;
 
 public interface RegisterMissionRepository {
-    Registermission getRegisterByStudentMission(int studentId, int missionId);
-    void updateRegistermission (Registermission registermission);
+    RegisterMission getRegisterByStudentMission(int studentId, int missionId);
+    void updateRegistermission (RegisterMission registermission);
 
-    Registermission addRegisterMission(Registermission registermission);
+    RegisterMission addRegisterMission(RegisterMission registermission);
+    void addOrUpdateStatus(RegisterMission mission);
+    RegisterMission findById(int studentId, int missionId);
 }

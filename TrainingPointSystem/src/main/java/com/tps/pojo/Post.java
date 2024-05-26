@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "post")
+@Table(name = "post", schema = "training_point")
 public class Post implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +37,7 @@ public class Post implements Serializable {
     private Activity activity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "is_active")
@@ -53,12 +52,10 @@ public class Post implements Serializable {
     private Instant updatedDate;
 
     @OneToMany(mappedBy = "post")
-    @JsonIgnore
     private Set<Comment> comments = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "post")
-    @JsonIgnore
-    private Set<Like> likes = new LinkedHashSet<>();
+    private Set<Reaction> reactions = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     private List<Image> images;

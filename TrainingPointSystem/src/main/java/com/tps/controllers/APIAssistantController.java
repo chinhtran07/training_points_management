@@ -18,7 +18,7 @@ public class APIAssistantController {
     @DeleteMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteAssistants(@RequestBody Map<String, List<Integer>> request) {
-        List<Integer> userIds = (List<Integer>) request.get("userIds");
+        List<Integer> userIds = request.get("userIds");
         this.assistantService.deleteAsistantsByIds(userIds);
     }
 }

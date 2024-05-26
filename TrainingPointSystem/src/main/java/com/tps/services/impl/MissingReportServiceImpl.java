@@ -1,7 +1,7 @@
 package com.tps.services.impl;
 
-import com.tps.pojo.Missingreport;
-import com.tps.pojo.Registermission;
+import com.tps.pojo.MissingReport;
+import com.tps.pojo.RegisterMission;
 import com.tps.repositories.MissingReportRepository;
 import com.tps.repositories.MissionRepository;
 import com.tps.repositories.UserRepository;
@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class MissingReportServiceImpl implements MissingReportService {
     @Autowired
-    MissingReportRepository missingReportRepository;
+    MissingReportRepository MissingReportRepository;
 
     @Autowired
     MissionRepository missionRepository;
@@ -24,22 +25,27 @@ public class MissingReportServiceImpl implements MissingReportService {
     UserRepository userRepository;
 
     @Override
-    public Missingreport getMissingByStudentMission(int studentId, int missionId) {
-        return this.missingReportRepository.getMissingByStudentMission(studentId, missionId);
+    public MissingReport getMissingByStudentMission(int studentId, int missionId) {
+        return this.MissingReportRepository.getMissingByStudentMission(studentId, missionId);
     }
 
     @Override
-    public void updateMissingreport(Missingreport missingreport) {
-        this.missingReportRepository.updateMissingreport(missingreport);
+    public void updateMissingReport(MissingReport MissingReport) {
+        this.MissingReportRepository.updateMissingReport(MissingReport);
     }
 
     @Override
-    public Missingreport addMissingreport(int studentId, int missionId, Map<String, String> params) {
-        Missingreport missingreport = new Missingreport();
-        missingreport.setMission(missionRepository.getMissionById(missionId));
-        missingreport.setStudent(userRepository.getUserById(studentId).getStudent());
-        missingreport.setDescription(params.get("description"));
+    public MissingReport addMissingReport(int studentId, int missionId, Map<String, String> params) {
+        MissingReport MissingReport = new MissingReport();
+        MissingReport.setMission(missionRepository.getMissionById(missionId));
+        MissingReport.setStudent(userRepository.getUserById(studentId).getStudent());
+        MissingReport.setDescription(params.get("description"));
 
-        return this.missingReportRepository.addMissingreport(missingreport);
+        return this.MissingReportRepository.addMissingReport(MissingReport);
+    }
+
+    @Override
+    public List<Object[]> getMissionReportByFaculty(int facultyId) {
+        return this.repository.getMissionReportByFaculty(facultyId);
     }
 }

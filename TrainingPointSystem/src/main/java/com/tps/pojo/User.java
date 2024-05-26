@@ -1,9 +1,9 @@
 package com.tps.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,13 +21,13 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "training_point")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String ADMIN = "ROLE_ADMIN";
-    public static final String STUDENT = "ROLE_STUDENT";
     public static final String ASSISTANT = "ROLE_ASSISTANT";
+    public static final String STUDENT = "ROLE_STUDENT";
 
     @Id
     @Column(name = "id", nullable = false)
@@ -59,13 +59,13 @@ public class User implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Transient
-    private String confirmPassword;
-
     @Size(max = 20)
     @Column(name = "phone", length = 20)
-    @JsonIgnore
     private String phone;
+
+    @Lob
+    @Column(name = "role")
+    private String role;
 
     @Size(max = 255)
     @Column(name = "avatar")
@@ -76,26 +76,29 @@ public class User implements Serializable {
     private String gender;
 
     @Column(name = "dob")
+    @JsonIgnore
     private LocalDate dob;
 
     @Column(name = "is_active")
     private Boolean isActive =true;
 
-    @Lob
-    @Column(name = "role", nullable = false)
-    private String role;
-
-    @ManyToMany(mappedBy = "users")
-    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "assistant",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "faculty_id"))
     private Set<Faculty> faculties = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private Set<Post> posts = new LinkedHashSet<>();
+
     @OneToOne(mappedBy = "user")
-    @JsonIgnore
     private Student student;
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private Set<Post> posts = new LinkedHashSet<>();
+    @Transient
+    private String confirmPassword;
+
+    @OneToMany(mappedBy = "assistant")
+    private Set<Activity> activities = new LinkedHashSet<>();
 
 
     @Transient
@@ -105,9 +108,9 @@ public class User implements Serializable {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(new SimpleGrantedAuthority(ADMIN));
-        authorities.add(new SimpleGrantedAuthority(STUDENT));
         authorities.add(new SimpleGrantedAuthority(ASSISTANT));
-
+        authorities.add(new SimpleGrantedAuthority(STUDENT));
         return authorities;
     }
+
 }

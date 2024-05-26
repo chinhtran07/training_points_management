@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "faculty")
+@Table(name = "faculty", schema = "training_point")
 public class Faculty implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -31,19 +30,13 @@ public class Faculty implements Serializable {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @OneToMany(mappedBy = "faculty")
-    @JsonIgnore
-    private Set<Student> students = new LinkedHashSet<>();
-
     @ManyToMany
-    @JsonIgnore
     @JoinTable(name = "assistant",
             joinColumns = @JoinColumn(name = "faculty_id"),
             inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<User> users = new LinkedHashSet<>();
 
-    @Override
-    public String toString() {
-        return getName();
-    }
+    @OneToMany(mappedBy = "faculty")
+    private Set<Student> students = new LinkedHashSet<>();
+
 }

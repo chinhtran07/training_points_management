@@ -1,8 +1,8 @@
 package com.tps.services.impl;
 
-import com.tps.dto.ActivityDTO;
+
 import com.tps.pojo.Activity;
-import com.tps.pojo.Pointgroup;
+
 import com.tps.repositories.ActivityRepository;
 import com.tps.repositories.PointGroupRepository;
 import com.tps.services.ActivityService;
@@ -19,11 +19,14 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private ActivityRepository activityRepository;
 
+    @Autowired
+    private PointGroupRepository pointGroupRepository;
+
 
     @Override
-    public void addActivity(Activity activity) {
-        activity.setCreatedDate(Instant.now());
-        this.activityRepository.addActivity(activity);
+    public int addActivity(int pointGroupId, Activity activity) {
+        activity.setPointGroup(this.pointGroupRepository.getPointGroup(pointGroupId));
+        return this.activityRepository.addActivity(activity);
     }
 
     @Override
@@ -37,9 +40,8 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public Activity updateActivity(Activity activity) {
-        activity.setUpdatedDate(Instant.now());
-        return this.activityRepository.updateActivity(activity);
+    public void updateActivity(Activity activity) {
+        this.activityRepository.updateActivity(activity);
     }
 
     @Override

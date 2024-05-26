@@ -1,11 +1,16 @@
 package com.tps.controllers;
 
 
+import com.tps.components.UserConverter;
+import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.Assistant;
-import com.tps.pojo.Pointgroup;
+import com.tps.pojo.Faculty;
+import com.tps.pojo.PointGroup;
 import com.tps.pojo.User;
 import com.tps.services.AssistantService;
+import com.tps.services.FacultyService;
 import com.tps.services.PointGroupService;
+import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +31,20 @@ public class AdminController {
     @Autowired
     private AssistantService assistantService;
 
+    @Autowired
+    private FacultyService facultyService;
+
+    @Autowired
+    private UserConverter converter;
+    @Autowired
+    private UserConverter userConverter;
+
 
     @GetMapping("/")
     public String admin(Model model) {
         Set<String> pojos = new HashSet<>();
         pojos.add("Users");
-        pojos.add("Pointgroups");
+        pojos.add("PointGroups");
         model.addAttribute("pojos", pojos);
         return "admin";
     }
@@ -50,19 +63,19 @@ public class AdminController {
 
     @GetMapping("/pointgroups/new")
     public String addPointGroupView(Model model) {
-        model.addAttribute("pointGroup", new Pointgroup());
+        model.addAttribute("pointGroup", new PointGroup());
         return "new-or-update-pointgroup";
     }
 
     @GetMapping("/pointgroups/{id}")
     public String updatePointGroupView(Model model, @PathVariable int id) {
-        model.addAttribute("pointGroup", this.pointGroupService.getPointgroup(id));
+        model.addAttribute("pointGroup", this.pointGroupService.getPointGroup(id));
         return "new-or-update-pointgroup";
     }
 
 
     @PostMapping("/pointgroups")
-    public String addOrUpdatePointGroupProcess(Model model, @ModelAttribute(value = "pointgroup") @Valid Pointgroup pointGroup, BindingResult bindingResult) {
+    public String addOrUpdatePointGroupProcess(Model model, @ModelAttribute(value = "pointgroup") @Valid PointGroup pointGroup, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             try {
                 this.pointGroupService.addOrUpdate(pointGroup);
@@ -84,12 +97,19 @@ public class AdminController {
         field.add("Username");
         field.add("First name");
         field.add("Last name");
-        field.add("Active");
         field.add("Faculty");
+        field.add("Active");
+
 
         params.put("role", User.ASSISTANT);
+        List<Object[]> infos = this.assistantService.getUserAssistants(params);
+        List<UserAssistantDTO> userAssistants = new ArrayList<>();
+        for (Object[] info : infos) {
+            UserAssistantDTO assistant = userConverter.toUserAssistantDTO(info);
+            userAssistants.add(assistant);
+        }
         model.addAttribute("field", field);
-        model.addAttribute("users", this.assistantService.getUserAssistants(params));
+        model.addAttribute("users", userAssistants);
         return "assistant";
     }
 
@@ -124,7 +144,7 @@ public class AdminController {
             }
         }
 
-        if (user.getId() > 0) {
+        if (user.getId() != null) {
             return "update-assistant";
         }
         return "new-assistant";
@@ -137,14 +157,19 @@ public class AdminController {
     }
 
     @GetMapping("/stats")
-    public String stats(Model model) {
+    public String stats(Model model, @RequestParam Map<String, String> params) {
+//        List<Faculty> faculties = this.facultyService.getAllFaculty(params);
+//        for(Faculty f : faculties) {
+//            System.out.println(f.getId());
+//        }
+        model.addAttribute("faculties", this.facultyService.getAllFaculty(params));
         return "stats";
     }
 
     @PostMapping("/assistants/delete")
     public String delete(@RequestParam int id) {
         this.assistantService.deleteAssistant(this.assistantService.getAssistantById(id));
-        return "redirect: /assistants";
+        return "redirect:/admin/assistants";
     }
 
 //    @GetMapping("/admin/logout")

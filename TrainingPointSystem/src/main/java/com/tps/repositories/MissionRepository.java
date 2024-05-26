@@ -18,6 +18,7 @@ public interface MissionRepository {
 
     void deleteMission(int id);
 
-
+    void addOrUpdateMission(Mission mission);
+    boolean checkMissionBelongToActivity(int activityId, int missionId);
 
 }

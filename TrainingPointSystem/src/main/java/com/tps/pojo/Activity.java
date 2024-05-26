@@ -14,7 +14,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -33,10 +35,9 @@ public class Activity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
-    @JoinColumn(name = "pointgroup_id")
-    private Pointgroup pointgroup;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "point_group_id")
+    private PointGroup pointGroup;
 
     @Column(name = "is_active")
     private Boolean isActive = true;
@@ -54,10 +55,17 @@ public class Activity implements Serializable {
     private Set<Mission> missions = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "activity")
-    @JsonIgnore
     private Set<Post> posts = new LinkedHashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assistant_id")
+    private User assistant;
 
     @Column(name = "max_point")
     private Integer maxPoint;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pointgroup_id")
+    private PointGroup pointgroup;
 
 }

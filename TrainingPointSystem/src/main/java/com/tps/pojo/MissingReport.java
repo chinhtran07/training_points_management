@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,8 +12,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "`like`")
-public class Like implements Serializable {
+@Table(name = "missing_report", schema = "training_point")
+public class MissingReport implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -23,17 +22,19 @@ public class Like implements Serializable {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
+
+    @Lob
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "is_active")
-    private Boolean isActive=true;
+    private Boolean isActive = true;
 
     @Column(name = "created_date")
     @CreationTimestamp
@@ -42,4 +43,5 @@ public class Like implements Serializable {
     @Column(name = "updated_date")
     @UpdateTimestamp
     private Instant updatedDate;
+
 }

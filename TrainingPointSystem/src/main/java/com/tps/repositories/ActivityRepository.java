@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ActivityRepository {
-    void addActivity(Activity activity);
+    int addActivity(Activity activity);
     List<Activity> getActivities(Map<String, String> params);
     Activity getActivityById(int id);
     Activity updateActivity(Activity activity);

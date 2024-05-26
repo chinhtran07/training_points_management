@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "student")
+@Table(name = "student", schema = "training_point")
 public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -24,7 +23,7 @@ public class Student implements Serializable {
     private Integer id;
 
     @MapsId
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id", nullable = false)
     private User user;
 
@@ -35,28 +34,22 @@ public class Student implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_id")
-    @JsonIgnore
     private Class classField;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
-    @JsonIgnore
     private Faculty faculty;
 
     @OneToMany(mappedBy = "student")
-    @JsonIgnore
     private Set<Comment> comments = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "student")
-    @JsonIgnore
-    private Set<Like> likes = new LinkedHashSet<>();
+    private Set<MissingReport> missingReports = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "student")
-    @JsonIgnore
-    private Set<Missingreport> missingreports = new LinkedHashSet<>();
+    private Set<Reaction> reactions = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "student")
-    @JsonIgnore
-    private Set<Registermission> registermissions = new LinkedHashSet<>();
+    private Set<RegisterMission> registerMissions = new LinkedHashSet<>();
 
 }
