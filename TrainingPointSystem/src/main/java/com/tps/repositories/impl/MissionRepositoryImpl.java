@@ -2,6 +2,7 @@ package com.tps.repositories.impl;
 
 import com.tps.pojo.Mission;
 import com.tps.pojo.RegisterMission;
+import com.tps.repositories.ActivityRepository;
 import com.tps.repositories.MissionRepository;
 import org.hibernate.Session;
 import com.tps.repositories.MissionRepository;
@@ -27,6 +28,9 @@ public class MissionRepositoryImpl implements MissionRepository {
 
     @Autowired
     LocalSessionFactoryBean factoryBean;
+
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @Override
     public List<Mission> getMission(Map<String, String> params) {
@@ -92,8 +96,9 @@ public class MissionRepositoryImpl implements MissionRepository {
     }
 
     @Override
-    public Mission addMission(Mission mission) {
+    public Mission addMission(Mission mission, int activityId) {
         Session session = factoryBean.getObject().getCurrentSession();
+        mission.setActivity(this.activityRepository.getActivityById(activityId));
         session.save(mission);
         return mission;
     }
@@ -110,12 +115,6 @@ public class MissionRepositoryImpl implements MissionRepository {
         Session session = factoryBean.getObject().getCurrentSession();
         Mission mission = session.get(Mission.class, id);
         session.delete(mission);
-    }
-
-    @Override
-    public void addOrUpdateMission(Mission mission) {
-        Session session = this.factoryBean.getObject().getCurrentSession();
-        session.saveOrUpdate(mission);
     }
 
     @Override

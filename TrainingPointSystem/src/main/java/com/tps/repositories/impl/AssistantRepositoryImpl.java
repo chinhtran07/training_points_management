@@ -80,16 +80,4 @@ public class AssistantRepositoryImpl implements AssistantRepository {
         Query<Object[]> query = session.createQuery(criteria);
         return query.getResultList();
     }
-
-    @Override
-    public void deleteAsistantsByIds(List<Integer> ids) {
-        Session session = this.factoryBean.getObject().getCurrentSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaDelete<Assistant> criteria = builder.createCriteriaDelete(Assistant.class);
-        Root<Assistant> root = criteria.from(Assistant.class);
-        criteria.where(root.get("id").in(ids));
-
-        Query query = session.createQuery(criteria);
-        query.executeUpdate();
-    }
 }

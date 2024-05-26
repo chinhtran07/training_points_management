@@ -70,11 +70,6 @@ public class APIMissionController {
         return new ResponseEntity<>(missionService.updateMission(missionId, missionDTO), HttpStatus.OK);
     }
 
-//    @PostMapping()
-//    public ResponseEntity<MissionDTO> addMission(@RequestBody MissionDTO missionDTO) {
-//        return new ResponseEntity<>(missionService.addMission(missionDTO), HttpStatus.CREATED);
-//    }
-
     @DeleteMapping("/{missionId}")
     public ResponseEntity deleteMission(@PathVariable int missionId) {
 
@@ -88,7 +83,7 @@ public class APIMissionController {
     @PostMapping("/{missionId}/register")
     public ResponseEntity<RegisterMissionDTO> registerMission(@PathVariable int missionId, Principal p) {
         Student student = userService.getUserByUsername(p.getName()).getStudent();
-        Registermission registermission = registerMissionService
+        RegisterMission registermission = registerMissionService
                 .getRegisterByStudentMission(student.getId(), missionId);
         if (registermission == null) {
             registermission = registerMissionService.addRegisterMission(student.getId(), missionId);
@@ -101,14 +96,14 @@ public class APIMissionController {
     }
 
     @PostMapping("/{missionId}/missing")
-    public ResponseEntity<Missingreport> reportMissing(@PathVariable int missionId,
+    public ResponseEntity<MissingReport> reportMissing(@PathVariable int missionId,
                                                        Principal principal,
                                                        @RequestBody(required = false) Map<String, String> params) {
         Student student = userService.getUserByUsername(principal.getName()).getStudent();
-        Missingreport missingreport = missingReportService
+        MissingReport missingreport = missingReportService
                 .getMissingByStudentMission(student.getId(), missionId);
         if (missingreport == null) {
-            missingreport = missingReportService.addMissingreport(student.getId(), missionId, params);
+            missingreport = missingReportService.addMissingReport(student.getId(), missionId, params);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
 
@@ -120,7 +115,7 @@ public class APIMissionController {
             missingreport.setDescription(null);
             missingreport.setIsActive(!missingreport.getIsActive());
         }
-        missingReportService.updateMissingreport(missingreport);
+        missingReportService.updateMissingReport(missingreport);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

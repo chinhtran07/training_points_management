@@ -15,12 +15,11 @@ public interface MissionService {
 
     Mission getMissionById(int id);
 
-    MissionDTO addMission(MissionDTO mission);
+    Mission addMission(Mission mission, int activityId);
 
     MissionDTO updateMission(int missionId, MissionCreateDTO missionDTO);
 
     void deleteMission(int id);
 
-    void addOrUpdateMission(Mission mission, int activityId);
     boolean checkMissionBelongToActivity(int missionId, int activityId);
 }

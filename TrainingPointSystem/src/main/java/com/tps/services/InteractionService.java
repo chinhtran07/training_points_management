@@ -1,20 +1,20 @@
 package com.tps.services;
 
 import com.tps.pojo.Comment;
-import com.tps.pojo.Like;
+import com.tps.pojo.Reaction;
 
 public interface InteractionService {
-    Like getLikeByUserPost(int userId, int postId);
+    Reaction getReactionByUserPost(int userId, int postId);
 
     Comment getCommentById(int id);
 
     void updateComment(Comment comment);
 
-    void updateLike(Like like);
+    void updateReaction(Reaction like);
 
     void deleteComment(Comment comment);
 
     Comment addComment(Comment comment);
 
-    Like addLike(Like like);
+    Reaction addReaction(Reaction like);
 }

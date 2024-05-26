@@ -1,7 +1,7 @@
 package com.tps.services.impl;
 
 import com.tps.pojo.Comment;
-import com.tps.pojo.Like;
+import com.tps.pojo.Reaction;
 import com.tps.repositories.InteractionRepository;
 import com.tps.services.InteractionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,8 @@ public class InteractionServiceImpl implements InteractionService {
     InteractionRepository interactionRepository;
 
     @Override
-    public Like getLikeByUserPost(int userId, int postId) {
-        return this.interactionRepository.getLikeByUserPost(userId, postId);
+    public Reaction getReactionByUserPost(int userId, int postId) {
+        return this.interactionRepository.getReactionByUserPost(userId, postId);
     }
 
     @Override
@@ -28,8 +28,8 @@ public class InteractionServiceImpl implements InteractionService {
     }
 
     @Override
-    public void updateLike(Like like) {
-        this.interactionRepository.updateLike(like);
+    public void updateReaction(Reaction like) {
+        this.interactionRepository.updateReaction(like);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class InteractionServiceImpl implements InteractionService {
     }
 
     @Override
-    public Like addLike(Like like) {
-        return this.interactionRepository.addLike(like);
+    public Reaction addReaction(Reaction like) {
+        return this.interactionRepository.addReaction(like);
     }
 }

@@ -6,7 +6,7 @@ import com.tps.dto.CommentDTO;
 import com.tps.dto.PostCreateDTO;
 import com.tps.dto.PostDTO;
 import com.tps.pojo.Comment;
-import com.tps.pojo.Like;
+import com.tps.pojo.Reaction;
 import com.tps.pojo.Post;
 import com.tps.pojo.User;
 import com.tps.services.InteractionService;
@@ -116,17 +116,17 @@ public class APIPostController {
     public ResponseEntity likePost(@PathVariable int postId,
                                    Principal principal) {
         User user = userService.getUserByUsername(principal.getName());
-        Like like = interactionService.getLikeByUserPost(user.getId(), postId);
+        Reaction like = interactionService.getReactionByUserPost(user.getId(), postId);
         if (like == null) {
-            like = new Like();
+            like = new Reaction();
             like.setStudent(user.getStudent());
             like.setPost(postService.getPostById(postId));
-            interactionService.addLike(like);
+            interactionService.addReaction(like);
             return new ResponseEntity(HttpStatus.CREATED);
         }
 
         like.setIsActive(!like.getIsActive());
-        interactionService.updateLike(like);
+        interactionService.updateReaction(like);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -1,6 +1,8 @@
 package com.tps.controllers;
 
+import com.tps.components.ActivityConverter;
 import com.tps.components.PointGroupConverter;
+import com.tps.dto.ActivityDTO;
 import com.tps.dto.PointGroupDTO;
 import com.tps.pojo.Activity;
 import com.tps.pojo.PointGroup;
@@ -39,7 +41,7 @@ public class APIPointGroupController {
 
     @GetMapping
     public List<PointGroupDTO> getAllPointGroups() {
-        List<Pointgroup> pointgroups = pointGroupService.getAllPointGroups();
+        List<PointGroup> pointgroups = pointGroupService.getAllPointGroups();
         List<PointGroupDTO> pgDTO = pointgroups.stream().map(PointGroupConverter::toDTO).collect(Collectors.toList());
 
         return pgDTO;

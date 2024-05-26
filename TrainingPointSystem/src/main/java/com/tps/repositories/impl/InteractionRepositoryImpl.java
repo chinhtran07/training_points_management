@@ -1,7 +1,8 @@
 package com.tps.repositories.impl;
 
 import com.tps.pojo.Comment;
-import com.tps.pojo.Like;
+import com.tps.pojo.Reaction;
+import com.tps.pojo.Reaction;
 import com.tps.repositories.InteractionRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -13,16 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class InteractionRepositoryImpl implements InteractionRepository {
+
     @Autowired
     LocalSessionFactoryBean factoryBean;
+
     @Override
-    public Like getLikeByUserPost(int userId, int postId) {
+    public Reaction getReactionByUserPost(int userId, int postId) {
         Session session = factoryBean.getObject().getCurrentSession();
-        Query query = session.createQuery("FROM Like WHERE student.id=:studentId AND post.id=:postId");
+        Query query = session.createQuery("FROM Reaction WHERE student.id=:studentId AND post.id=:postId");
         query.setParameter("studentId", userId);
         query.setParameter("postId", postId);
 
-        return (Like) query.uniqueResult();
+        return (Reaction) query.uniqueResult();
     }
 
     @Override
@@ -40,7 +43,7 @@ public class InteractionRepositoryImpl implements InteractionRepository {
     }
 
     @Override
-    public Like addLike(Like like) {
+    public Reaction addReaction(Reaction like) {
         Session session = factoryBean.getObject().getCurrentSession();
         session.save(like);
         return like;
@@ -53,7 +56,7 @@ public class InteractionRepositoryImpl implements InteractionRepository {
     }
 
     @Override
-    public void updateLike(Like like) {
+    public void updateReaction(Reaction like) {
         Session session = factoryBean.getObject().getCurrentSession();
         session.update(like);
     }

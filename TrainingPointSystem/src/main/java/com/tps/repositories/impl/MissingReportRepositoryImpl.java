@@ -23,6 +23,28 @@ public class MissingReportRepositoryImpl implements MissingReportRepository {
     private LocalSessionFactoryBean sessionFactory;
 
     @Override
+    public MissingReport getMissingByStudentMission(int studentId, int missionId) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<MissingReport> criteria = builder.createQuery(MissingReport.class);
+        Root<MissingReport> root = criteria.from(MissingReport.class);
+        criteria.select(root);
+
+        criteria.where(builder.equal(root.get("studentId"), studentId));
+        criteria.where(builder.equal(root.get("missionId"), missionId));
+
+        Query<MissingReport> query = session.createQuery(criteria);
+
+        return query.getSingleResult();
+    }
+
+    @Override
+    public void updateMissingReport(MissingReport missingreport) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        session.update(missingreport);
+    }
+
+    @Override
     public List<Object[]> getMissionReportByFaculty(int facultyId) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -58,4 +80,12 @@ public class MissingReportRepositoryImpl implements MissingReportRepository {
 
         return query.getResultList();
     }
+
+    @Override
+    public MissingReport addMissingReport(MissingReport missingreport) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        session.save(missingreport);
+        return missingreport;
+    }
 }
+

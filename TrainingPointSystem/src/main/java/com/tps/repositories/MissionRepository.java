@@ -12,13 +12,12 @@ public interface MissionRepository {
 
     Mission getMissionById(int id);
 
-    Mission addMission(Mission mission);
+    Mission addMission(Mission mission, int activityId);
 
     Mission updateMission(Mission mission);
 
     void deleteMission(int id);
 
-    void addOrUpdateMission(Mission mission);
     boolean checkMissionBelongToActivity(int activityId, int missionId);
 
 }

@@ -2,6 +2,7 @@ package com.tps.controllers;
 
 import com.tps.components.MissingReportConverter;
 import com.tps.dto.MissingReportDTO;
+import com.tps.dto.MissingReportFacultyDTO;
 import com.tps.services.MissingReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,16 +27,16 @@ public class APIMissingReportController {
     private MissingReportConverter missingReportConverter;
 
     @GetMapping("/")
-    public ResponseEntity<List<MissingReportDTO>> getMissingReportByFaculty(@RequestParam String facultyId) {
+    public ResponseEntity<List<MissingReportFacultyDTO>> getMissingReportByFaculty(@RequestParam String facultyId) {
         if (facultyId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
             List<Object[]> result = this.missingReportService.getMissionReportByFaculty(Integer.parseInt(facultyId));
-            List<MissingReportDTO> missingReportDTOList = new ArrayList<>();
+            List<MissingReportFacultyDTO> missingReportDTOList = new ArrayList<>();
             for (Object[] o : result) {
-                MissingReportDTO missingReportDTO = missingReportConverter.toDTO(o);
+                MissingReportFacultyDTO missingReportDTO = missingReportConverter.toDTOObject(o);
                 missingReportDTOList.add(missingReportDTO);
             }
             return new ResponseEntity<>(missingReportDTOList, HttpStatus.OK);

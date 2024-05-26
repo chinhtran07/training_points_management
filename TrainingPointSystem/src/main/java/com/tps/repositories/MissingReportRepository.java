@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MissingReportRepository {
     MissingReport getMissingByStudentMission(int studentId, int missionId);
-    void updateMissingreport (MissingReport missingreport);
+    void updateMissingReport (MissingReport missingreport);
     List<Object[]> getMissionReportByFaculty(int facultyId);
-    MissingReport addMissingreport(MissingReport missingreport);
+    MissingReport addMissingReport(MissingReport missingreport);
 }

@@ -158,10 +158,6 @@ public class AdminController {
 
     @GetMapping("/stats")
     public String stats(Model model, @RequestParam Map<String, String> params) {
-//        List<Faculty> faculties = this.facultyService.getAllFaculty(params);
-//        for(Faculty f : faculties) {
-//            System.out.println(f.getId());
-//        }
         model.addAttribute("faculties", this.facultyService.getAllFaculty(params));
         return "stats";
     }

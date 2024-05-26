@@ -85,10 +85,9 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     }
 
     @Override
-    public Activity updateActivity(Activity activity) {
+    public void updateActivity(Activity activity) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         session.update(activity);
-        return activity;
     }
 
     @Override

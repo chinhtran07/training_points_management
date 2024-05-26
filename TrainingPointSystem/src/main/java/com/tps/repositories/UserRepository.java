@@ -8,7 +8,6 @@ import java.util.Map;
 
 public interface UserRepository {
     User getUserByUsername(String username);
-
     User getUserById(int id);
     boolean authUser(String username, String password);
     User addUser(User user);

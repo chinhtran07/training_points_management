@@ -10,7 +10,7 @@ public interface ActivityService {
     int addActivity(int pointGroupId, Activity activity);
     List<Activity> getActivities(Map<String, String> params);
     Activity getActivityById(int id);
-    Activity updateActivity(Activity activity);
+    void updateActivity(Activity activity);
     void deleteActivity(int id);
     List<Activity> getExpiredActivity(Instant currentTime);
 }

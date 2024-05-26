@@ -59,14 +59,6 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
         return this.registerMissionRepository.addRegisterMission(registermission);
     }
 
-    @Override
-    public RegisterMission registerMission(int studentId, int missionId) {
-//        Registermission registermission =  this.getRegisterByStudentMission(studentId, missionId);
-//        if(registermission == null) {
-//
-//        }
-        return null;
-    }
 
     @Override
     public void updateRegisterMission(MultipartFile file, int activityId) {

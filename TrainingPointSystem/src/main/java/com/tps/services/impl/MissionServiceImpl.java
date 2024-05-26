@@ -76,8 +76,8 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public MissionDTO addMission(MissionDTO mission) {
-        return missionConverter.toDTO(this.missionRepository.addMission(missionConverter.toEntity(mission)));
+    public Mission addMission(Mission mission, int activityId) {
+        return this.missionRepository.addMission(mission, activityId);
     }
 
     @Override
@@ -93,12 +93,6 @@ public class MissionServiceImpl implements MissionService {
         this.missionRepository.deleteMission(id);
     }
 
-    @Override
-    public void addOrUpdateMission(Mission mission, int activityId) {
-        Activity activity = this.activityRepository.getActivityById(activityId);
-        mission.setActivity(activity);
-        this.missionRepository.addOrUpdateMission(mission);
-    }
 
     @Override
     public boolean checkMissionBelongToActivity(int missionId, int activityId) {
