@@ -1,18 +1,22 @@
 package com.tps.pojo;
 
-import lombok.Data;
-
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "student")
+@Table(name = "student", schema = "training_point")
 public class Student implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,13 +40,16 @@ public class Student implements Serializable {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
+    @OneToMany(mappedBy = "student")
+    private Set<Comment> comments = new LinkedHashSet<>();
 
-    @Column(name = "created_date")
-    private Instant createdDate;
+    @OneToMany(mappedBy = "student")
+    private Set<MissingReport> missingReports = new LinkedHashSet<>();
 
-    @Column(name = "updated_date")
-    private Instant updatedDate;
+    @OneToMany(mappedBy = "student")
+    private Set<Reaction> reactions = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "student")
+    private Set<RegisterMission> registerMissions = new LinkedHashSet<>();
 
 }

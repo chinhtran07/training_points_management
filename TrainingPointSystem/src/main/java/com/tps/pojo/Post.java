@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,11 +7,16 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "post")
+@Table(name = "post", schema = "training_point")
 public class Post implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +35,8 @@ public class Post implements Serializable {
     private Activity activity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assistant_id")
-    private Assistant assistant;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -42,5 +46,11 @@ public class Post implements Serializable {
 
     @Column(name = "updated_date")
     private Instant updatedDate;
+
+    @OneToMany(mappedBy = "post")
+    private Set<Comment> comments = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "post")
+    private Set<Reaction> reactions = new LinkedHashSet<>();
 
 }

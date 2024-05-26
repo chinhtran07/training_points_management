@@ -1,6 +1,6 @@
 package com.tps.repositories.impl;
 
-import com.tps.pojo.Pointgroup;
+import com.tps.pojo.PointGroup;
 import com.tps.repositories.PointGroupRepository;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,33 +22,38 @@ public class PointGroupRepositoryImpl implements PointGroupRepository {
     private LocalSessionFactoryBean sessionFactory;
 
     @Override
-    public void addOrUpdate(Pointgroup pointgroup) {
+    public void addOrUpdate(PointGroup pointGroup) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        if (pointgroup.getId() == null) {
-            session.save(pointgroup);
+        if (pointGroup.getId() == null) {
+            session.save(pointGroup);
         }
-        session.update(pointgroup);
+        session.update(pointGroup);
     }
 
     @Override
-    public Pointgroup getPointgroup(int id) {
+    public void delete(PointGroup pointGroup) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        Pointgroup pointgroup = (Pointgroup) session.get(Pointgroup.class, id);
-        return pointgroup;
+        session.delete(pointGroup);
     }
 
     @Override
-    public List<Pointgroup> getAllPointGroups() {
+    public PointGroup getPointGroup(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        PointGroup pointGroup = session.get(PointGroup.class, id);
+        return pointGroup;
+    }
+
+    @Override
+    public List<PointGroup> getAllPointGroups() {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Pointgroup> cq = cb.createQuery(Pointgroup.class);
-        Root<Pointgroup> root = cq.from(Pointgroup.class);
+        CriteriaQuery<PointGroup> cq = cb.createQuery(PointGroup.class);
+        Root<PointGroup> root = cq.from(PointGroup.class);
 
         cq.select(root);
 
-
         Query q = session.createQuery(cq);
-        List<Pointgroup> pointgroups = q.getResultList();
-        return pointgroups;
+        List<PointGroup> pointGroups = q.getResultList();
+        return pointGroups;
     }
 }

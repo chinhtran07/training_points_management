@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,10 +7,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "`Like`")
-public class Like implements Serializable {
+@Table(name = "missing_report", schema = "training_point")
+public class MissingReport implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +24,12 @@ public class Like implements Serializable {
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
+
+    @Lob
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "is_active")
     private Boolean isActive;

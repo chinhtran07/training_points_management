@@ -1,9 +1,5 @@
 package com.tps.pojo;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,26 +7,28 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "pointgroup")
-public class Pointgroup implements Serializable {
+@Table(name = "register_mission", schema = "training_point")
+public class RegisterMission implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private Student student;
 
-    @Lob
-    @Column(name = "content")
-    private String content;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
 
-    @Column(name = "max_point")
-    private Integer maxPoint;
+    @Column(name = "is_completed")
+    private Boolean isCompleted;
 
     @Column(name = "is_active")
     private Boolean isActive;

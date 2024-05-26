@@ -1,6 +1,7 @@
 package com.tps.controllers;
 
 import com.tps.components.JwtService;
+import com.tps.components.UserConverter;
 import com.tps.dto.UserDTO;
 import com.tps.dto.UserRegisterDTO;
 import com.tps.pojo.User;
@@ -22,11 +23,13 @@ import java.util.Map;
 public class APIUserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    JwtService jwtService;
+    private JwtService jwtService;
 
+    @Autowired
+    private UserConverter userConverter;
 
     @PostMapping(path = "/user/register", consumes = {
             MediaType.APPLICATION_JSON_VALUE,
@@ -48,7 +51,7 @@ public class APIUserController {
         User createdUser = userService.addUser(user);
 
         if (createdUser != null) {
-            UserDTO userDTO = convertToDTO(createdUser);
+            UserDTO userDTO = userConverter.convertToDTO(createdUser);
             return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -59,10 +62,10 @@ public class APIUserController {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE,
     })
-    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> login(@RequestParam String username, @RequestParam String password) {
         Map<String, String> response = new HashMap<>();
-        if (userService.authUser(user.getUsername(), user.getPassword())) {
-            String token = jwtService.generateTokenLogin(user.getUsername());
+        if (userService.authUser(username, password)) {
+            String token = jwtService.generateTokenLogin(username);
             response.put("token", token);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -77,7 +80,7 @@ public class APIUserController {
         User user = userService.getUserByUsername(username);
 
         if(user != null) {
-            UserDTO userDTO = convertToDTO(user);
+            UserDTO userDTO = userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -88,32 +91,10 @@ public class APIUserController {
     public ResponseEntity<UserDTO> getUser(@PathVariable int id ) {
         User user = userService.findById(id);
         if(user != null) {
-            UserDTO userDTO = convertToDTO(user);
+            UserDTO userDTO = userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    private UserDTO convertToDTO(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setUsername(user.getUsername());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setEmail(user.getEmail());
-        dto.setPhoneNumber(user.getPhoneNumber());
-        return dto;
-    }
-
-    private User convertDTOToUser(UserDTO dto) {
-        User user = new User();
-        user.setId(dto.getId());
-        user.setUsername(dto.getUsername());
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setEmail(dto.getEmail());
-        user.setPhoneNumber(dto.getPhoneNumber());
-        return user;
     }
 
 }

@@ -3,9 +3,7 @@ package com.tps.repositories.impl;
 
 import com.tps.pojo.Activity;
 import com.tps.repositories.ActivityRepository;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -35,9 +33,11 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     private Environment env;
 
     @Override
-    public void addActivity(Activity activity) {
+    public int addActivity(Activity activity) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         session.save(activity);
+        Activity a = (Activity) session.getIdentifier(activity);
+        return a.getId();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ActivityRepositoryImpl implements ActivityRepository {
 
         String page = params.get("page");
         if(page != null && !page.isEmpty()) {
-            int pageSize = Integer.parseInt(env.getProperty("activities.pageSize").toString());
+            int pageSize = Integer.parseInt(env.getProperty("activities.pageSize"));
             int start = (Integer.parseInt(page) - 1) * pageSize;
             query.setFirstResult(start);
             query.setMaxResults(pageSize);

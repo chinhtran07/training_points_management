@@ -2,39 +2,35 @@ package com.tps.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.io.File;
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@JsonIgnoreProperties(value = { "userRole", "updatedDate", "createdDate", "confirmPassword",
-        "isActive", "isStudent", "isAssistant", "isSuperuser"})
-@Table(name = "user")
+@Table(name = "user", schema = "training_point")
 public class User implements Serializable {
-    public static final long serialVersionUID = 3L;
+    private static final long serialVersionUID = 1L;
+
+    public static final String ADMIN = "ROLE_ADMIN";
     public static final String ASSISTANT = "ROLE_ASSISTANT";
     public static final String STUDENT = "ROLE_STUDENT";
-    public static final String ADMIN = "ROLE_ADMIN";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 100)
@@ -49,8 +45,6 @@ public class User implements Serializable {
 
     @Size(max = 255)
     @NotNull
-    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$",
-            message = "{user.email.error.invalidMsg}")
     @Column(name = "email", nullable = false)
     private String email;
 
@@ -66,16 +60,11 @@ public class User implements Serializable {
 
     @Size(max = 20)
     @Column(name = "phone", length = 20)
-    private String phoneNumber;
+    private String phone;
 
-    @Column(name = "is_student")
-    private Boolean isStudent;
-
-    @Column(name = "is_assistant")
-    private Boolean isAssistant;
-
-    @Column(name = "is_superuser")
-    private Boolean isSuperuser;
+    @Lob
+    @Column(name = "role")
+    private String role;
 
     @Size(max = 255)
     @Column(name = "avatar")
@@ -86,34 +75,39 @@ public class User implements Serializable {
     private String gender;
 
     @Column(name = "dob")
+    @JsonIgnore
     private LocalDate dob;
 
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @Column(name = "created_date")
-    private Instant createdDate;
+    @ManyToMany
+    @JoinTable(name = "assistant",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "faculty_id"))
+    private Set<Faculty> faculties = new LinkedHashSet<>();
 
-    @Column(name = "updated_date")
-    private Instant updatedDate;
+    @OneToMany(mappedBy = "user")
+    private Set<Post> posts = new LinkedHashSet<>();
 
-    @Transient
-    private String userRole;
+    @OneToOne(mappedBy = "user")
+    private Student student;
 
     @Transient
     private String confirmPassword;
 
-    @Transient
-    @JsonIgnore
-    private MultipartFile file;
+    @OneToMany(mappedBy = "assistant")
+    private Set<Activity> activities = new LinkedHashSet<>();
 
-    public List<GrantedAuthority> getAuthorities() {
+
+    @JsonIgnore
+    public List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if(getIsStudent() != null && getIsStudent()) authorities.add(new SimpleGrantedAuthority(STUDENT));
-        if(getIsAssistant() != null && getIsAssistant()) authorities.add(new SimpleGrantedAuthority(ASSISTANT));
-        if(getIsSuperuser() != null && getIsSuperuser()) authorities.add(new SimpleGrantedAuthority(ADMIN));
-
+        authorities.add(new SimpleGrantedAuthority(ADMIN));
+        authorities.add(new SimpleGrantedAuthority(ASSISTANT));
+        authorities.add(new SimpleGrantedAuthority(STUDENT));
         return authorities;
     }
+
 }

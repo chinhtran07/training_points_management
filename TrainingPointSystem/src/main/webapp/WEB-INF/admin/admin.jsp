@@ -8,6 +8,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page isELIgnored="false" %>
-<div class="alert alert-info">
-    <h1>Xin chào, ${pageContext.request.userPrincipal.name}</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-7">
+
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header">
+                Recent actions
+            </div>
+            <div class="card-body">
+
+            </div>
+        </div>
+    </div>
 </div>

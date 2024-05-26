@@ -4,6 +4,7 @@ import com.tps.filters.CorsFilter;
 import com.tps.filters.CustomAccessDeniedHandler;
 import com.tps.filters.JwtAuthenticationTokenFilter;
 import com.tps.filters.RestAuthenticationEntryPoint;
+import com.tps.pojo.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import static com.tps.pojo.User.ADMIN;
 
 @Configuration
 @EnableWebMvc
@@ -79,9 +82,13 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
 //                .authenticationEntryPoint(restServicesEntryPoint())
 //                .and()
                 .authorizeRequests(request ->
-                        request.antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
-                                .anyRequest().authenticated()
+                                request
+                                        .antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
+                                        .antMatchers("/api/register-mission/upload").access("hasAnyRole('ROLE_ADMIN','ROLE_ASSISTANT')")
+//                                .antMatchers("/api/stats/training-points").hasAnyRole(User.ASSISTANT, User.ADMIN)
+                                        .anyRequest().authenticated()
                 );
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);

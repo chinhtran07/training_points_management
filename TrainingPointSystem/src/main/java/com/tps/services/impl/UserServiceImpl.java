@@ -2,6 +2,7 @@ package com.tps.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tps.dto.UserAssistantDTO;
 import com.tps.dto.UserDTO;
 import com.tps.pojo.User;
 import com.tps.repositories.UserRepository;
@@ -17,9 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static com.tps.pojo.User.*;
 
 @Service("userDetailService")
 public class UserServiceImpl implements UserService {
@@ -38,10 +39,7 @@ public class UserServiceImpl implements UserService {
         if (u == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(u.getUserRole()));
-
-        return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), getAuthorities(u));
     }
 
     @Override
@@ -57,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setIsStudent(true);
+        user.setRole(STUDENT);
 
 //        if (!user.getFile().isEmpty()) {
 //
@@ -77,5 +75,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(int id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        this.userRepository.updateUser(user);
+    }
+
+    @Override
+    public void deleteUser(User user) {
+        this.userRepository.deleteUser(user);
+    }
+
+    @Override
+    public List<User> getAllUsers(Map<String, String> params) {
+        return this.userRepository.getAllUsers(params);
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
+
+        return authorities;
     }
 }

@@ -1,19 +1,22 @@
 package com.tps.pojo;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.Instant;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "faculty")
+@Table(name = "faculty", schema = "training_point")
 public class Faculty implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +30,13 @@ public class Faculty implements Serializable {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @Column(name = "created_date")
-    private Instant createdDate;
+    @ManyToMany
+    @JoinTable(name = "assistant",
+            joinColumns = @JoinColumn(name = "faculty_id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
+    private Set<User> users = new LinkedHashSet<>();
 
-    @Column(name = "updated_date")
-    private Instant updatedDate;
+    @OneToMany(mappedBy = "faculty")
+    private Set<Student> students = new LinkedHashSet<>();
 
 }

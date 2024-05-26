@@ -1,6 +1,6 @@
 package com.tps.services.impl;
 
-import com.tps.pojo.Pointgroup;
+import com.tps.pojo.PointGroup;
 import com.tps.repositories.PointGroupRepository;
 import com.tps.services.PointGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +15,22 @@ public class PointGroupServiceImpl implements PointGroupService {
     private PointGroupRepository pointGroupRepository;
 
     @Override
-    public void addOrUpdate(Pointgroup pointgroup) {
+    public void addOrUpdate(PointGroup pointgroup) {
         this.pointGroupRepository.addOrUpdate(pointgroup);
     }
 
     @Override
-    public Pointgroup getPointgroup(int id) {
-        return this.pointGroupRepository.getPointgroup(id);
+    public void delete(PointGroup pointgroup) {
+        this.pointGroupRepository.delete(pointgroup);
     }
 
     @Override
-    public List<Pointgroup> getAllPointGroups() {
+    public PointGroup getPointGroup(int id) {
+        return this.pointGroupRepository.getPointGroup(id);
+    }
+
+    @Override
+    public List<PointGroup> getAllPointGroups() {
         return this.pointGroupRepository.getAllPointGroups();
     }
 }

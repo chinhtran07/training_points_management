@@ -1,10 +1,13 @@
 package com.tps.configs;
 
+//import com.tps.formatter.LocalDateFormatter;
+import com.tps.formatter.LocalDateFormatter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.Ordered;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
@@ -45,7 +48,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
 
     @Bean(name = "validator")
     public LocalValidatorFactoryBean validator() {
-        LocalValidatorFactoryBean bean =  new LocalValidatorFactoryBean();
+        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());
         return bean;
     }
@@ -62,10 +65,14 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         return resolver;
     }
 
-
-
 //    @Override
-//    public void addFormatters(FormatterRegistry registry) {
-//        registry.addFormatter();
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/login").setViewName("login");
+//        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 //    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new LocalDateFormatter("yyyy-MM-dd"));
+    }
 }
