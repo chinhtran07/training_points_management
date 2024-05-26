@@ -1,35 +1,55 @@
 package com.tps.repositories.impl;
 
-
 import com.tps.pojo.RegisterMission;
 import com.tps.repositories.RegisterMissionRepository;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.Optional;
+import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public class RegisterMissionRepositoryImpl implements RegisterMissionRepository {
-
+class RegisterMissionRepositoryImpl implements RegisterMissionRepository {
     @Autowired
-    private LocalSessionFactoryBean sessionFactory;
+    LocalSessionFactoryBean factoryBean;
+
+    @Override
+    public RegisterMission getRegisterByStudentMission(int studentId, int missionId) {
+        Session session = factoryBean.getObject().getCurrentSession();
+        Query query = session.createQuery("FROM RegisterMission WHERE student.id=:studentId AND mission.id=:missionId");
+        query.setParameter("studentId", studentId);
+        query.setParameter("missionId", missionId);
+        return (RegisterMission) query.uniqueResult();
+    }
+
+    @Override
+    public void updateRegistermission(RegisterMission registermission) {
+        Session session = factoryBean.getObject().getCurrentSession();
+        session.update(registermission);
+    }
+
+    @Override
+    public RegisterMission addRegisterMission(RegisterMission registermission) {
+        Session session = factoryBean.getObject().getCurrentSession();
+        session.save(registermission);
+        return registermission;
+    }
 
     @Override
     public void addOrUpdateStatus(RegisterMission mission) {
-        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Session session = this.factoryBean.getObject().getCurrentSession();
         session.saveOrUpdate(mission);
     }
 
     @Override
     public RegisterMission findById(int studentId, int missionId) {
-        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Session session = this.factoryBean.getObject().getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<RegisterMission> cq = cb.createQuery(RegisterMission.class);
         Root<RegisterMission> root = cq.from(RegisterMission.class);

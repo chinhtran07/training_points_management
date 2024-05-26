@@ -2,6 +2,8 @@ package com.tps.pojo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,7 +31,7 @@ public class Mission implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "activity_id")
     private Activity activity;
 
@@ -47,12 +49,14 @@ public class Mission implements Serializable {
     private LocalDate endDate;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
-    @Column(name = "created_date")
+    @Column(name = "created_date", updatable = false)
+    @CreationTimestamp
     private Instant createdDate;
 
     @Column(name = "updated_date")
+    @UpdateTimestamp
     private Instant updatedDate;
 
     @OneToMany(mappedBy = "mission")

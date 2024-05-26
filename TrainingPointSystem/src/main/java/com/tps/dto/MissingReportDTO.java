@@ -1,15 +1,11 @@
 package com.tps.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class MissingReportDTO {
-    private String lastName;
-    private String firstName;
-    private String studentId;
-    private String missionId;
-    private String createdDate;
-    private Boolean isActive;
+    private MissionDTO mission;
+    private Boolean isCompleted;
+    private String registerDate;
+    private String description;
 }

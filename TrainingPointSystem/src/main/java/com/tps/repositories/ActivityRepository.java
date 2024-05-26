@@ -10,7 +10,7 @@ public interface ActivityRepository {
     int addActivity(Activity activity);
     List<Activity> getActivities(Map<String, String> params);
     Activity getActivityById(int id);
-    void updateActivity(Activity activity);
+    Activity updateActivity(Activity activity);
     void deleteActivity(int id);
     List<Activity> findByExpirationDateBeforeAndIsActive(Instant currentDate);
 }

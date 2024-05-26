@@ -9,10 +9,18 @@ import java.util.Map;
 
 public interface UserService extends UserDetailsService {
     User getUserByUsername(String username);
+
+    User getUserById(int id);
+
     boolean authUser(String username, String password);
+
     User addUser(User user);
+
     User findById(int id);
+
     void updateUser(User user);
+
     void deleteUser(User user);
+
     List<User> getAllUsers(Map<String, String> params);
 }

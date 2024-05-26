@@ -2,6 +2,8 @@ package com.tps.pojo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -32,12 +34,14 @@ public class MissingReport implements Serializable {
     private String description;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @Column(name = "created_date")
+    @CreationTimestamp
     private Instant createdDate;
 
     @Column(name = "updated_date")
+    @UpdateTimestamp
     private Instant updatedDate;
 
 }

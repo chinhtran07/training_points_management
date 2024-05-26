@@ -38,7 +38,6 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
         return jwtAuthenticationTokenFilter;
     }
 
-
     @Bean
     public RestAuthenticationEntryPoint restServicesEntryPoint() {
         return new RestAuthenticationEntryPoint();
@@ -72,26 +71,19 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/api/**"); //Tat yeu cau csrf token khi truy cap den api
 
 
-//        http.authorizeRequests(request ->
-//            request.antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
-//            .anyRequest().authenticated());
+        http.authorizeRequests(request ->
+                request.antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll());
 
 
         http.antMatcher("/api/**")
-//                .httpBasic()
-//                .authenticationEntryPoint(restServicesEntryPoint())
-//                .and()
+                .httpBasic()
+                .authenticationEntryPoint(restServicesEntryPoint()).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests(request ->
-                                request
-                                        .antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
-                                        .antMatchers("/api/register-mission/upload").access("hasAnyRole('ROLE_ADMIN','ROLE_ASSISTANT')")
-//                                .antMatchers("/api/stats/training-points").hasAnyRole(User.ASSISTANT, User.ADMIN)
-                                        .anyRequest().authenticated()
-                );
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+                        request.antMatchers("/api/stats/training-points").hasAnyRole("ROLE_ADMIN")
+                                .anyRequest().authenticated()
+                ).addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }
 }

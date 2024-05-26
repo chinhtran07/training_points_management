@@ -2,13 +2,17 @@ package com.tps.components;
 
 import com.tps.dto.MissingReportDTO;
 import com.tps.pojo.MissingReport;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 
 @Component
 public class MissingReportConverter {
-    public MissingReportDTO toDTO(Object[] o) {
+    @Autowired
+    MissionConverter missionConverter;
+
+    public MissingReportDTO toDTOObject(Object[] o) {
         MissingReportDTO dto = new MissingReportDTO();
         dto.setLastName(o[0].toString());
         dto.setFirstName(o[1].toString());
@@ -19,4 +23,12 @@ public class MissingReportConverter {
 
         return dto;
     }
+
+    public MissingReportDTO toDTO(MissingReport missingreport) {
+        MissingReportDTO missingReportDTO = new MissingReportDTO();
+        missingReportDTO.setRegisterDate(missingreport.getCreatedDate().toString());
+        missingReportDTO.setMission(missionConverter.toDTO(missingreport.getMission()) );
+        missingReportDTO.setDescription(missingreport.getDescription());
+
+        return missingReportDTO;
 }

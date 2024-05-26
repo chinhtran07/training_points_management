@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(int id) {
+        return this.userRepository.getUserById(id);
+    }
+
+    @Override
     public boolean authUser(String username, String password) {
         return this.userRepository.authUser(username, password);
     }

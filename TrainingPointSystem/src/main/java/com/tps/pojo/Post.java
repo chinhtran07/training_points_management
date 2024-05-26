@@ -2,12 +2,14 @@ package com.tps.pojo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -25,12 +27,12 @@ public class Post implements Serializable {
     @Lob
     @Column(name = "content")
     private String content;
+//
+//    @Size(max = 255)
+//    @Column(name = "image")
+//    private String image;
 
-    @Size(max = 255)
-    @Column(name = "image")
-    private String image;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "activity_id")
     private Activity activity;
 
@@ -39,12 +41,14 @@ public class Post implements Serializable {
     private User user;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
-    @Column(name = "created_date")
+    @Column(name = "created_date", updatable = false)
+    @CreationTimestamp
     private Instant createdDate;
 
     @Column(name = "updated_date")
+    @UpdateTimestamp
     private Instant updatedDate;
 
     @OneToMany(mappedBy = "post")
@@ -53,4 +57,6 @@ public class Post implements Serializable {
     @OneToMany(mappedBy = "post")
     private Set<Reaction> reactions = new LinkedHashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
+    private List<Image> images;
 }

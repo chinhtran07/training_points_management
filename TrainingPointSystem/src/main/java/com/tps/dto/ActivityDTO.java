@@ -8,5 +8,6 @@ import javax.validation.constraints.NotBlank;
 public class ActivityDTO {
     private int Id;
     private String Name;
+    private int pointGroupId;
     private int maxPoint;
 }

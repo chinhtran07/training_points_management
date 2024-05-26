@@ -13,13 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin()
+
 @RestController
 @RequestMapping(path = "/api")
+@CrossOrigin
 public class APIUserController {
 
     @Autowired
@@ -32,10 +34,11 @@ public class APIUserController {
     private UserConverter userConverter;
 
     @PostMapping(path = "/user/register", consumes = {
-            MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
     })
-    public ResponseEntity<UserDTO> createUser(@RequestBody HashMap<String, String> params) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody HashMap<String, String> params,
+                                              @RequestPart MultipartFile[] files) {
 
         User user = new User();
         user.setFirstName(params.get("firstName"));
@@ -43,10 +46,11 @@ public class APIUserController {
         user.setUsername(params.get("username"));
         user.setPassword(params.get("password"));
         user.setEmail(params.get("email"));
+        user.setPhone(params.get("phone"));
 
-//        if (files.length > 0) {
-//            user.setFile(files[0]);
-//        }
+        if (files.length > 0) {
+            user.setFile(files[0]);
+        }
 
         User createdUser = userService.addUser(user);
 
@@ -59,8 +63,8 @@ public class APIUserController {
     }
 
     @PostMapping(path = "/login", consumes = {
-            MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
     })
     public ResponseEntity<Map<String, String>> login(@RequestParam String username, @RequestParam String password) {
         Map<String, String> response = new HashMap<>();
@@ -75,12 +79,11 @@ public class APIUserController {
     }
 
     @GetMapping(path = "/user/current")
-    public ResponseEntity<UserDTO> getCurrentUser(@RequestHeader("Authorization") String authToken) throws ParseException {
-        String username = jwtService.getUsernameFormToken(authToken);
-        User user = userService.getUserByUsername(username);
+    public ResponseEntity<UserDTO> getCurrentUser(Principal principal) throws ParseException {
+        User user = userService.getUserByUsername(principal.getName());
 
         if(user != null) {
-            UserDTO userDTO = userConverter.convertToDTO(user);
+            UserDTO userDTO = this.userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -88,10 +91,10 @@ public class APIUserController {
     }
 
     @GetMapping(path = "/user/{id}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable int id ) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable int id) {
         User user = userService.findById(id);
-        if(user != null) {
-            UserDTO userDTO = userConverter.convertToDTO(user);
+        if (user != null) {
+            UserDTO userDTO = this.userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

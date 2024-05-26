@@ -1,5 +1,13 @@
 package com.tps.services.impl;
 
+import com.tps.pojo.RegisterMission;
+import com.tps.repositories.MissionRepository;
+import com.tps.repositories.RegisterMissionRepository;
+import com.tps.repositories.UserRepository;
+import com.tps.services.RegisterMissionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -19,19 +27,45 @@ import java.time.Instant;
 
 @Service
 public class RegisterMissionServiceImpl implements RegisterMissionService {
+    @Autowired
+    RegisterMissionRepository registerMissionRepository;
 
     @Autowired
-    private RegisterMissionRepository registerMissionRepository;
+    UserRepository userRepository;
 
     @Autowired
     private StudentRepository studentRepository;
 
     @Autowired
-    private MissionRepository missionRepository;
+    MissionRepository missionRepository;
+
 
     @Override
-    public void addRegisterMission(RegisterMission registermission) {
-        this.registerMissionRepository.addOrUpdateStatus(registermission);
+    public RegisterMission getRegisterByStudentMission(int studentId, int missionId) {
+        return this.registerMissionRepository.getRegisterByStudentMission(studentId, missionId);
+    }
+
+    @Override
+    public void updateRegistermission(RegisterMission registermission) {
+        this.registerMissionRepository.updateRegistermission(registermission);
+    }
+
+    @Override
+    public RegisterMission addRegisterMission(int studentId, int missionId) {
+        RegisterMission registermission = new RegisterMission();
+        registermission.setMission(missionRepository.getMissionById(missionId));
+        registermission.setStudent(userRepository.getUserById(studentId).getStudent());
+
+        return this.registerMissionRepository.addRegisterMission(registermission);
+    }
+
+    @Override
+    public RegisterMission registerMission(int studentId, int missionId) {
+//        Registermission registermission =  this.getRegisterByStudentMission(studentId, missionId);
+//        if(registermission == null) {
+//
+//        }
+        return null;
     }
 
     @Override
@@ -61,4 +95,3 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
         }
     }
 }
-

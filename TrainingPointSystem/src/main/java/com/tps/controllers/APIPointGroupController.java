@@ -1,7 +1,7 @@
 package com.tps.controllers;
 
-import com.tps.components.ActivityConverter;
-import com.tps.dto.ActivityDTO;
+import com.tps.components.PointGroupConverter;
+import com.tps.dto.PointGroupDTO;
 import com.tps.pojo.Activity;
 import com.tps.pojo.PointGroup;
 import com.tps.repositories.ActivityRepository;
@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/point-groups")
@@ -32,5 +35,13 @@ public class APIPointGroupController {
         int activityId = this.activityService.addActivity(pointGroupId ,activity);
 
         return new ResponseEntity(activityId, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public List<PointGroupDTO> getAllPointGroups() {
+        List<Pointgroup> pointgroups = pointGroupService.getAllPointGroups();
+        List<PointGroupDTO> pgDTO = pointgroups.stream().map(PointGroupConverter::toDTO).collect(Collectors.toList());
+
+        return pgDTO;
     }
 }
