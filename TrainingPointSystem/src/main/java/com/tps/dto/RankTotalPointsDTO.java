@@ -8,10 +8,10 @@ import java.math.BigInteger;
 @Getter
 @Setter
 public class RankTotalPointsDTO {
-    private BigInteger excellent;
-    private BigInteger good;
-    private BigInteger fair;
-    private BigInteger average;
-    private BigInteger weak;
-    private BigInteger poor;
+    private Long excellent;
+    private Long good;
+    private Long fair;
+    private Long average;
+    private Long weak;
+    private Long poor;
 }

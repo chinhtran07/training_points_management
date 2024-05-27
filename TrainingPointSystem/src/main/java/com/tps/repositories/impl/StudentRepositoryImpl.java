@@ -34,6 +34,7 @@ public class StudentRepositoryImpl implements StudentRepository {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Object> cq = cb.createQuery(Object.class);
+
         Root<Student> root = cq.from(Student.class);
         Join<Student, RegisterMission> registerMissionJoin = root.join("registerMissions");
         Join<RegisterMission, Mission> missionJoin = registerMissionJoin.join("mission");

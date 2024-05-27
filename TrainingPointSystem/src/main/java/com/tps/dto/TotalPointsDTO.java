@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 public class TotalPointsDTO {
     private String facultyName;
-    private int excellent;
-    private int good;
-    private int fair;
-    private int average;
-    private int weak;
-    private int poor;
-    private int totalStudents;
-    private int avgTotalPoints;
+    private Long excellent;
+    private Long good;
+    private Long fair;
+    private Long average;
+    private Long weak;
+    private Long poor;
+    private Long totalStudents;
+    private Double avgTotalPoints;
 }

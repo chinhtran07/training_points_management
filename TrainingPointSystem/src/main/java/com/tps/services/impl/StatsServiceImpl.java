@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StatsServiceImpl implements StatsService {
@@ -16,17 +17,17 @@ public class StatsServiceImpl implements StatsService {
 
 
     @Override
-    public List<Object[]> statsTrainingPointByFaculty(String facultyId) {
-        return this.statsRepository.statsTrainingPointByFaculty(facultyId);
+    public List<Object[]> statsTrainingPointByFaculty(Map<String, String> params) {
+        return this.statsRepository.statsTrainingPointByFaculty(params);
     }
 
     @Override
-    public List<Object[]> statsTrainingPointByRank() {
-        return this.statsRepository.statsTrainingPointByRank();
+    public List<Object[]> statsTrainingPointByRank(Map<String, String> params) {
+        return this.statsRepository.statsTrainingPointByRank(params);
     }
 
     @Override
-    public List<Object[]> statsTrainingPoints() {
-        return this.statsRepository.statsTrainingPoint();
+    public List<Object[]> statsTrainingPoints(Map<String, String> params) {
+        return this.statsRepository.statsTrainingPoint(params);
     }
 }

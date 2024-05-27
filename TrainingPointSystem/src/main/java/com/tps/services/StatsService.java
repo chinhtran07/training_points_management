@@ -2,9 +2,10 @@ package com.tps.services;
 
 import javax.persistence.Tuple;
 import java.util.List;
+import java.util.Map;
 
 public interface StatsService {
-    List<Object[]> statsTrainingPointByFaculty(String facultyId);
-    List<Object[]> statsTrainingPointByRank();
-    List<Object[]> statsTrainingPoints();
+    List<Object[]> statsTrainingPointByFaculty(Map<String, String> params);
+    List<Object[]> statsTrainingPointByRank(Map<String, String> params);
+    List<Object[]> statsTrainingPoints(Map<String, String> params);
 }

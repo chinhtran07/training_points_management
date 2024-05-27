@@ -23,12 +23,12 @@ public class StatsConverter {
 
     public RankTotalPointsDTO toRankTotalPointsDTO(Object[] o) {
         RankTotalPointsDTO dto = new RankTotalPointsDTO();
-        dto.setExcellent((BigInteger) o[0]);
-        dto.setGood((BigInteger) o[1]);
-        dto.setFair((BigInteger) o[2]);
-        dto.setAverage((BigInteger) o[3]);
-        dto.setWeak((BigInteger) o[4]);
-        dto.setPoor((BigInteger) o[5]);
+        dto.setExcellent((Long) o[0]);
+        dto.setGood((Long) o[1]);
+        dto.setFair((Long) o[2]);
+        dto.setAverage((Long) o[3]);
+        dto.setWeak((Long) o[4]);
+        dto.setPoor((Long) o[5]);
 
         return dto;
     }
@@ -36,14 +36,14 @@ public class StatsConverter {
     public TotalPointsDTO toTotalPointsDTO(Object[] o) {
         TotalPointsDTO dto = new TotalPointsDTO();
         dto.setFacultyName(o[0].toString());
-        dto.setExcellent((Integer) o[1]);
-        dto.setGood((Integer) o[2]);
-        dto.setFair((Integer) o[3]);
-        dto.setAverage((Integer) o[4]);
-        dto.setWeak((Integer) o[5]);
-        dto.setPoor((Integer) o[6]);
-        dto.setTotalStudents((Integer) o[7]);
-        dto.setAvgTotalPoints((Integer) o[8]);
+        dto.setExcellent((Long) o[1]);
+        dto.setGood((Long) o[2]);
+        dto.setFair((Long) o[3]);
+        dto.setAverage((Long) o[4]);
+        dto.setWeak((Long) o[5]);
+        dto.setPoor((Long) o[6]);
+        dto.setTotalStudents((Long) o[7]);
+        dto.setAvgTotalPoints((Double) o[8]);
 
         return dto;
     }
