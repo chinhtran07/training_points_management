@@ -61,13 +61,13 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
 
 
     @Override
-    public void updateRegisterMission(MultipartFile file, int activityId) {
+    public void updateRegisterMission(MultipartFile file, String activityId) {
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream()))) {
             String[] nextLine;
             while ((nextLine = csvReader.readNext()) != null) {
-                String studentId = nextLine[0];
-                int missionId = Integer.parseInt(nextLine[1]);
-                boolean isCompleted = Boolean.parseBoolean(nextLine[2]);
+                String studentId = nextLine[0].substring(1);
+                String missionId = nextLine[1];
+                boolean isCompleted = nextLine[2].equals("1");
                 if (this.missionRepository.checkMissionBelongToActivity(activityId, missionId))
                     updateRegisterMissionEntry(studentId, missionId, isCompleted);
             }
@@ -76,14 +76,14 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
         }
     }
 
-    private void updateRegisterMissionEntry(String studentId, int missionId, boolean isCompleted) {
+    private void updateRegisterMissionEntry(String studentId, String missionId, boolean isCompleted) {
         try {
             Student student = this.studentRepository.findStudentByStudentId(studentId);
-            RegisterMission registermission = this.registerMissionRepository.findById(student.getId(), missionId);
+            RegisterMission registermission = this.registerMissionRepository.getRegisterByStudentMission(student.getId(), Integer.parseInt(missionId));
             registermission.setIsCompleted(isCompleted);
             this.registerMissionRepository.addOrUpdateStatus(registermission);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Invalid student id " + studentId);
+            e.printStackTrace();
         }
     }
 }

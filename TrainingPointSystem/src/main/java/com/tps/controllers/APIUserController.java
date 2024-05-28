@@ -34,11 +34,10 @@ public class APIUserController {
     private UserConverter userConverter;
 
     @PostMapping(path = "/user/register", consumes = {
-            MediaType.MULTIPART_FORM_DATA_VALUE,
-            MediaType.APPLICATION_JSON_VALUE
+            MediaType.MULTIPART_FORM_DATA_VALUE
     })
-    public ResponseEntity<UserDTO> createUser(@RequestBody HashMap<String, String> params,
-                                              @RequestPart MultipartFile[] files) {
+    public ResponseEntity<UserDTO> createUser(@RequestParam HashMap<String, String> params,
+                                              @RequestParam MultipartFile[] files) {
 
         User user = new User();
         user.setFirstName(params.get("firstName"));

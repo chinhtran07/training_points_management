@@ -10,10 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 @Repository
@@ -26,7 +23,13 @@ public class StudentRepositoryImpl implements StudentRepository {
     @Override
     public Student findStudentByStudentId(String studentId) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        return session.get(Student.class, studentId);
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Student> criteria = builder.createQuery(Student.class);
+        Root<Student> root = criteria.from(Student.class);
+        criteria.select(root);
+        criteria.where(builder.equal(root.get("studentId"), studentId));
+        Query query = session.createQuery(criteria);
+        return (Student) query.getSingleResult();
     }
 
     @Override

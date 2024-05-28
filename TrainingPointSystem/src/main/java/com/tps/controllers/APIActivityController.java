@@ -101,7 +101,7 @@ public class APIActivityController {
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
     @ResponseStatus(HttpStatus.OK)
-    public void upload(@RequestParam("file")MultipartFile file, @PathVariable int activityId) {
+    public void upload(@RequestParam("file")MultipartFile file, @PathVariable String activityId) {
         this.registerMissionService.updateRegisterMission(file, activityId);
     }
 
