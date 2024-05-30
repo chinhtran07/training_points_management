@@ -13,8 +13,8 @@ public class CommentConverter {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setId(comment.getId());
         commentDTO.setContent(comment.getContent());
-        commentDTO.setUser(userConverter.convertToDTO(comment.getStudent().getUser()));
-
+        commentDTO.setUser(userConverter.convertToDTO(comment.getUser()));
+        commentDTO.setCreatedAt(comment.getCreatedDate().toString());
         return commentDTO;
     }
 

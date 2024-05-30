@@ -14,11 +14,14 @@ import com.tps.services.RegisterMissionService;
 import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -95,15 +98,19 @@ public class APIMissionController {
         return new ResponseEntity<>(registerMissionConverter.toDTO(registermission), HttpStatus.OK);
     }
 
-    @PostMapping("/{missionId}/missing")
+    @PostMapping(value = "/{missionId}/missing", consumes = {
+            MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE
+    })
     public ResponseEntity<MissingReport> reportMissing(@PathVariable int missionId,
                                                        Principal principal,
-                                                       @RequestBody(required = false) Map<String, String> params) {
+                                                       @RequestParam(required = false) Map<String, String> params,
+                                                       @RequestParam List<MultipartFile> files) {
         Student student = userService.getUserByUsername(principal.getName()).getStudent();
         MissingReport missingreport = missingReportService
                 .getMissingByStudentMission(student.getId(), missionId);
         if (missingreport == null) {
             missingreport = missingReportService.addMissingReport(student.getId(), missionId, params);
+            missingReportService.uploadMissingImages(files, missingreport.getId());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
 

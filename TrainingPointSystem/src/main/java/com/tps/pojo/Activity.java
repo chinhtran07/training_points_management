@@ -29,7 +29,7 @@ public class Activity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "point_group_id")
     private PointGroup pointGroup;
 
@@ -58,8 +58,5 @@ public class Activity implements Serializable {
     @Column(name = "max_point")
     private Integer maxPoint;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pointgroup_id")
-    private PointGroup pointgroup;
 
 }

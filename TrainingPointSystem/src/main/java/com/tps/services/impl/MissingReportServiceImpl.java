@@ -7,6 +7,7 @@ import com.tps.repositories.UserRepository;
 import com.tps.services.MissingReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -46,4 +47,9 @@ public class MissingReportServiceImpl implements MissingReportService {
         missingReport.setDescription(params.get("description"));
 
         return this.missingReportRepository.addMissingReport(missingReport);    }
+
+    @Override
+    public void uploadMissingImages(List<MultipartFile> files, int missing_id) {
+        this.missingReportRepository.uploadMissingImages(files, missing_id);
+    }
 }

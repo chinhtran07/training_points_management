@@ -7,4 +7,6 @@ import java.util.List;
 public interface StudentRepository {
     Student findStudentByStudentId(String studentId);
     List<Object> getResultOfTrainingPointById(int id);
+
+    void addStudent(Student student);
 }

@@ -57,4 +57,9 @@ public class StudentRepositoryImpl implements StudentRepository {
         Query query = session.createQuery(cq);
         return query.getResultList();
     }
+
+    @Override
+    public void addStudent(Student student) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+    }
 }

@@ -17,4 +17,5 @@ public class UserAssistantDTO {
     private String lastName;
     private String faculty;
     private Boolean isActive;
+    private String avatar;
 }

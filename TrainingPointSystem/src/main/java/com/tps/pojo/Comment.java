@@ -1,7 +1,7 @@
 package com.tps.pojo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import net.bytebuddy.utility.nullability.MaybeNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,32 +9,28 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
-@Getter
-@Setter
 @Entity
-@Table(name = "comment", schema = "training_point")
+@Data
+@Table(name = "comment")
 public class Comment implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @JoinColumn(name = "user_id")
+    @ManyToOne()
+    private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
-    @Lob
     @Column(name = "content")
     private String content;
 
     @Column(name = "is_active")
-    private Boolean isActive=true;
+    private Boolean isActive = true;
 
     @Column(name = "created_date")
     @CreationTimestamp
@@ -43,5 +39,9 @@ public class Comment implements Serializable {
     @Column(name = "updated_date")
     @UpdateTimestamp
     private Instant updatedDate;
+
+    @JoinColumn(name = "reply_for")
+    @ManyToOne()
+    private Comment replyFor;
 
 }

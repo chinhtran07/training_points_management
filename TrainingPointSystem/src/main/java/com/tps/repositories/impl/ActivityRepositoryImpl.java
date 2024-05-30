@@ -2,6 +2,7 @@ package com.tps.repositories.impl;
 
 
 import com.tps.pojo.Activity;
+import com.tps.pojo.Mission;
 import com.tps.repositories.ActivityRepository;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,10 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     private Environment env;
 
     @Override
-    public int addActivity(Activity activity) {
+    public Activity addActivity(Activity activity) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         session.save(activity);
-        Activity a = (Activity) session.getIdentifier(activity);
-        return a.getId();
+        return activity;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ActivityRepositoryImpl implements ActivityRepository {
         Query query = session.createQuery(criteria);
 
         String page = params.get("page");
-        if(page != null && !page.isEmpty()) {
+        if (page != null && !page.isEmpty()) {
             int pageSize = Integer.parseInt(env.getProperty("activities.pageSize"));
             int start = (Integer.parseInt(page) - 1) * pageSize;
             query.setFirstResult(start);
@@ -100,7 +100,6 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     @Override
     public List<Activity> findByExpirationDateBeforeAndIsActive(Instant currentDate) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        List<Predicate> predicates = new ArrayList<>();
 
         if (currentDate == null) {
             return null;
@@ -110,5 +109,12 @@ public class ActivityRepositoryImpl implements ActivityRepository {
         List<Activity> activities = query.getResultList();
 
         return activities;
+    }
+
+    @Override
+    public List<Mission> getMissionsByActivity(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Activity activity = session.get(Activity.class, id);
+        return new ArrayList<>(activity.getMissions());
     }
 }

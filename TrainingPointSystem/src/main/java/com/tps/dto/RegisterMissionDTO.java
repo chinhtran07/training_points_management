@@ -7,4 +7,5 @@ public class RegisterMissionDTO {
     private MissionDTO mission;
     private Boolean isCompleted;
     private String registerDate;
+    private boolean isActive;
 }

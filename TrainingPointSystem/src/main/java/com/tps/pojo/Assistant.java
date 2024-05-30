@@ -23,7 +23,7 @@ public class Assistant implements Serializable {
     @JoinColumn(name = "id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
