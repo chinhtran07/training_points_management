@@ -45,8 +45,17 @@ class RegisterMissionRepositoryImpl implements RegisterMissionRepository {
     }
 
     @Override
-    public void addOrUpdateStatus(RegisterMission mission) {
+    public void updateStatus(List<RegisterMission> registerMissionList) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        session.saveOrUpdate(mission);
+        int batchSize = 100;
+        for (int i = 0; i < registerMissionList.size(); i++) {
+            session.update(registerMissionList.get(i));
+            if (i % batchSize == 0 && i > 0) {
+                session.flush();
+                session.clear();
+            }
+        }
+        session.flush();
+        session.clear();
     }
 }

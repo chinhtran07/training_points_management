@@ -1,16 +1,15 @@
 package com.tps.controllers;
 
 
+import com.tps.components.StatsConverter;
 import com.tps.components.UserConverter;
+import com.tps.dto.TotalPointsDTO;
 import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.Assistant;
 import com.tps.pojo.Faculty;
 import com.tps.pojo.PointGroup;
 import com.tps.pojo.User;
-import com.tps.services.AssistantService;
-import com.tps.services.FacultyService;
-import com.tps.services.PointGroupService;
-import com.tps.services.UserService;
+import com.tps.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @ControllerAdvice
@@ -35,9 +35,13 @@ public class AdminController {
     private FacultyService facultyService;
 
     @Autowired
-    private UserConverter converter;
-    @Autowired
     private UserConverter userConverter;
+
+    @Autowired
+    private StatsService statsService;
+
+    @Autowired
+    private StatsConverter statsConverter;
 
 
     @GetMapping("/")
@@ -102,12 +106,8 @@ public class AdminController {
 
 
         params.put("role", User.ASSISTANT);
-        List<Object[]> infos = this.assistantService.getUserAssistants(params);
-        List<UserAssistantDTO> userAssistants = new ArrayList<>();
-        for (Object[] info : infos) {
-            UserAssistantDTO assistant = userConverter.toUserAssistantDTO(info);
-            userAssistants.add(assistant);
-        }
+        List<UserAssistantDTO> userAssistants = this.assistantService.getUserAssistants(params).stream()
+                .map(info -> userConverter.toUserAssistantDTO(info)).collect(Collectors.toList());
         model.addAttribute("field", field);
         model.addAttribute("users", userAssistants);
         return "assistant";
@@ -158,23 +158,14 @@ public class AdminController {
 
     @GetMapping("/stats")
     public String stats(Model model, @RequestParam Map<String, String> params) {
-        model.addAttribute("faculties", this.facultyService.getAllFaculty(params));
+        model.addAttribute("statsByFaculty", this.statsService.statsTrainingPoints(params));
         return "stats";
     }
+
 
     @PostMapping("/assistants/delete")
     public String delete(@RequestParam int id) {
         this.assistantService.deleteAssistant(this.assistantService.getAssistantById(id));
         return "redirect:/admin/assistants";
     }
-
-//    @GetMapping("/admin/logout")
-//    public String logout(HttpServletRequest request, HttpServletResponse response) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth != null) {
-//            new SecurityContextLogoutHandler().logout(request, response, auth);
-//        }
-//
-//        return "redirect:/login?logout";
-//    }
 }

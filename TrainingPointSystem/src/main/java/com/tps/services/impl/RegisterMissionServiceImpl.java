@@ -24,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RegisterMissionServiceImpl implements RegisterMissionService {
@@ -63,27 +65,22 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
     @Override
     public void updateRegisterMission(MultipartFile file, String activityId) {
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream()))) {
+            List<RegisterMission> updateList = new ArrayList<>();
             String[] nextLine;
             while ((nextLine = csvReader.readNext()) != null) {
                 String studentId = nextLine[0].substring(1);
                 String missionId = nextLine[1];
                 boolean isCompleted = nextLine[2].equals("1");
-                if (this.missionRepository.checkMissionBelongToActivity(activityId, missionId))
-                    updateRegisterMissionEntry(studentId, missionId, isCompleted);
+                if (this.missionRepository.checkMissionBelongToActivity(activityId, missionId)) {
+                    Student student = this.studentRepository.findStudentByStudentId(studentId);
+                    RegisterMission registermission = this.registerMissionRepository.getRegisterByStudentMission(student.getId(), Integer.parseInt(missionId));
+                    registermission.setIsCompleted(isCompleted);
+                    updateList.add(registermission);
+                }
             }
+            this.registerMissionRepository.updateStatus(updateList);
         } catch (IOException | CsvValidationException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private void updateRegisterMissionEntry(String studentId, String missionId, boolean isCompleted) {
-        try {
-            Student student = this.studentRepository.findStudentByStudentId(studentId);
-            RegisterMission registermission = this.registerMissionRepository.getRegisterByStudentMission(student.getId(), Integer.parseInt(missionId));
-            registermission.setIsCompleted(isCompleted);
-            this.registerMissionRepository.addOrUpdateStatus(registermission);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
         }
     }
 }
