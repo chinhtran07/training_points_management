@@ -21,7 +21,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api")
-@CrossOrigin
 public class APIUserController {
 
     @Autowired
@@ -61,6 +60,7 @@ public class APIUserController {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/login", consumes = {
             MediaType.MULTIPART_FORM_DATA_VALUE,
             MediaType.APPLICATION_JSON_VALUE
@@ -77,6 +77,7 @@ public class APIUserController {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
+    @CrossOrigin
     @GetMapping(path = "/user/current")
     public ResponseEntity<UserDTO> getCurrentUser(Principal principal) throws ParseException {
         User user = userService.getUserByUsername(principal.getName());

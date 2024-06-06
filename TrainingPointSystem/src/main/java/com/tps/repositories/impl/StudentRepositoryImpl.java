@@ -45,9 +45,10 @@ public class StudentRepositoryImpl implements StudentRepository {
         Join<Activity, PointGroup> pointGroupJoin = activityJoin.join("pointGroup");
 
         cq.multiselect(
-                pointGroupJoin.get("id"),
-                activityJoin.get("id"),
-                missionJoin.get("id")
+                pointGroupJoin.get("id"), pointGroupJoin.get("name"), pointGroupJoin.get("content")
+                , pointGroupJoin.get("maxPoint"),
+                activityJoin.get("id"), activityJoin.get("name"), activityJoin.get("maxPoint"),
+                missionJoin.get("id"), missionJoin.get("name"), missionJoin.get("point")
         );
 
         cq.where(cb.isTrue(registerMissionJoin.get("isCompleted")), cb.equal(root.get("id"), id));

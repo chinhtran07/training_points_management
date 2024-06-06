@@ -12,15 +12,9 @@
 <%@page isELIgnored="false" %>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2 sidebar">
-            <nav class="nav d-flex flex-column">
-                <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/stats">Theo Khoa</a>
-                <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/stats">Theo Lớp</a>
-                <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/stats">Theo Thành tích</a>
-            </nav>
-        </div>
-        <div class="col-md-10">
-            <p>${statsByFaculty}</p>
-        </div>
+
     </div>
 </div>
+<script>
+
+</script>
