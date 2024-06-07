@@ -150,22 +150,41 @@ public class AdminController {
         return "new-assistant";
     }
 
+    @PostMapping("/assistants/delete")
+    public String delete(@RequestParam int id) {
+        this.assistantService.deleteAssistant(this.assistantService.getAssistantById(id));
+        return "redirect:/admin/assistants";
+    }
 
     @RequestMapping("")
     public String home(Model model) {
         return "admin";
     }
 
-    @GetMapping("/stats")
-    public String stats(Model model, @RequestParam Map<String, String> params) {
-        model.addAttribute("statsByFaculty", this.statsService.statsTrainingPoints(params));
+
+    @RequestMapping("/stats")
+    public String stats(Model model) {
         return "stats";
     }
 
+    @GetMapping("/stats/all")
+    @ResponseBody
+    public List<Object> stats(Map<String, String> params) {
+        return this.statsService.statsTrainingPoints(params)
+                .stream().map(s -> statsConverter.toTotalPointsDTO(s)).collect(Collectors.toList());
+    }
 
-    @PostMapping("/assistants/delete")
-    public String delete(@RequestParam int id) {
-        this.assistantService.deleteAssistant(this.assistantService.getAssistantById(id));
-        return "redirect:/admin/assistants";
+    @GetMapping("/stats/class")
+    @ResponseBody
+    public List<Object> statsByFaculty(@RequestParam Map<String, String> params) {
+        return this.statsService.statsTrainingPointByFaculty(params)
+                .stream().map(s -> statsConverter.toClassTotalPointDTO(s)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/stats/rank")
+    @ResponseBody
+    public List<Object> statsByRank(@RequestParam Map<String, String> params) {
+        return this.statsService.statsTrainingPointByRank(params)
+                .stream().map(s -> statsConverter.toRankTotalPointsDTO(s)).collect(Collectors.toList());
     }
 }
