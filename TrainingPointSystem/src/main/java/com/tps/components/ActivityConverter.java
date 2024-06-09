@@ -49,7 +49,7 @@ public class ActivityConverter {
         dto.setName(activity.getName());
         dto.setPointGroup(PointGroupConverter.toDTO(pointGroupService.getPointGroup(activity.getPointGroup().getId())));
         dto.setMissions(activity.getMissions().stream().map(missionConverter::toDTO).collect(Collectors.toList()));
-
+        dto.setMaxPoint(activity.getMaxPoint());
         return dto;
     }
 }

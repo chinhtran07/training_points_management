@@ -49,9 +49,9 @@ public class APIActivityController {
 
 
     @GetMapping("/{activityId}")
-    public ResponseEntity<Activity> getActivity(@PathVariable int activityId) {
+    public ResponseEntity<ActivityDetailDTO> getActivity(@PathVariable int activityId) {
         Activity activity = this.activityService.getActivityById(activityId);
-        return new ResponseEntity<>(activity, HttpStatus.OK);
+        return new ResponseEntity<>(activityConverter.toDetailDTO(activity), HttpStatus.OK);
     }
 
     @PostMapping(path = "/{activityId}/missions", consumes = {
@@ -76,6 +76,17 @@ public class APIActivityController {
         }
         this.missionService.addMission(missionConverter.toEntity(missionDTO), activityId);
         return new ResponseEntity<>(missionDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{activityId}/missions")
+    public ResponseEntity<List<MissionDTO>> getMissionByActivity(@PathVariable int activityId) {
+        Activity activity = activityService.getActivityById(activityId);
+        if(activity == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<Mission> missions = activityService.getMissionsByActivity(activityId);
+        List<MissionDTO> missionDTOs = missions.stream().map(m -> missionConverter.toDTO(m)).collect(Collectors.toList());
+        return new ResponseEntity<>(missionDTOs, HttpStatus.OK);
     }
 
 

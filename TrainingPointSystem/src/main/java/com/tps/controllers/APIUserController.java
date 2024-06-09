@@ -4,7 +4,9 @@ import com.tps.components.JwtService;
 import com.tps.components.UserConverter;
 import com.tps.dto.UserDTO;
 import com.tps.dto.UserRegisterDTO;
+import com.tps.pojo.Student;
 import com.tps.pojo.User;
+import com.tps.services.StudentService;
 import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +35,9 @@ public class APIUserController {
     @Autowired
     private UserConverter userConverter;
 
+    @Autowired
+    StudentService studentService;
+
     @PostMapping(path = "/user/register", consumes = {
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
@@ -44,13 +50,16 @@ public class APIUserController {
         user.setUsername(params.get("username"));
         user.setPassword(params.get("password"));
         user.setEmail(params.get("email"));
-        user.setPhone(params.get("phone"));
+        user.setDob(LocalDate.parse(params.get("dob")));
+
 
         if (files.length > 0) {
             user.setFile(files[0]);
         }
 
+        studentService.addStudent(params);
         User createdUser = userService.addUser(user);
+
 
         if (createdUser != null) {
             UserDTO userDTO = userConverter.convertToDTO(createdUser);
@@ -65,8 +74,10 @@ public class APIUserController {
             MediaType.MULTIPART_FORM_DATA_VALUE,
             MediaType.APPLICATION_JSON_VALUE
     })
-    public ResponseEntity<Map<String, String>> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> params) {
         Map<String, String> response = new HashMap<>();
+        String username = params.get("username");
+        String password = params.get("password");
         if (userService.authUser(username, password)) {
             String token = jwtService.generateTokenLogin(username);
             response.put("token", token);

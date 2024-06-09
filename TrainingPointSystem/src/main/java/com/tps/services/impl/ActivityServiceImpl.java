@@ -3,6 +3,7 @@ package com.tps.services.impl;
 
 import com.tps.pojo.Activity;
 
+import com.tps.pojo.Mission;
 import com.tps.repositories.ActivityRepository;
 import com.tps.repositories.PointGroupRepository;
 import com.tps.services.ActivityService;
@@ -24,7 +25,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 
     @Override
-    public int addActivity(int pointGroupId, Activity activity) {
+    public Activity addActivity(int pointGroupId, Activity activity) {
         activity.setPointGroup(this.pointGroupRepository.getPointGroup(pointGroupId));
         return this.activityRepository.addActivity(activity);
     }
@@ -52,5 +53,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<Activity> getExpiredActivity(Instant currentTime) {
         return this.activityRepository.findByExpirationDateBeforeAndIsActive(currentTime);
+    }
+
+    @Override
+    public List<Mission> getMissionsByActivity(int id) {
+        return this.activityRepository.getMissionsByActivity(id);
     }
 }

@@ -69,7 +69,7 @@ public class User implements Serializable {
 
     @Size(max = 255)
     @Column(name = "avatar")
-    private String avatar;
+    private String avatar = "https://res.cloudinary.com/dbd7vfk12/image/upload/v1716969657/samples/default-avatar_kyi5ml.webp";
 
     @Lob
     @Column(name = "gender")
@@ -94,11 +94,21 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "user")
     private Student student;
 
+    @OneToOne(mappedBy = "user")
+    private Assistant assistant;
+
     @Transient
     private String confirmPassword;
 
     @OneToMany(mappedBy = "assistant")
     private Set<Activity> activities = new LinkedHashSet<>();
+
+
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Reaction> reactions = new LinkedHashSet<>();
 
     @Transient
     private MultipartFile file;

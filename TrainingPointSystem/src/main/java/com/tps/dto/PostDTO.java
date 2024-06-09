@@ -12,4 +12,7 @@ public class PostDTO {
     private UserAssistantDTO assistant;
     private String createdDate;
     private List<ImageDTO> images;
+    private Boolean liked;
+    private int commentCount;
+    private int likeCount;
 }

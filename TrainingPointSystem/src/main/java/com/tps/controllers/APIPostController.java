@@ -12,7 +12,6 @@ import com.tps.pojo.User;
 import com.tps.services.InteractionService;
 import com.tps.services.PostService;
 import com.tps.services.UserService;
-import jdk.javadoc.doclet.Reporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/posts")
+@CrossOrigin
 public class APIPostController {
     @Autowired
     PostService postService;
@@ -37,6 +37,9 @@ public class APIPostController {
 
     @Autowired
     InteractionService interactionService;
+
+    @Autowired
+    CommentConverter commentConverter;
 
     @GetMapping
     public ResponseEntity getPost(@RequestParam Map<String, String> params) {
@@ -72,6 +75,17 @@ public class APIPostController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity getComments(@PathVariable int postId) {
+        Post post = postService.getPostById(postId);
+        if (post == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        List<CommentDTO> commentDTOS = this.interactionService.getPostComments(postId).stream().map(i -> commentConverter.toDTO(i)).collect(Collectors.toList());
+
+        return new ResponseEntity(commentDTOS, HttpStatus.OK);
+    }
+
     @PostMapping("/{postId}/comments")
     public ResponseEntity addComment(@PathVariable int postId,
                                      @RequestBody Map<String, String> params,
@@ -84,7 +98,7 @@ public class APIPostController {
 
         Comment comment = new Comment();
         comment.setPost(post);
-        comment.setStudent(u.getStudent());
+        comment.setUser(u);
         comment.setContent(params.get("content"));
         interactionService.addComment(comment);
         return new ResponseEntity(HttpStatus.CREATED);
@@ -119,7 +133,7 @@ public class APIPostController {
         Reaction like = interactionService.getReactionByUserPost(user.getId(), postId);
         if (like == null) {
             like = new Reaction();
-            like.setStudent(user.getStudent());
+            like.setUser(user);
             like.setPost(postService.getPostById(postId));
             interactionService.addReaction(like);
             return new ResponseEntity(HttpStatus.CREATED);

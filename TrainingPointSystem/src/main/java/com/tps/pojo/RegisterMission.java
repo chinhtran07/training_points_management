@@ -12,7 +12,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "register_mission", schema = "training_point")
+@Table(name = "register_mission")
 public class RegisterMission implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class RegisterMission implements Serializable {
     private Mission mission;
 
     @Column(name = "is_completed")
-    private Boolean isCompleted;
+    private Boolean isCompleted=false;
 
     @Column(name = "is_active")
     private Boolean isActive = true;

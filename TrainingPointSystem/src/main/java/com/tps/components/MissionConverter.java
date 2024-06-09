@@ -21,7 +21,7 @@ public class MissionConverter {
         MissionDTO dto = new MissionDTO();
         dto.setId(mission.getId());
         dto.setName(mission.getName());
-        dto.setContent(mission.getName());
+        dto.setContent(mission.getContent());
         dto.setPoint(mission.getPoint());
         dto.setStartDate(mission.getStartDate().toString());
         dto.setEndDate(mission.getEndDate().toString());

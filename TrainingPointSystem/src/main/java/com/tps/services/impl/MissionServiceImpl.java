@@ -41,16 +41,20 @@ public class MissionServiceImpl implements MissionService {
                     Mission mission = (Mission) result[0];
                     Boolean isCompleted = false;
                     String registerDate = null;
+                    boolean isActive = false;
+
 
                     if (result[1] != null) {
                         isCompleted = ((RegisterMission) result[1]).getIsCompleted();
                         registerDate = ((RegisterMission) result[1]).getCreatedDate().toString();
+                        isActive = ((RegisterMission) result[1]).getIsActive();
                     }
 
                     RegisterMissionDTO registerMissionDTO = new RegisterMissionDTO();
                     registerMissionDTO.setMission(missionConverter.toDTO(mission));
                     registerMissionDTO.setIsCompleted(isCompleted);
                     registerMissionDTO.setRegisterDate(registerDate);
+                    registerMissionDTO.setActive(isActive);
 
                     return registerMissionDTO;
                 })
@@ -58,7 +62,7 @@ public class MissionServiceImpl implements MissionService {
 
         String isRegisted = params.get("isRegisted");
         if (isRegisted != null && !isRegisted.isEmpty()) {
-            registerMissionDTOS = registerMissionDTOS.stream().filter(item -> item.getRegisterDate() != null)
+            registerMissionDTOS = registerMissionDTOS.stream().filter(RegisterMissionDTO::isActive)
                     .collect(Collectors.toList());
         }
         String isCompleted = params.get("isCompleted");

@@ -3,11 +3,17 @@ package com.tps.components;
 import com.tps.dto.PostCreateDTO;
 import com.tps.dto.PostDTO;
 import com.tps.pojo.Post;
+import com.tps.pojo.User;
 import com.tps.services.ActivityService;
+import com.tps.services.InteractionService;
 import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,6 +32,9 @@ public class PostConverter {
 
     @Autowired
     ActivityService activityService;
+
+    @Autowired
+    InteractionService interactionService;
 
     public Post toEntity(PostDTO postDTO) {
         Post post = new Post();
@@ -52,7 +61,7 @@ public class PostConverter {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
         postDTO.setContent(post.getContent());
-//        postDTO.setAssistant(post.getAssistant().convertToDTO());
+        postDTO.setAssistant(userConverter.toUserAssistantDTO(post.getUser().getAssistant()));
         postDTO.setActivity(activityConverter.toDTO(post.getActivity()));
         postDTO.setCreatedDate(post.getCreatedDate().toString());
         if(postDTO.getImages() != null) {
@@ -60,7 +69,11 @@ public class PostConverter {
                     .stream().map(i -> imageConverter.toDTO(i))
                     .collect(Collectors.toList()));
         }
-
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(userDetails.getUsername());
+        postDTO.setLiked(interactionService.getLiked(post.getId(), user.getId()));
+        postDTO.setCommentCount(interactionService.getCommentCount(post.getId()));
+        postDTO.setLikeCount(interactionService.getLikeCount(post.getId()));
         return postDTO;
     }
 }

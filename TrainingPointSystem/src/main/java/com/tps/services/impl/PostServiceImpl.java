@@ -3,7 +3,6 @@ package com.tps.services.impl;
 import com.tps.components.PostConverter;
 import com.tps.dto.PostCreateDTO;
 import com.tps.dto.PostDTO;
-import com.tps.pojo.Comment;
 import com.tps.pojo.Post;
 import com.tps.repositories.PostRepository;
 import com.tps.services.PostService;

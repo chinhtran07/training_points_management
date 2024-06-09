@@ -6,6 +6,7 @@ import com.tps.dto.MissingReportFacultyDTO;
 import com.tps.services.MissingReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class APIMissingReportController {
     @Autowired
     private MissingReportConverter missingReportConverter;
 
-    @GetMapping("/")
+    @GetMapping(value = "/")
     public ResponseEntity<List<MissingReportFacultyDTO>> getMissingReportByFaculty(@RequestParam String facultyId) {
         if (facultyId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -36,7 +36,7 @@ public class Post implements Serializable {
     @JoinColumn(name = "activity_id")
     private Activity activity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 

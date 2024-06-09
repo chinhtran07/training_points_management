@@ -69,7 +69,7 @@ public class MissionRepositoryImpl implements MissionRepository {
         }
 
         query.where(predicates.toArray(Predicate[]::new));
-        query.orderBy(builder.asc(missionRoot.get("activity").get("pointgroup")));
+        query.orderBy(builder.asc(missionRoot.get("activity").get("pointGroup")));
         List<Mission> allMission = session.createQuery(query).getResultList();
 
         Map<Integer, RegisterMission> registerMap = new HashMap<>();

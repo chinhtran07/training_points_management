@@ -7,6 +7,8 @@ import com.tps.services.InteractionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InteractionServiceImpl implements InteractionService {
     @Autowired
@@ -15,6 +17,11 @@ public class InteractionServiceImpl implements InteractionService {
     @Override
     public Reaction getReactionByUserPost(int userId, int postId) {
         return this.interactionRepository.getReactionByUserPost(userId, postId);
+    }
+
+    @Override
+    public List<Comment> getPostComments(int postId) {
+        return this.interactionRepository.getPostComments(postId);
     }
 
     @Override
@@ -45,5 +52,20 @@ public class InteractionServiceImpl implements InteractionService {
     @Override
     public Reaction addReaction(Reaction like) {
         return this.interactionRepository.addReaction(like);
+    }
+
+    @Override
+    public boolean getLiked(int postId, int ussrId) {
+        return this.interactionRepository.getLiked(postId, ussrId);
+    }
+
+    @Override
+    public int getCommentCount(int postId) {
+        return this.interactionRepository.getCommentCount(postId);
+    }
+
+    @Override
+    public int getLikeCount(int postId) {
+        return this.interactionRepository.getLikeCount(postId);
     }
 }
