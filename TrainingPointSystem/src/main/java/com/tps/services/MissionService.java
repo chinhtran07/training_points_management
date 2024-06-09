@@ -20,6 +20,5 @@ public interface MissionService {
     MissionDTO updateMission(int missionId, MissionCreateDTO missionDTO);
 
     void deleteMission(int id);
-
-    boolean checkMissionBelongToActivity(int missionId, int activityId);
 }
+ 

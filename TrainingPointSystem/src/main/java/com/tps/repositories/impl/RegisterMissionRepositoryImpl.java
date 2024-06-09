@@ -10,8 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -42,20 +45,17 @@ class RegisterMissionRepositoryImpl implements RegisterMissionRepository {
     }
 
     @Override
-    public void addOrUpdateStatus(RegisterMission mission) {
+    public void updateStatus(List<RegisterMission> registerMissionList) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        session.saveOrUpdate(mission);
-    }
-
-    @Override
-    public RegisterMission findById(int studentId, int missionId) {
-        Session session = this.factoryBean.getObject().getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<RegisterMission> cq = cb.createQuery(RegisterMission.class);
-        Root<RegisterMission> root = cq.from(RegisterMission.class);
-        cq.where(cb.equal(root.get("studentId"), studentId));
-        cq.where(cb.equal(root.get("missionId"), missionId));
-
-        return session.createQuery(cq).getSingleResult();
+        int batchSize = 100;
+        for (int i = 0; i < registerMissionList.size(); i++) {
+            session.update(registerMissionList.get(i));
+            if (i % batchSize == 0 && i > 0) {
+                session.flush();
+                session.clear();
+            }
+        }
+        session.flush();
+        session.clear();
     }
 }

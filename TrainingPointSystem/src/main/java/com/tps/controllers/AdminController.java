@@ -1,16 +1,15 @@
 package com.tps.controllers;
 
 
+import com.tps.components.StatsConverter;
 import com.tps.components.UserConverter;
+import com.tps.dto.TotalPointsDTO;
 import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.Assistant;
 import com.tps.pojo.Faculty;
 import com.tps.pojo.PointGroup;
 import com.tps.pojo.User;
-import com.tps.services.AssistantService;
-import com.tps.services.FacultyService;
-import com.tps.services.PointGroupService;
-import com.tps.services.UserService;
+import com.tps.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
-@ControllerAdvice
 @RequestMapping(path = "/admin")
 public class AdminController {
 
@@ -32,12 +31,13 @@ public class AdminController {
     private AssistantService assistantService;
 
     @Autowired
-    private FacultyService facultyService;
+    private UserConverter userConverter;
 
     @Autowired
-    private UserConverter converter;
+    private StatsService statsService;
+
     @Autowired
-    private UserConverter userConverter;
+    private StatsConverter statsConverter;
 
 
     @GetMapping("/")
@@ -102,12 +102,8 @@ public class AdminController {
 
 
         params.put("role", User.ASSISTANT);
-        List<Object[]> infos = this.assistantService.getUserAssistants(params);
-        List<UserAssistantDTO> userAssistants = new ArrayList<>();
-        for (Object[] info : infos) {
-            UserAssistantDTO assistant = userConverter.toUserAssistantDTO(info);
-            userAssistants.add(assistant);
-        }
+        List<UserAssistantDTO> userAssistants = this.assistantService.getUserAssistants(params).stream()
+                .map(info -> userConverter.toUserAssistantDTO(info)).collect(Collectors.toList());
         model.addAttribute("field", field);
         model.addAttribute("users", userAssistants);
         return "assistant";
@@ -150,31 +146,41 @@ public class AdminController {
         return "new-assistant";
     }
 
-
-    @RequestMapping("")
-    public String home(Model model) {
-        return "admin";
-    }
-
-    @GetMapping("/stats")
-    public String stats(Model model, @RequestParam Map<String, String> params) {
-        model.addAttribute("faculties", this.facultyService.getAllFaculty(params));
-        return "stats";
-    }
-
     @PostMapping("/assistants/delete")
     public String delete(@RequestParam int id) {
         this.assistantService.deleteAssistant(this.assistantService.getAssistantById(id));
         return "redirect:/admin/assistants";
     }
 
-//    @GetMapping("/admin/logout")
-//    public String logout(HttpServletRequest request, HttpServletResponse response) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth != null) {
-//            new SecurityContextLogoutHandler().logout(request, response, auth);
-//        }
-//
-//        return "redirect:/login?logout";
-//    }
+    @RequestMapping("")
+    public String home(Model model) {
+        return "admin";
+    }
+
+
+    @RequestMapping("/stats")
+    public String stats(Model model) {
+        return "stats";
+    }
+
+    @GetMapping("/stats/all")
+    @ResponseBody
+    public List<Object> stats(Map<String, String> params) {
+        return this.statsService.statsTrainingPoints(params)
+                .stream().map(s -> statsConverter.toTotalPointsDTO(s)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/stats/class")
+    @ResponseBody
+    public List<Object> statsByFaculty(@RequestParam Map<String, String> params) {
+        return this.statsService.statsTrainingPointByFaculty(params)
+                .stream().map(s -> statsConverter.toClassTotalPointDTO(s)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/stats/rank")
+    @ResponseBody
+    public List<Object> statsByRank(@RequestParam Map<String, String> params) {
+        return this.statsService.statsTrainingPointByRank(params)
+                .stream().map(s -> statsConverter.toRankTotalPointsDTO(s)).collect(Collectors.toList());
+    }
 }

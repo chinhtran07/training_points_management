@@ -92,10 +92,4 @@ public class MissionServiceImpl implements MissionService {
     public void deleteMission(int id) {
         this.missionRepository.deleteMission(id);
     }
-
-
-    @Override
-    public boolean checkMissionBelongToActivity(int missionId, int activityId) {
-        return this.missionRepository.checkMissionBelongToActivity(missionId, activityId);
-    }
 }

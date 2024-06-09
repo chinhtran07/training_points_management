@@ -8,5 +8,5 @@ public interface RegisterMissionService {
     RegisterMission getRegisterByStudentMission(int studentId, int missionId);
     void updateRegistermission (RegisterMission registermission);
     RegisterMission addRegisterMission(int studentId, int missionId);
-    void updateRegisterMission(MultipartFile file, int activityId);
+    void updateRegisterMission(MultipartFile file, String activityId);
 }

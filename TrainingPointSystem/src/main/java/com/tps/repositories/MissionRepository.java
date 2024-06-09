@@ -18,6 +18,6 @@ public interface MissionRepository {
 
     void deleteMission(int id);
 
-    boolean checkMissionBelongToActivity(int activityId, int missionId);
+    boolean checkMissionBelongToActivity(String activityId, String missionId);
 
 }

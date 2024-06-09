@@ -20,7 +20,7 @@ public class UserConverter {
         dto.setLastName(user.getLastName());
         dto.setEmail(user.getEmail());
         dto.setAvatar(user.getAvatar());
-        dto.setDob(user.getDob().toString());
+//        dto.setDob(user.getDob().toString());
         return dto;
     }
 

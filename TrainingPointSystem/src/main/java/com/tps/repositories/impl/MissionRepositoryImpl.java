@@ -118,13 +118,18 @@ public class MissionRepositoryImpl implements MissionRepository {
     }
 
     @Override
-    public boolean checkMissionBelongToActivity(int activityId, int missionId) {
+    public boolean checkMissionBelongToActivity(String activityId, String missionId) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        String hql = "select count(m) from Mission m where m.id =: missionId and m.activity.id =: activityId";
-        Query<Integer> query = session.createQuery(hql, Integer.class);
-        query.setParameter("missionId", missionId);
-        query.setParameter("activityId", activityId);
-        int count = query.uniqueResult();
-        return count > 0;
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+
+        Root<Mission> missionRoot = criteria.from(Mission.class);
+        criteria.select(builder.count(missionRoot));
+        criteria.where(builder.equal(missionRoot.get("activity").get("id"), Integer.parseInt(activityId)));
+        criteria.where(builder.equal(missionRoot.get("id"), Integer.parseInt(missionId)));
+
+        Query q = session.createQuery(criteria);
+        long count = (Long) q.getSingleResult();
+        return count == 1;
     }
 }

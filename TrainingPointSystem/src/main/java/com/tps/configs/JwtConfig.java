@@ -80,7 +80,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests(request ->
-                        request.antMatchers("/api/stats/training-points").hasAnyRole("ROLE_ADMIN")
+                        request.antMatchers("/api/stats/training-points").access("hasRole('ROLE_ADMIN')")
                                 .anyRequest().authenticated()
                 ).addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)

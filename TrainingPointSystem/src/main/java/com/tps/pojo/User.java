@@ -100,7 +100,6 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "assistant")
     private Set<Activity> activities = new LinkedHashSet<>();
 
-
     @Transient
     private MultipartFile file;
 
