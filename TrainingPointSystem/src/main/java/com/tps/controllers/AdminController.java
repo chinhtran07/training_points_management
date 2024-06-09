@@ -21,7 +21,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
-@ControllerAdvice
 @RequestMapping(path = "/admin")
 public class AdminController {
 
@@ -30,9 +29,6 @@ public class AdminController {
 
     @Autowired
     private AssistantService assistantService;
-
-    @Autowired
-    private FacultyService facultyService;
 
     @Autowired
     private UserConverter userConverter;

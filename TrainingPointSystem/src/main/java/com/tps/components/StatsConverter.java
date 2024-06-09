@@ -36,14 +36,8 @@ public class StatsConverter {
     public TotalPointsDTO toTotalPointsDTO(Object[] o) {
         TotalPointsDTO dto = new TotalPointsDTO();
         dto.setFacultyName(o[0].toString());
-        dto.setExcellent((Long) o[1]);
-        dto.setGood((Long) o[2]);
-        dto.setFair((Long) o[3]);
-        dto.setAverage((Long) o[4]);
-        dto.setWeak((Long) o[5]);
-        dto.setPoor((Long) o[6]);
-        dto.setTotalStudents((Long) o[7]);
-        dto.setAvgTotalPoints((Double) o[8]);
+        dto.setTotalStudents((Long) o[1]);
+        dto.setAvgTotalPoints((Double) o[2]);
 
         return dto;
     }

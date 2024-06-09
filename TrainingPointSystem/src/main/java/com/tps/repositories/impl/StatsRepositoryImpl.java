@@ -116,12 +116,6 @@ public class StatsRepositoryImpl implements StatsRepository {
             Join<Student, Faculty> facultyJoin = studentRoot.join("faculty");
             mainQuery.multiselect(
                     facultyJoin.get("name").alias("facultyName"),
-                    builder.count(builder.selectCase().when(builder.between(totalPointsSubquery, 90, 100), 1)),
-                    builder.count(builder.selectCase().when(builder.between(totalPointsSubquery, 80, 89), 1)),
-                    builder.count(builder.selectCase().when(builder.between(totalPointsSubquery, 65, 79), 1)),
-                    builder.count(builder.selectCase().when(builder.between(totalPointsSubquery, 50, 64), 1)),
-                    builder.count(builder.selectCase().when(builder.between(totalPointsSubquery, 35, 49), 1)),
-                    builder.count(builder.selectCase().when(builder.lessThan(totalPointsSubquery, 35), 1)),
                     builder.countDistinct(studentRoot.get("id")).alias("numberOfStudents"),
                     builder.avg(totalPointsSubquery).alias("avgTotalPointPerFaculty")
             );

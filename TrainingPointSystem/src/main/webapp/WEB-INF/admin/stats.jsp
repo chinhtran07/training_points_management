@@ -23,25 +23,32 @@
             </button>
         </div>
         <div class="col-md-10">
-            <div id="facultyInputDiv" style="display:none;">
-                <label for="facultySelect">Khoa</label>
-                <select id="facultySelect" class="form-select my-2">
-                    <c:forEach items="${faculties}" var="f">
-                        <option value="${f.id}">${f.name}</option>
-                    </c:forEach>
-                </select>
-                <button id="btnSubmitFaculty" class="btn btn-secondary" onclick="submitFaculty()">Gửi</button>
-            </div>
-            <h1 id="contentTitle" class="text-center"></h1>
-            <table id="contentTable" class="table table-striped">
-                <thead id="contentThead">
-                </thead>
-                <tbody id="contentTbody">
-                </tbody>
-            </table>
-            <hr/>
-            <div>
-                <canvas id="chart"></canvas>
+            <div class="row">
+                <div class="col-md-7">
+                    <div id="facultyInputDiv" style="display:none;">
+                        <label for="facultySelect">Khoa</label>
+                        <select id="facultySelect" class="form-select my-2">
+                            <option value="">Tất cả</option>
+                            <c:forEach items="${faculties}" var="f">
+                                <option value="${f.id}">${f.name}</option>
+                            </c:forEach>
+                        </select>
+                        <button id="btnSubmitFaculty" class="btn btn-secondary" onclick="submitFaculty()">Gửi</button>
+                    </div>
+                    <div class="d-flex mt-1 justify-content-between">
+                        <button class="btn btn-primary" onclick="generatePdf()">Xuất PDF</button>
+                        <h1 id="contentTitle" class="text-center"></h1>
+                    </div>
+                    <table id="contentTable" class="table table-striped">
+                        <thead id="contentThead">
+                        </thead>
+                        <tbody id="contentTbody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-5">
+                    <canvas id="myChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
