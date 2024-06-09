@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PointGroupConverter {
 
-    public static PointGroup toEntity(PointGroupDTO pointGroup) {
+    public PointGroup toEntity(PointGroupDTO pointGroup) {
         PointGroup pointGroupEntity = new PointGroup();
 
         pointGroupEntity.setId(pointGroup.getId());
@@ -18,7 +18,7 @@ public class PointGroupConverter {
         return pointGroupEntity;
     }
 
-    public static PointGroupDTO toDTO(PointGroup pointGroup) {
+    public PointGroupDTO toDTO(PointGroup pointGroup) {
         PointGroupDTO pointGroupDTO = new PointGroupDTO();
 
         pointGroupDTO.setId(pointGroup.getId());

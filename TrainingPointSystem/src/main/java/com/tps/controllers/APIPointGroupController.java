@@ -31,6 +31,9 @@ public class APIPointGroupController {
     @Autowired
     private ActivityConverter activityConverter;
 
+    @Autowired
+    private PointGroupConverter pointGroupConverter;
+
     @PostMapping(path = "/{pointGroupId}/activities")
     public ResponseEntity<Integer> addActivity(@PathVariable int pointGroupId, @RequestBody ActivityDTO activityDTO) {
         Activity activity = activityConverter.toEntity(activityDTO);
@@ -41,9 +44,7 @@ public class APIPointGroupController {
 
     @GetMapping
     public List<PointGroupDTO> getAllPointGroups() {
-        List<PointGroup> pointgroups = pointGroupService.getAllPointGroups();
-        List<PointGroupDTO> pgDTO = pointgroups.stream().map(PointGroupConverter::toDTO).collect(Collectors.toList());
 
-        return pgDTO;
+        return pointGroupService.getAllPointGroups().stream().map(pg -> pointGroupConverter.toDTO(pg)).collect(Collectors.toList());
     }
 }
