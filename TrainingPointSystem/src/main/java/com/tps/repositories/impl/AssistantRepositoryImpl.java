@@ -47,6 +47,7 @@ public class AssistantRepositoryImpl implements AssistantRepository {
         CriteriaQuery<Assistant> cq = cb.createQuery(Assistant.class);
         Root<Assistant> root = cq.from(Assistant.class);
 
+        cq.where(cb.isTrue(root.get("user").get("isActive")));
         Query<Assistant> query = session.createQuery(cq);
 
         return query.getResultList();

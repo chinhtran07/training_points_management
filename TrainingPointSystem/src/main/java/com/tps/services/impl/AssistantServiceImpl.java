@@ -7,6 +7,7 @@ import com.tps.repositories.AssistantRepository;
 import com.tps.repositories.FacultyRepository;
 import com.tps.repositories.UserRepository;
 import com.tps.services.AssistantService;
+import com.tps.services.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,8 @@ public class AssistantServiceImpl implements AssistantService {
     private UserRepository userRepository;
 
     @Autowired
-    private FacultyRepository facultyRepository;
+    private FacultyService facultyService;
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -48,7 +50,7 @@ public class AssistantServiceImpl implements AssistantService {
         this.userRepository.addUser(user);
         assistant.setUser(this.userRepository.getUserByUsername(user.getUsername()));
 
-        Faculty faculty = this.facultyRepository.getFacultyById(assistant.getFaculty().getId());
+        Faculty faculty = this.facultyService.getFacultyById(assistant.getFaculty().getId());
         assistant.setFaculty(faculty);
 
         this.assistantRepository.addAssistant(assistant);
@@ -62,7 +64,7 @@ public class AssistantServiceImpl implements AssistantService {
             assistant.getUser().setPassword(passwordEncoder.encode(assistant.getUser().getPassword()));
         }
         this.userRepository.updateUser(assistant.getUser());
-        Faculty faculty = this.facultyRepository.getFacultyById(assistant.getFaculty().getId());
+        Faculty faculty = this.facultyService.getFacultyById(assistant.getFaculty().getId());
         assistant.setFaculty(faculty);
         this.assistantRepository.updateAssistant(assistant);
     }

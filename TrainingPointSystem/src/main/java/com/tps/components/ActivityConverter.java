@@ -19,6 +19,9 @@ public class ActivityConverter {
     @Autowired
     MissionConverter missionConverter;
 
+    @Autowired
+    private PointGroupConverter pointGroupConverter;
+
 
     public Activity toEntity(ActivityDTO dto) {
         Activity activity = new Activity();
@@ -47,7 +50,7 @@ public class ActivityConverter {
 
         dto.setId(activity.getId());
         dto.setName(activity.getName());
-        dto.setPointGroup(PointGroupConverter.toDTO(pointGroupService.getPointGroup(activity.getPointGroup().getId())));
+        dto.setPointGroup(pointGroupConverter.toDTO(pointGroupService.getPointGroup(activity.getPointGroup().getId())));
         dto.setMissions(activity.getMissions().stream().map(missionConverter::toDTO).collect(Collectors.toList()));
         dto.setMaxPoint(activity.getMaxPoint());
         return dto;

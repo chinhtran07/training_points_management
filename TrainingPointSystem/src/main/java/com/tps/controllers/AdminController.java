@@ -39,6 +39,9 @@ public class AdminController {
     @Autowired
     private StatsConverter statsConverter;
 
+    @Autowired
+    private UserService userService;
+
 
     @GetMapping("/")
     public String admin(Model model) {
@@ -129,7 +132,7 @@ public class AdminController {
 
         if (!rs.hasErrors()) {
             try {
-                if (user.getId() != null)
+                if (user.getId() > 0)
                     this.assistantService.updateAssistant(user);
                 else {
                     this.assistantService.addAssistant(user);
@@ -148,7 +151,7 @@ public class AdminController {
 
     @PostMapping("/assistants/delete")
     public String delete(@RequestParam int id) {
-        this.assistantService.deleteAssistant(this.assistantService.getAssistantById(id));
+        this.userService.deleteUser(this.userService.getUserById(id));
         return "redirect:/admin/assistants";
     }
 

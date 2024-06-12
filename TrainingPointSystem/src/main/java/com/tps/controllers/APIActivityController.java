@@ -54,6 +54,8 @@ public class APIActivityController {
         return new ResponseEntity<>(activityConverter.toDetailDTO(activity), HttpStatus.OK);
     }
 
+
+
     @PostMapping(path = "/{activityId}/missions", consumes = {
             MediaType.APPLICATION_JSON_VALUE
     })

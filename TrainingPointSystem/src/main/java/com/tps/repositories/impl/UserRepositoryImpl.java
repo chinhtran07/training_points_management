@@ -69,13 +69,14 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void updateUser(User user) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        session.saveOrUpdate(user);
+        session.update(user);
     }
 
     @Override
     public void deleteUser(User user) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        session.delete(user);
+        user.setIsActive(false);
+        session.update(user);
     }
 
     @Override
