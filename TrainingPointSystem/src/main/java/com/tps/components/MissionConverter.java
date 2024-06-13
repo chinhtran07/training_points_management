@@ -7,6 +7,7 @@ import com.tps.services.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.ejb.Local;
 import java.time.LocalDate;
 
 @Component
@@ -23,8 +24,8 @@ public class MissionConverter {
         dto.setName(mission.getName());
         dto.setContent(mission.getContent());
         dto.setPoint(mission.getPoint());
-        dto.setStartDate(mission.getStartDate());
-        dto.setEndDate(mission.getEndDate());
+        dto.setStartDate(mission.getStartDate().toString());
+        dto.setEndDate(mission.getEndDate().toString());
 //        dto.setActivity(activityConverter.toDTO(mission.getActivity()));
         return dto;
     }
@@ -35,8 +36,8 @@ public class MissionConverter {
         mission.setContent(missionDTO.getContent());
 //        mission.setActivity(activityConverter.toEntity(missionDTO.getActivity()));
         mission.setPoint(missionDTO.getPoint());
-        mission.setStartDate(missionDTO.getStartDate());
-        mission.setEndDate(missionDTO.getEndDate());
+        mission.setStartDate(LocalDate.parse(missionDTO.getStartDate()));
+        mission.setEndDate(LocalDate.parse(missionDTO.getEndDate()));
 
         return mission;
     }

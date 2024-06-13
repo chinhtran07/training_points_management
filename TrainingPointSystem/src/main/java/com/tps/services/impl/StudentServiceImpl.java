@@ -26,13 +26,13 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
 
     @Autowired
-    ClassService classService;
+    private ClassService classService;
 
     @Autowired
-    FacultyService facultyService;
+    private FacultyService facultyService;
 
     @Override
-    public Student getStudentByStudentId(String studentId) {
+    public Student findStudentByStudentId(String studentId) {
         return this.studentRepository.findStudentByStudentId(studentId);
     }
 

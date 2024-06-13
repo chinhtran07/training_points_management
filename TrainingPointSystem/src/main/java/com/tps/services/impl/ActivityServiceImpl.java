@@ -7,6 +7,7 @@ import com.tps.pojo.Mission;
 import com.tps.repositories.ActivityRepository;
 import com.tps.repositories.PointGroupRepository;
 import com.tps.services.ActivityService;
+import com.tps.services.PointGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +22,12 @@ public class ActivityServiceImpl implements ActivityService {
     private ActivityRepository activityRepository;
 
     @Autowired
-    private PointGroupRepository pointGroupRepository;
+    private PointGroupService pointGroupService;
 
 
     @Override
     public Activity addActivity(int pointGroupId, Activity activity) {
-        activity.setPointGroup(this.pointGroupRepository.getPointGroup(pointGroupId));
+        activity.setPointGroup(this.pointGroupService.getPointGroup(pointGroupId));
         return this.activityRepository.addActivity(activity);
     }
 

@@ -11,6 +11,7 @@ import com.tps.pojo.Mission;
 import com.tps.services.ActivityService;
 import com.tps.services.MissionService;
 import com.tps.services.RegisterMissionService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/activities")
-@CrossOrigin()
+@Api(value = "API")
 public class APIActivityController {
     @Autowired
     private ActivityService activityService;
@@ -38,6 +39,7 @@ public class APIActivityController {
 
     @Autowired
     ActivityConverter activityConverter;
+
     @Autowired
     private MissionConverter missionConverter;
 
@@ -54,21 +56,6 @@ public class APIActivityController {
         return new ResponseEntity<>(activityConverter.toDetailDTO(activity), HttpStatus.OK);
     }
 
-
-
-    @PostMapping(path = "/{activityId}/missions", consumes = {
-            MediaType.APPLICATION_JSON_VALUE
-    })
-    public ResponseEntity<ActivityDetailDTO> addMission(@RequestBody Mission mission, @PathVariable int activityId) {
-        Activity activity = this.activityService.getActivityById(activityId);
-        this.missionService.addMission(mission, activityId);
-        if (activity == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        ActivityDetailDTO dto = activityConverter.toDetailDTO(activity);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
     @PostMapping("/{activityId}/missions")
     public ResponseEntity<MissionDTO> addMission(@PathVariable int activityId,
                                                  @RequestBody MissionDTO missionDTO) {
@@ -76,21 +63,9 @@ public class APIActivityController {
         if (activity == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        this.missionService.addMission(missionConverter.toEntity(missionDTO), activityId);
-        return new ResponseEntity<>(missionDTO, HttpStatus.CREATED);
+        MissionDTO result = missionConverter.toDTO(this.missionService.addMission(missionConverter.toEntity(missionDTO), activityId));
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
-
-    @GetMapping("/{activityId}/missions")
-    public ResponseEntity<List<MissionDTO>> getMissionByActivity(@PathVariable int activityId) {
-        Activity activity = activityService.getActivityById(activityId);
-        if(activity == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        List<Mission> missions = activityService.getMissionsByActivity(activityId);
-        List<MissionDTO> missionDTOs = missions.stream().map(m -> missionConverter.toDTO(m)).collect(Collectors.toList());
-        return new ResponseEntity<>(missionDTOs, HttpStatus.OK);
-    }
-
 
     @PutMapping("/{activityId}")
     public ResponseEntity updateActivity(@PathVariable int activityId, @RequestBody ActivityDTO activityDTO) {

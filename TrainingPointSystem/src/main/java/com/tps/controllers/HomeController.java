@@ -16,6 +16,7 @@ import static com.tps.pojo.User.ADMIN;
 
 @Controller
 @ControllerAdvice
+@RequestMapping("/")
 public class HomeController {
 
     @Autowired

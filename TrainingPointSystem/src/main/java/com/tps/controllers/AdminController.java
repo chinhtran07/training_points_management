@@ -76,7 +76,6 @@ public class AdminController {
         return "new-or-update-pointgroup";
     }
 
-
     @PostMapping("/pointgroups")
     public String addOrUpdatePointGroupProcess(Model model, @ModelAttribute(value = "pointgroup") @Valid PointGroup pointGroup, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -90,7 +89,6 @@ public class AdminController {
 
         return "new-or-update-pointgroup";
     }
-
 
     @GetMapping("/assistants")
     public String user(Model model, @RequestParam(required = false) Map<String, String> params) {
@@ -112,7 +110,6 @@ public class AdminController {
         return "assistant";
     }
 
-
     @GetMapping("/assistants/new")
     public String addAssistantView(Model model) {
         model.addAttribute("assistant", new Assistant());
@@ -125,7 +122,6 @@ public class AdminController {
         model.addAttribute("assistant", assistant);
         return "update-assistant";
     }
-
 
     @PostMapping("/assistants")
     public String addOrUpdateAssistantProcess(Model model, @ModelAttribute(value = "assistant") @Valid Assistant user, BindingResult rs) {

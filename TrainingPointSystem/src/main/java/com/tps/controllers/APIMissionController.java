@@ -8,10 +8,7 @@ import com.tps.dto.MissionCreateDTO;
 import com.tps.dto.MissionDTO;
 import com.tps.dto.RegisterMissionDTO;
 import com.tps.pojo.*;
-import com.tps.services.MissingReportService;
-import com.tps.services.MissionService;
-import com.tps.services.RegisterMissionService;
-import com.tps.services.UserService;
+import com.tps.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,9 +28,6 @@ import java.util.stream.Collectors;
 public class APIMissionController {
 
     @Autowired
-    JwtService jwtService;
-
-    @Autowired
     UserService userService;
 
     @Autowired
@@ -51,9 +45,11 @@ public class APIMissionController {
     @Autowired
     RegisterMissionConverter registerMissionConverter;
 
+    @Autowired
+    private ActivityService activityService;
 
-    @GetMapping()
-    public ResponseEntity<List<RegisterMissionDTO>> getUseMission(@RequestParam Map<String, String> params,
+    @GetMapping("/user-mission")
+    public ResponseEntity<List<RegisterMissionDTO>> getUserMission(@RequestParam Map<String, String> params,
                                                                   Principal principal) throws ParseException {
         User user = userService.getUserByUsername(principal.getName());
 
@@ -115,10 +111,9 @@ public class APIMissionController {
         }
 
 
-        if (params != null && params.get("description") != null &&  !params.get("description").isEmpty()) {
+        if (params != null && params.get("description") != null && !params.get("description").isEmpty()) {
             missingreport.setDescription(params.get("description"));
-        }
-        else {
+        } else {
             missingreport.setDescription(null);
             missingreport.setIsActive(!missingreport.getIsActive());
         }
@@ -126,4 +121,14 @@ public class APIMissionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    @GetMapping("")
+    public ResponseEntity<List<MissionDTO>> getAllMissions(@RequestParam String activityId) {
+        Activity activity = activityService.getActivityById(Integer.parseInt(activityId));
+        if (activity == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(this.activityService.getMissionsByActivity(Integer.parseInt(activityId))
+                .stream().map(m -> missionConverter.toDTO(m)).collect(Collectors.toList()), HttpStatus.OK);
+    }
 }

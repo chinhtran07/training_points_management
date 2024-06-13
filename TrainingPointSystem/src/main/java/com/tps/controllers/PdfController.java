@@ -28,7 +28,7 @@ public class PdfController {
         // Set headers for PDF response
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(ContentDisposition.builder("inline").filename("report.pdf").build());
+        headers.setContentDispositionFormData("attachment", "stats.pdf");
 
         // Return PDF bytes as ResponseEntity
         return new ResponseEntity<>(pdfByteArray, headers, HttpStatus.CREATED);

@@ -16,7 +16,6 @@ public class FacultyServiceImpl implements FacultyService {
     @Autowired
     private FacultyRepository facultyRepository;
 
-
     @Override
     public void addFaculty(Faculty faculty) {
         this.facultyRepository.addFaculty(faculty);

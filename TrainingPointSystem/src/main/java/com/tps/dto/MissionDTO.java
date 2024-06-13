@@ -11,8 +11,8 @@ public class MissionDTO {
     private String name;
     private Integer point;
     private String content;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
 //    private int pointGroup;
 //    private String semester;
 //    private ActivityDTO activity;

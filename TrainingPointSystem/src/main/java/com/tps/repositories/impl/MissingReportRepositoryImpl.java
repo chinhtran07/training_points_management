@@ -99,7 +99,7 @@ public class MissingReportRepositoryImpl implements MissingReportRepository {
     public void uploadMissingImages(List<MultipartFile> files, int missing_id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
 //        MissingReport missingReport = session.get(MissingReport.class, missing_id);
-        files.stream().forEach(file -> {
+        files.forEach(file -> {
             MissingReportImage missingReportImage = new MissingReportImage();
             Map res = null;
             try {
