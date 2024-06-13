@@ -14,10 +14,13 @@ import com.tps.services.PostService;
 import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,18 +53,38 @@ public class APIPostController {
         return new ResponseEntity(postDTOS, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<PostDTO> addPost(@RequestBody PostCreateDTO postDTO, Principal principal) {
+    @PostMapping(consumes = {
+            MediaType.MULTIPART_FORM_DATA_VALUE
+    })
+    public ResponseEntity<PostDTO> addPost(@RequestParam HashMap<String, String> params,
+                                           Principal principal,
+                                           @RequestParam MultipartFile[] images) {
+        PostCreateDTO postDTO = new PostCreateDTO();
+        postDTO.setContent(params.get("content"));
+        postDTO.setActivity(Integer.parseInt(params.get("activity")));
         postDTO.setAssistant(userService.getUserByUsername(principal.getName()).getId());
-        return new ResponseEntity<>(postService.addPost(postDTO), HttpStatus.CREATED);
+
+        return new ResponseEntity<>(postService.addPost(postDTO, images), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity detailPost(@PathVariable int postId) {
+        Post post = postService.getPostById(postId);
+        if ( post == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(postConverter.convertToDTO(post),HttpStatus.OK);
     }
 
     @PutMapping("/{postId}")
     public ResponseEntity updatePost(@PathVariable int postId,
+                                     Principal principal,
                                      @RequestBody PostCreateDTO postDTO) {
         if (postService.getPostById(postId) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        User u = userService.getUserByUsername(principal.getName());
+        postDTO.setAssistant(u.getId());
         this.postService.updatePost(postId, postDTO);
         return new ResponseEntity(HttpStatus.OK);
     }

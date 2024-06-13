@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,11 +22,11 @@ public class MissingReport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
@@ -43,5 +44,18 @@ public class MissingReport implements Serializable {
     @Column(name = "updated_date")
     @UpdateTimestamp
     private Instant updatedDate;
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    public enum Status {
+        WAITING,
+        DENY,
+        ACCEPT
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "missingReport")
+    private List<MissingReportImage> images;
 
 }

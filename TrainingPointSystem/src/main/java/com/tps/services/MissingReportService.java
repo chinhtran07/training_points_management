@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface MissingReportService {
+    MissingReport getMissingById(int missingReportId);
     MissingReport getMissingByStudentMission(int studentId, int missionId);
     void updateMissingReport (MissingReport missingreport);
     List<Object[]> getMissionReportByFaculty(int facultyId);

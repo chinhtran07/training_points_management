@@ -27,7 +27,7 @@ public class Post implements Serializable {
     @Lob
     @Column(name = "content")
     private String content;
-//
+
 //    @Size(max = 255)
 //    @Column(name = "image")
 //    private String image;
