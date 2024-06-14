@@ -70,15 +70,15 @@ public class AssistantServiceImpl implements AssistantService {
         this.assistantRepository.updateAssistant(assistant);
     }
 
-    @Override
-    public void deleteAssistant(Assistant assistant) {
-        this.assistantRepository.deleteAssistant(assistant);
-    }
+//    @Override
+//    public void deleteAssistant(Assistant assistant) {
+//        this.assistantRepository.deleteAssistant(assistant);
+//    }
 
-    @Override
-    public List<Assistant> getAllAssistants(Map<String, String> params) {
-        return this.assistantRepository.getAllAssistants(params);
-    }
+//    @Override
+//    public List<Assistant> getAllAssistants(Map<String, String> params) {
+//        return this.assistantRepository.getAllAssistants(params);
+//    }
 
     @Override
     public Assistant getAssistantById(int id) {
