@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -59,4 +60,9 @@ public class Post implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     private List<Image> images;
+
+    @Size(max = 255)
+    @Column(name = "image")
+    private String image;
+
 }

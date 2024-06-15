@@ -36,9 +36,8 @@ public class APIStatsController {
     private UserService userService;
 
     @GetMapping("/training-points/faculty")
-    public ResponseEntity<List<ClassTotalPointsDTO>> statsTrainingPointByFaculty(Principal principal) {
+    public ResponseEntity<List<ClassTotalPointsDTO>> statsTrainingPointByFaculty(Principal principal, @RequestParam Map<String, String> params) {
         User user = this.userService.getUserByUsername(principal.getName());
-        Map<String, String> params = new HashMap<>();
         params.put("facultyId", String.valueOf(user.getAssistant().getFaculty().getId()));
         List<ClassTotalPointsDTO> result = this.statsService.statsTrainingPointByFaculty(params).stream()
                 .map(o -> statsConverter.toClassTotalPointDTO(o)).collect(Collectors.toList());
@@ -46,9 +45,8 @@ public class APIStatsController {
     }
 
     @GetMapping("/training-points/rank")
-    public ResponseEntity<List<RankTotalPointsDTO>> statsTrainingPointByRank(Principal principal) {
+    public ResponseEntity<List<RankTotalPointsDTO>> statsTrainingPointByRank(Principal principal, @RequestParam Map<String, String> params) {
         User user = this.userService.getUserByUsername(principal.getName());
-        Map<String, String> params = new HashMap<>();
         params.put("facultyId", String.valueOf(user.getAssistant().getFaculty().getId()));
         List<RankTotalPointsDTO> dtoList = this.statsService.statsTrainingPointByRank(params).stream()
                 .map(o -> statsConverter.toRankTotalPointsDTO(o)).collect(Collectors.toList());

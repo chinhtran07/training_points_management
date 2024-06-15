@@ -12,13 +12,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Repository
 @Transactional
@@ -111,6 +110,37 @@ public class MissingReportRepositoryImpl implements MissingReportRepository {
             missingReportImage.setMissingReport(missing_id);
             session.save(missingReportImage);
         });
+    }
+
+    @Override
+    public List<Object[]> getMissingReportByStudentId(int studentId, int periodId) {
+        Session session = Objects.requireNonNull(this.sessionFactory.getObject()).getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Object> cq = cb.createQuery(Object.class);
+
+        Root<Student> root = cq.from(Student.class);
+        Join<Student, MissingReport> missingReportJoin = root.join("missingReports");
+        Join<MissingReport, Mission> missionJoin = missingReportJoin.join("mission");
+        Join<Mission, Activity> activityJoin = missionJoin.join("activity");
+        Join<Activity, PointGroup> pointGroupJoin = activityJoin.join("pointGroup");
+
+        cq.multiselect(
+                pointGroupJoin.get("name"),
+                activityJoin.get("name"),
+                missionJoin.get("id"), missionJoin.get("name"), missionJoin.get("point"),
+                missingReportJoin.get("description"), missingReportJoin.get("status")
+        );
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.equal(root.get("id"), studentId));
+        predicates.add(cb.equal(activityJoin.get("period").get("id"), periodId));
+
+        cq.where(predicates.toArray(Predicate[]::new));
+        cq.orderBy(cb.asc(pointGroupJoin.get("id")));
+
+
+        javax.persistence.Query query = session.createQuery(cq);
+        return query.getResultList();
     }
 }
 

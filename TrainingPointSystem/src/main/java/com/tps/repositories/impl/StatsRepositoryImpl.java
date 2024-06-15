@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,13 +42,23 @@ public class StatsRepositoryImpl implements StatsRepository {
         Root<Student> missionPointsStudentRoot = missionPointsSubquery.from(Student.class);
         Join<Student, RegisterMission> missionPointsRegisterJoin = missionPointsStudentRoot.join("registerMissions");
         Join<RegisterMission, Mission> missionPointsMissionJoin = missionPointsRegisterJoin.join("mission");
+        Join<Mission, Activity> missionActivityJoin = missionPointsMissionJoin.join("activity");
 
         Expression<Integer> missionPoints = builder.sum(builder.<Integer>selectCase()
                 .when(builder.isTrue(missionPointsRegisterJoin.get("isCompleted")), missionPointsMissionJoin.get("point"))
                 .otherwise(0));
 
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        String periodId = params.get("periodId");
+        if(periodId != null && !periodId.isEmpty()) {
+            predicates.add(builder.equal(missionActivityJoin.get("period").get("id"), periodId));
+        }
+
+        predicates.add(builder.equal(missionPointsStudentRoot.get("id"), studentRoot.get("id")));
+
+
         missionPointsSubquery.select(missionPoints);
-        missionPointsSubquery.where(builder.equal(missionPointsStudentRoot.get("id"), studentRoot.get("id")));
+        missionPointsSubquery.where(predicates.toArray(Predicate[]::new));
         missionPointsSubquery.groupBy(missionPointsStudentRoot.get("id"));
 
         // Subquery for calculating activity points per student

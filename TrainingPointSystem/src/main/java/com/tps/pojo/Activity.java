@@ -59,4 +59,8 @@ public class Activity implements Serializable {
     private Integer maxPoint;
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "period_id")
+    private Period period;
+
 }

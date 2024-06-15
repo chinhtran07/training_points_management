@@ -40,4 +40,8 @@ public class Reaction implements Serializable {
     @UpdateTimestamp
     private Instant updatedDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private Student student;
+
 }

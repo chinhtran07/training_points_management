@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -43,5 +44,10 @@ public class MissingReport implements Serializable {
     @Column(name = "updated_date")
     @UpdateTimestamp
     private Instant updatedDate;
+
+    @NotNull
+    @Lob
+    @Column(name = "status", nullable = false)
+    private String status;
 
 }

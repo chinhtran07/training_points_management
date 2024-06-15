@@ -3,6 +3,7 @@ package com.tps.controllers;
 import com.tps.components.MissingReportConverter;
 import com.tps.dto.MissingReportDTO;
 import com.tps.dto.MissingReportFacultyDTO;
+import com.tps.dto.MissingReportStudentDTO;
 import com.tps.services.MissingReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/missing-report")
@@ -27,7 +29,7 @@ public class APIMissingReportController {
     @Autowired
     private MissingReportConverter missingReportConverter;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/faculty")
     public ResponseEntity<List<MissingReportFacultyDTO>> getMissingReportByFaculty(@RequestParam String facultyId) {
         if (facultyId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -44,5 +46,16 @@ public class APIMissingReportController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/student")
+    public ResponseEntity<List<MissingReportStudentDTO>> getMissingReportOfStudent(@RequestParam int studentId, @RequestParam int periodId) {
+        if (studentId <= 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<MissingReportStudentDTO> missingReportStudentDTOS = this.missingReportService.getMissingReportByStudentId(studentId, periodId)
+                .stream().map(m -> this.missingReportConverter.toMissingReportStudentDTO(m)).collect(Collectors.toList());
+
+        return new ResponseEntity<>(missingReportStudentDTOS, HttpStatus.OK);
     }
 }

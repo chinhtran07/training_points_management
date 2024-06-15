@@ -54,4 +54,9 @@ public class MissingReportServiceImpl implements MissingReportService {
     public void uploadMissingImages(List<MultipartFile> files, int missing_id) {
         this.missingReportRepository.uploadMissingImages(files, missing_id);
     }
+
+    @Override
+    public List<Object[]> getMissingReportByStudentId(int studentId, int periodId) {
+        return this.missingReportRepository.getMissingReportByStudentId(studentId, periodId);
+    }
 }
