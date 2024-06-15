@@ -7,4 +7,5 @@ public interface StatsRepository {
     List<Object[]> statsTrainingPointByFaculty(Map<String, String> params);
     List<Object[]> statsTrainingPointByRank(Map<String, String> params);
     List<Object[]> statsTrainingPoint(Map<String, String> params);
+    List<Object[]> statsCountActivitiesByPointGroup(Map<String, String> params);
 }

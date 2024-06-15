@@ -10,7 +10,7 @@
 <%@page isELIgnored="false" %>
 <div class="container-fluid bg-secondary p-3 mb-2">
     <div class="d-flex align-items-center">
-        <c:url var="home" value="${pageContext.request.contextPath}/admin/" />
+        <c:url var="home" value="/admin/" />
         <div>
             <a href="${home}" class="text-uppercase fs-2 fw-bold text-white text-decoration-none">Quản trị hệ thống</a>
         </div>
