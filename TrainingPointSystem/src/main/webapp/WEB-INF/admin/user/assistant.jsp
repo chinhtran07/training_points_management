@@ -26,6 +26,25 @@
                 </a>
             </div>
         </div>
+        <form>
+            <h3>Tiêu chí</h3>
+            <div class="d-flex">
+                <div class="p-2">
+                    <select id="faculties" name="facultyId" class="form-select">
+                        <option value="">Chọn khoa: </option>
+                        <c:forEach items="${faculties}" var="faculty">
+                            <option value="${faculty.id}">${faculty.name}</option>
+                        </c:forEach>
+                    </select>
+                    <label for="faculties" class="form-label"></label>
+                </div>
+                <div class="p-2">
+                    <input type="search" id="search" name="kw" class="form-control" placeholder="Nhập username"/>
+                    <label for="search" class="form-label"></label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Lọc</button>
+        </form>
         <div class="container-fluid min-vh-100">
             <table class="table table-striped">
                 <thead class="table-bordered">
@@ -53,10 +72,10 @@
                         <td>
                             <c:choose>
                                 <c:when test="${u.isActive}">
-                                    active
+                                    activate
                                 </c:when>
                                 <c:otherwise>
-                                    inactive
+                                    deactivate
                                 </c:otherwise>
                             </c:choose>
                         </td>

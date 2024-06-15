@@ -69,7 +69,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void updateUser(User user) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        session.saveOrUpdate(user);
+        session.update(user);
     }
 
     @Override

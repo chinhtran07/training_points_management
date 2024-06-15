@@ -2,6 +2,7 @@ package com.tps.components;
 
 import com.tps.dto.MissingReportDTO;
 import com.tps.dto.MissingReportFacultyDTO;
+import com.tps.dto.MissingReportStudentDTO;
 import com.tps.pojo.MissingReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,5 +45,18 @@ public class MissingReportConverter {
         missingReportDTO.setStatus(missingreport.getStatus().toString());
         missingReportDTO.setImages(missingreport.getImages().stream().map(image -> imageConverter.toDTO(image)).collect(Collectors.toList()));
         return missingReportDTO;
+    }
+
+    public MissingReportStudentDTO toMissingReportStudentDTO(Object[] o) {
+        MissingReportStudentDTO missingReportStudentDTO = new MissingReportStudentDTO();
+        missingReportStudentDTO.setPointGroupName(o[0].toString());
+        missingReportStudentDTO.setActivityName(o[1].toString());
+        missingReportStudentDTO.setMissionId(o[2].toString());
+        missingReportStudentDTO.setMissionName(o[3].toString());
+        missingReportStudentDTO.setMissionPoint((Integer) o[4]);
+        missingReportStudentDTO.setDescription(o[5].toString());
+        missingReportStudentDTO.setStatus(o[6].toString());
+
+        return missingReportStudentDTO;
     }
 }

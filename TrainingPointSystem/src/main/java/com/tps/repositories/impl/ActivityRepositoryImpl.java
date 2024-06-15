@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 @Transactional
@@ -116,6 +117,6 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     public List<Mission> getMissionsByActivity(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Activity activity = session.get(Activity.class, id);
-        return new ArrayList<>(activity.getMissions());
+        return activity.getMissions().stream().sorted((x,y) -> x.getId().compareTo(y.getId())).collect(Collectors.toList());
     }
 }

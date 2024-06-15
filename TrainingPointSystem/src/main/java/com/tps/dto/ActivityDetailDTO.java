@@ -11,7 +11,7 @@ public class ActivityDetailDTO {
 
     private int Id;
     private String Name;
-    private PointGroupDTO pointGroup;
-    private List<MissionDTO> missions;
     private int maxPoint;
+    private int pointGroupId;
+    private List<MissionDTO> missions;
 }

@@ -60,7 +60,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(STUDENT);
+        if (user.getRole() == null)
+            user.setRole(STUDENT);
 
         if (!user.getFile().isEmpty()) {
 

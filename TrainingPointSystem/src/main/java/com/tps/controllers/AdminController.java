@@ -39,13 +39,19 @@ public class AdminController {
     @Autowired
     private StatsConverter statsConverter;
 
+    @Autowired
+    private UserService userService;
 
-    @GetMapping("/")
+    @Autowired
+    private PeriodService periodService;
+
+    @Autowired
+    private SemesterService semesterService;
+
+    @GetMapping("")
     public String admin(Model model) {
-        Set<String> pojos = new HashSet<>();
-        pojos.add("Users");
-        pojos.add("PointGroups");
-        model.addAttribute("pojos", pojos);
+        model.addAttribute("years", this.periodService.getYears());
+        model.addAttribute("semesters", this.semesterService.getSemesters());
         return "admin";
     }
 
@@ -73,7 +79,6 @@ public class AdminController {
         return "new-or-update-pointgroup";
     }
 
-
     @PostMapping("/pointgroups")
     public String addOrUpdatePointGroupProcess(Model model, @ModelAttribute(value = "pointgroup") @Valid PointGroup pointGroup, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -88,9 +93,8 @@ public class AdminController {
         return "new-or-update-pointgroup";
     }
 
-
     @GetMapping("/assistants")
-    public String user(Model model, @RequestParam(required = false) Map<String, String> params) {
+    public String assistantView(Model model, @RequestParam(required = false) Map<String, String> params) {
         List<String> field = new ArrayList<>();
 
         field.add("id");
@@ -100,15 +104,12 @@ public class AdminController {
         field.add("Faculty");
         field.add("Active");
 
-
-        params.put("role", User.ASSISTANT);
         List<UserAssistantDTO> userAssistants = this.assistantService.getUserAssistants(params).stream()
                 .map(info -> userConverter.toUserAssistantDTO(info)).collect(Collectors.toList());
         model.addAttribute("field", field);
         model.addAttribute("users", userAssistants);
         return "assistant";
     }
-
 
     @GetMapping("/assistants/new")
     public String addAssistantView(Model model) {
@@ -123,40 +124,40 @@ public class AdminController {
         return "update-assistant";
     }
 
-
     @PostMapping("/assistants")
-    public String addOrUpdateAssistantProcess(Model model, @ModelAttribute(value = "assistant") @Valid Assistant user, BindingResult rs) {
+    public String addAssistantProcess(Model model, @ModelAttribute(value = "assistant") @Valid Assistant user, BindingResult rs) {
 
         if (!rs.hasErrors()) {
             try {
-                if (user.getId() != null)
-                    this.assistantService.updateAssistant(user);
-                else {
-                    this.assistantService.addAssistant(user);
-                }
+                this.assistantService.addAssistant(user);
                 return "redirect:/admin/assistants";
             } catch (Exception e) {
                 model.addAttribute("errMsg", e.toString());
             }
         }
-
-        if (user.getId() != null) {
-            return "update-assistant";
-        }
         return "new-assistant";
+    }
+
+    @PostMapping("/assistants/update")
+    public String updateAssistantProcess(Model model, @ModelAttribute(value = "assistant") @Valid Assistant user, BindingResult rs) {
+
+        if (!rs.hasErrors()) {
+            try {
+                this.assistantService.updateAssistant(user);
+                return "redirect:/admin/assistants";
+            } catch (Exception e) {
+                model.addAttribute("errMsg", e.toString());
+                e.printStackTrace();
+            }
+        }
+        return "update-assistant";
     }
 
     @PostMapping("/assistants/delete")
     public String delete(@RequestParam int id) {
-        this.assistantService.deleteAssistant(this.assistantService.getAssistantById(id));
+        this.userService.deleteUser(this.userService.getUserById(id));
         return "redirect:/admin/assistants";
     }
-
-    @RequestMapping("")
-    public String home(Model model) {
-        return "admin";
-    }
-
 
     @RequestMapping("/stats")
     public String stats(Model model) {

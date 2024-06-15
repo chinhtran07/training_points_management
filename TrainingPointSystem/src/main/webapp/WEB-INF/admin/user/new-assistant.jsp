@@ -88,7 +88,7 @@
             </div>
             <div class="mb-3 mt-3">
                 <label for="file">Ảnh đại diện</label>
-                <input type="file" accept=".png,.jpg" class="form-control" path="file" id="file" name="file"/>
+                <form:input type="file" accept=".png,.jpg" class="form-control" path="user.file" id="file" name="file"/>
                 <c:if test="${assistant.user.avatar != null}">
                     <img src="${assistant.user.avatar }" width="200"/>
                 </c:if>

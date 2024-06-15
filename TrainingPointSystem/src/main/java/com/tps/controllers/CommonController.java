@@ -16,7 +16,8 @@ import static com.tps.pojo.User.ADMIN;
 
 @Controller
 @ControllerAdvice
-public class HomeController {
+@RequestMapping("/")
+public class CommonController {
 
     @Autowired
     private FacultyService facultyService;
@@ -26,11 +27,7 @@ public class HomeController {
         HashMap<String, String> views = new HashMap<>();
         views.put("assistants", "Quản lý trợ lý sinh viên");
         views.put("pointGroups", "Quản lý điều lệ");
-        model.addAttribute("views", views);
-    }
-
-    @ModelAttribute
-    public void faculties(Model model) {
         model.addAttribute("faculties", this.facultyService.getAllFaculty(new HashMap<>()));
+        model.addAttribute("views", views);
     }
 }

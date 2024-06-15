@@ -4,7 +4,7 @@ import com.tps.pojo.RegisterMission;
 import com.tps.repositories.MissionRepository;
 import com.tps.repositories.RegisterMissionRepository;
 import com.tps.repositories.UserRepository;
-import com.tps.services.RegisterMissionService;
+import com.tps.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,13 +33,13 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
     RegisterMissionRepository registerMissionRepository;
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
-    private StudentRepository studentRepository;
+    private StudentService studentService;
 
     @Autowired
-    MissionRepository missionRepository;
+    private MissionService missionService;
 
 
     @Override
@@ -55,8 +55,8 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
     @Override
     public RegisterMission addRegisterMission(int studentId, int missionId) {
         RegisterMission registermission = new RegisterMission();
-        registermission.setMission(missionRepository.getMissionById(missionId));
-        registermission.setStudent(userRepository.getUserById(studentId).getStudent());
+        registermission.setMission(missionService.getMissionById(missionId));
+        registermission.setStudent(userService.getUserById(studentId).getStudent());
 
         return this.registerMissionRepository.addRegisterMission(registermission);
     }
@@ -71,8 +71,8 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
                 String studentId = nextLine[0].substring(1);
                 String missionId = nextLine[1];
                 boolean isCompleted = nextLine[2].equals("1");
-                if (this.missionRepository.checkMissionBelongToActivity(activityId, missionId)) {
-                    Student student = this.studentRepository.findStudentByStudentId(studentId);
+                if (this.missionService.checkMissionBelongToActivity(activityId, missionId)) {
+                    Student student = this.studentService.findStudentByStudentId(studentId);
                     RegisterMission registermission = this.registerMissionRepository.getRegisterByStudentMission(student.getId(), Integer.parseInt(missionId));
                     registermission.setIsCompleted(isCompleted);
                     updateList.add(registermission);

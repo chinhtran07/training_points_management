@@ -13,4 +13,5 @@ public interface MissingReportService {
     List<Object[]> getMissionReportByFaculty(int facultyId);
     MissingReport addMissingReport(int studentId, int missionId, Map<String, String> params);
     void uploadMissingImages(List<MultipartFile> files, int missing_id);
+    List<Object[]> getMissingReportByStudentId(int studentId, int periodId);
 }

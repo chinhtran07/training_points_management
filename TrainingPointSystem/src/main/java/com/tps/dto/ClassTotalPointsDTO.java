@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 public class ClassTotalPointsDTO {
     private String name;
-    private String totalStudents;
-    private String avgTotalPoints;
+    private Long totalStudents;
+    private Double avgTotalPoints;
 }

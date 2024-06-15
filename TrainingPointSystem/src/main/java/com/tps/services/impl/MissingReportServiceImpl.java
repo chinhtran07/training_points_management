@@ -5,6 +5,8 @@ import com.tps.repositories.MissingReportRepository;
 import com.tps.repositories.MissionRepository;
 import com.tps.repositories.UserRepository;
 import com.tps.services.MissingReportService;
+import com.tps.services.MissionService;
+import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,10 +20,10 @@ public class MissingReportServiceImpl implements MissingReportService {
     MissingReportRepository missingReportRepository;
 
     @Autowired
-    MissionRepository missionRepository;
+    MissionService missionService;
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Override
     public MissingReport getMissingById(int missingReportId) {
@@ -47,8 +49,8 @@ public class MissingReportServiceImpl implements MissingReportService {
     @Override
     public MissingReport addMissingReport(int studentId, int missionId, Map<String, String> params) {
         MissingReport missingReport = new MissingReport();
-        missingReport.setMission(missionRepository.getMissionById(missionId));
-        missingReport.setStudent(userRepository.getUserById(studentId).getStudent());
+        missingReport.setMission(missionService.getMissionById(missionId));
+        missingReport.setStudent(userService.getUserById(studentId).getStudent());
         missingReport.setDescription(params.get("description"));
 
         return this.missingReportRepository.addMissingReport(missingReport);    }
@@ -56,5 +58,10 @@ public class MissingReportServiceImpl implements MissingReportService {
     @Override
     public void uploadMissingImages(List<MultipartFile> files, int missing_id) {
         this.missingReportRepository.uploadMissingImages(files, missing_id);
+    }
+
+    @Override
+    public List<Object[]> getMissingReportByStudentId(int studentId, int periodId) {
+        return this.missingReportRepository.getMissingReportByStudentId(studentId, periodId);
     }
 }

@@ -48,6 +48,7 @@ public class AssistantRepositoryImpl implements AssistantRepository {
         CriteriaQuery<Assistant> cq = cb.createQuery(Assistant.class);
         Root<Assistant> root = cq.from(Assistant.class);
 
+        cq.where(cb.isTrue(root.get("user").get("isActive")));
         Query<Assistant> query = session.createQuery(cq);
 
         return query.getResultList();
@@ -77,6 +78,20 @@ public class AssistantRepositoryImpl implements AssistantRepository {
                 facultyJoin.get("name"),
                 userRoot.get("user").get("isActive")
         );
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        String facultyId = params.get("facultyId");
+        if (facultyId != null && !facultyId.isEmpty()) {
+            predicates.add(builder.equal(facultyJoin.get("id"), Integer.parseInt(facultyId)));
+        }
+
+        String kw = params.get("kw");
+        if (kw != null && !kw.isEmpty()) {
+            predicates.add(builder.like(userRoot.get("user").get("username"), String.format("%%%s%%", kw)));
+        }
+
+        criteria.where(predicates.toArray(Predicate[]::new));
 
         Query<Object[]> query = session.createQuery(criteria);
         return query.getResultList();

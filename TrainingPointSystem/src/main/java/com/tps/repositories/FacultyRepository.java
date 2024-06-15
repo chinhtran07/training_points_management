@@ -11,5 +11,4 @@ public interface FacultyRepository {
     void deleteFaculty(Faculty faculty);
     Faculty getFacultyById(int id);
     List<Faculty> getAllFaculty(Map<String,String> params);
-
 }

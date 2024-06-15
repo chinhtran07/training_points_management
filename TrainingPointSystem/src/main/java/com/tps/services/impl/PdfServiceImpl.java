@@ -27,24 +27,34 @@ public class PdfServiceImpl implements PdfService {
     @Override
     public ByteArrayOutputStream createPdf(TableData tableData) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
         PdfWriter writer = new PdfWriter(outputStream);
         Document document = new Document(new com.itextpdf.kernel.pdf.PdfDocument(writer));
 
         String fontPath = Objects.requireNonNull(getClass().getClassLoader().getResource("fonts/ArialUnicodeMSRegular/ArialUnicodeMSRegular.ttf")).getPath();
         PdfFont font = PdfFontFactory.createFont(fontPath, "Identity-H");
 
-        document.add(new Paragraph(tableData.getTitle()).setFont(font).setTextAlignment(TextAlignment.CENTER).setFontSize(20));
+        document.add(new Paragraph(tableData.getTitle())
+                .setFont(font)
+                .setTextAlignment(TextAlignment.CENTER)
+                .setFontSize(20));
 
         Table table = new Table(tableData.getHeaders().size() + 1);
         Color textHeaderColor = new DeviceGray(0.5f);
-        table.addHeaderCell(new Cell().add(new Paragraph("STT")).setFont(font).setFontColor(textHeaderColor));
+
+        table.addHeaderCell(new Cell().add(new Paragraph("STT"))
+                .setFont(font)
+                .setFontColor(textHeaderColor));
         for (String header : tableData.getHeaders()) {
-            table.addHeaderCell(new Cell().add(new Paragraph(header)).setFont(font).setFontColor(textHeaderColor));
+            table.addHeaderCell(new Cell().add(new Paragraph(header))
+                    .setFont(font)
+                    .setFontColor(textHeaderColor));
         }
 
         int stt = 1;
         for (List<String> row : tableData.getRows()) {
-            table.addCell(new Cell().add(new Paragraph(String.format("%d", stt++)).setFont(font)));
+            table.addCell(new Cell().add(new Paragraph(String.format("%d", stt++))
+                    .setFont(font)));
             for (String cell : row) {
                 table.addCell(new Cell().add(new Paragraph(cell)).setFont(font));
             }
