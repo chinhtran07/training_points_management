@@ -30,6 +30,12 @@ public class MissingReportRepositoryImpl implements MissingReportRepository {
     private Cloudinary cloudinary;
 
     @Override
+    public MissingReport getMissingById(int missingReportId) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        return session.get(MissingReport.class, missingReportId);
+    }
+
+    @Override
     public MissingReport getMissingByStudentMission(int studentId, int missionId) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -45,9 +51,9 @@ public class MissingReportRepositoryImpl implements MissingReportRepository {
     }
 
     @Override
-    public void updateMissingReport(MissingReport missingreport) {
+    public void updateMissingReport(MissingReport missingReport) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        session.update(missingreport);
+        session.update(missingReport);
     }
 
     @Override
@@ -58,29 +64,33 @@ public class MissingReportRepositoryImpl implements MissingReportRepository {
 
         Root<Student> root = criteria.from(Student.class);
         Join<Student, User> userJoin = root.join("user");
-        Join<Student, Faculty> facultyJoin = root.join("faculty");
         Join<Student, MissingReport> missingReportJoin = root.join("missingReports");
         Join<MissingReport, Mission> missionJoin = missingReportJoin.join("mission");
 
         criteria.multiselect(
                 userJoin.get("lastName"),
-                userJoin.get("lastName"),
+                userJoin.get("firstName"),
                 root.get("studentId"),
-                missionJoin.get("id"),
+                missionJoin.get("name"),
                 missingReportJoin.get("updatedDate"),
-                missingReportJoin.get("isActive")
+                missingReportJoin.get("isActive"),
+                missingReportJoin.get("status"),
+                missingReportJoin.get("id"),
+                missionJoin.get("activity").get("name")
         );
 
-        criteria.where(builder.equal(facultyJoin.get("id"), facultyId));
-
+        criteria.where(builder.equal(missionJoin.get("activity").get("faculty").get("id"), facultyId));
         criteria.orderBy(builder.asc(missionJoin.get("updatedDate")));
 
-        criteria.groupBy(userJoin.get("lastName"),
+        criteria.groupBy(
                 userJoin.get("lastName"),
+                userJoin.get("firstName"),
                 root.get("studentId"),
-                missionJoin.get("id"),
+                missionJoin.get("name"),
                 missingReportJoin.get("updatedDate"),
-                missingReportJoin.get("isActive"));
+                missingReportJoin.get("isActive"),
+                missingReportJoin.get("status"),
+                missingReportJoin.get("id"));
 
         Query query = session.createQuery(criteria);
 

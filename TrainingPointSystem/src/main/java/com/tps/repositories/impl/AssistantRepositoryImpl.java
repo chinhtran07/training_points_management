@@ -37,7 +37,8 @@ public class AssistantRepositoryImpl implements AssistantRepository {
     @Override
     public void deleteAssistant(Assistant assistant) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        session.delete(assistant);
+        assistant.getUser().setIsActive(false);
+        session.update(assistant);
     }
 
     @Override

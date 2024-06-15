@@ -8,12 +8,10 @@ import com.tps.services.ActivityService;
 import com.tps.services.InteractionService;
 import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.security.Principal;
 import java.util.stream.Collectors;
 
 @Component
@@ -64,7 +62,7 @@ public class PostConverter {
         postDTO.setAssistant(userConverter.toUserAssistantDTO(post.getUser().getAssistant()));
         postDTO.setActivity(activityConverter.toDTO(post.getActivity()));
         postDTO.setCreatedDate(post.getCreatedDate().toString());
-        if(postDTO.getImages() != null) {
+        if(post.getImages() != null) {
             postDTO.setImages(post.getImages()
                     .stream().map(i -> imageConverter.toDTO(i))
                     .collect(Collectors.toList()));

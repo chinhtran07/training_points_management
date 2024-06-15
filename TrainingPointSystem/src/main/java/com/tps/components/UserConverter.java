@@ -1,17 +1,20 @@
 package com.tps.components;
 
+import com.tps.dto.StudentDTO;
 import com.tps.dto.UserAssistantDTO;
 import com.tps.dto.UserDTO;
 import com.tps.pojo.Assistant;
+import com.tps.pojo.Student;
 import com.tps.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 @Component
 public class UserConverter {
+    @Autowired
+    FacultyConverter facultyConverter;
 
     public UserDTO convertToDTO(User user) {
         UserDTO dto = new UserDTO();
@@ -23,6 +26,12 @@ public class UserConverter {
         dto.setAvatar(user.getAvatar());
         dto.setDob(user.getDob().toString());
         dto.setRole(user.getRole());
+        if (Objects.equals(user.getRole(), User.ASSISTANT)) {
+            dto.setFaculty(facultyConverter.toDTO(user.getAssistant().getFaculty()));
+        }
+        else if (Objects.equals(user.getRole(), User.STUDENT)) {
+            dto.setFaculty(facultyConverter.toDTO(user.getStudent().getFaculty()));
+        }
         return dto;
     }
 
@@ -59,5 +68,14 @@ public class UserConverter {
         dto.setIsActive(assistant.getUser().getIsActive());
         dto.setAvatar(assistant.getUser().getAvatar());
         return dto;
+    }
+
+    public StudentDTO toStudentDTO(Student student) {
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setStudentId(student.getStudentId());
+        studentDTO.setClassName(student.getClassField().getName());
+        studentDTO.setUser(this.convertToDTO(student.getUser()));
+
+        return studentDTO;
     }
 }

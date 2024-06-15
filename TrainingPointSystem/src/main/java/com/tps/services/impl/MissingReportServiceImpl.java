@@ -26,6 +26,11 @@ public class MissingReportServiceImpl implements MissingReportService {
     UserService userService;
 
     @Override
+    public MissingReport getMissingById(int missingReportId) {
+        return this.missingReportRepository.getMissingById(missingReportId);
+    }
+
+    @Override
     public MissingReport getMissingByStudentMission(int studentId, int missionId) {
         return this.missingReportRepository.getMissingByStudentMission(studentId, missionId);
     }

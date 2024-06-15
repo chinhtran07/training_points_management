@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/activities")
+@CrossOrigin
 @Api(value = "API")
 public class APIActivityController {
     @Autowired

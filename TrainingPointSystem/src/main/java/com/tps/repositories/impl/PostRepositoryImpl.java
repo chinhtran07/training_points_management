@@ -36,7 +36,7 @@ public class PostRepositoryImpl implements PostRepository {
 
         criteriaQuery.select(root);
 
-        criteriaQuery.orderBy(builder.asc(root.get("createdDate")));
+        criteriaQuery.orderBy(builder.desc(root.get("createdDate")));
         Query query = session.createQuery(criteriaQuery);
 
         String page = params.get("page");
@@ -53,7 +53,8 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     public Post getPostById(int postId) {
         Session session = sessionFactory.getObject().getCurrentSession();
-        return session.get(Post.class, postId);
+        Post post = session.get(Post.class, postId);
+        return post;
     }
 
     @Override
@@ -74,6 +75,7 @@ public class PostRepositoryImpl implements PostRepository {
     public void deletePost(int postId) {
         Session session = sessionFactory.getObject().getCurrentSession();
         Post post = session.get(Post.class, postId);
-        session.delete(post);
+        post.setIsActive(false);
+        session.update(post);
     }
 }

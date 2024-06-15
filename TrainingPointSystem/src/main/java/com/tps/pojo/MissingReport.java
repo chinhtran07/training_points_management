@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,11 +23,11 @@ public class MissingReport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
@@ -45,9 +46,17 @@ public class MissingReport implements Serializable {
     @UpdateTimestamp
     private Instant updatedDate;
 
-    @NotNull
-    @Lob
     @Column(name = "status", nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.WAITING;
+
+    public enum Status {
+        WAITING,
+        DENY,
+        ACCEPT
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "missingReport")
+    private List<MissingReportImage> images;
 
 }

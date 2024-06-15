@@ -115,7 +115,8 @@ public class MissionRepositoryImpl implements MissionRepository {
     public void deleteMission(int id) {
         Session session = factoryBean.getObject().getCurrentSession();
         Mission mission = session.get(Mission.class, id);
-        session.delete(mission);
+        mission.setIsActive(false);
+        session.update(mission);
     }
 
     @Override

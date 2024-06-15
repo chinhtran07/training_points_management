@@ -3,7 +3,6 @@ package com.tps.controllers;
 import com.tps.components.JwtService;
 import com.tps.components.MissionConverter;
 import com.tps.components.RegisterMissionConverter;
-import com.tps.dto.ActivityDTO;
 import com.tps.dto.MissionCreateDTO;
 import com.tps.dto.MissionDTO;
 import com.tps.dto.RegisterMissionDTO;
@@ -17,11 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
-import java.text.ParseException;
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/missions")
@@ -59,7 +55,7 @@ public class APIMissionController {
 
     @PutMapping("/{missionId}")
     public ResponseEntity<MissionDTO> updateMission
-            (@PathVariable int missionId, @RequestBody MissionCreateDTO missionDTO) {
+            (@PathVariable int missionId, @RequestBody(required = false) MissionCreateDTO missionDTO) {
         Mission mission = missionService.getMissionById(missionId);
 
         if (mission == null) {
@@ -118,7 +114,8 @@ public class APIMissionController {
             missingreport.setIsActive(!missingreport.getIsActive());
         }
         missingReportService.updateMissingReport(missingreport);
-        return new ResponseEntity<>(HttpStatus.OK);
+        missingReportService.uploadMissingImages(files, missingreport.getId());
+        return new ResponseEntity<>(missingreport, HttpStatus.OK);
     }
 
 
