@@ -75,7 +75,7 @@ public class APIMissingReportController {
             RegisterMission registerMission = registerMissionService
                     .getRegisterByStudentMission(missingReport.getStudent().getId(),
                             missingReport.getMission().getId());
-            if(registerMission == null) {
+            if (registerMission == null) {
                 return new ResponseEntity<>("Chưa đăng ký nhiệm vụ này", HttpStatus.NOT_FOUND);
             }
             registerMission.setIsCompleted(true);
@@ -86,6 +86,7 @@ public class APIMissingReportController {
             missingReportService.updateMissingReport(missingReport);
         }
         return new ResponseEntity<>(missingReportConverter.toDTO(missingReport), HttpStatus.OK);
+    }
     @GetMapping("/student")
     public ResponseEntity<List<MissingReportStudentDTO>> getMissingReportOfStudent(@RequestParam int studentId, @RequestParam int periodId) {
         if (studentId <= 0) {
