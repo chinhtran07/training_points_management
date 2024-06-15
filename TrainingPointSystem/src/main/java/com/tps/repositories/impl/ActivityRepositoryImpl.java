@@ -94,7 +94,8 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     public void deleteActivity(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Activity activity = this.getActivityById(id);
-        session.delete(activity);
+        activity.setIsActive(false);
+        session.update(activity);
     }
 
     @Override

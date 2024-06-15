@@ -119,7 +119,8 @@ public class APIMissionController {
             missingreport.setIsActive(!missingreport.getIsActive());
         }
         missingReportService.updateMissingReport(missingreport);
-        return new ResponseEntity<>(HttpStatus.OK);
+        missingReportService.uploadMissingImages(files, missingreport.getId());
+        return new ResponseEntity<>(missingreport, HttpStatus.OK);
     }
 
 }

@@ -47,7 +47,7 @@ public class MissingReport implements Serializable {
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.WAITING;
 
     public enum Status {
         WAITING,

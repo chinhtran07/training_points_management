@@ -75,6 +75,7 @@ public class PostRepositoryImpl implements PostRepository {
     public void deletePost(int postId) {
         Session session = sessionFactory.getObject().getCurrentSession();
         Post post = session.get(Post.class, postId);
-        session.delete(post);
+        post.setIsActive(false);
+        session.update(post);
     }
 }

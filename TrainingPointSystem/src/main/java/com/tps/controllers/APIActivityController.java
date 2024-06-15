@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/activities")
-@CrossOrigin()
+@CrossOrigin
 public class APIActivityController {
     @Autowired
     private ActivityService activityService;
