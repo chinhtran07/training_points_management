@@ -35,21 +35,10 @@ public class AssistantServiceImpl implements AssistantService {
 
     @Override
     public void addAssistant(Assistant assistant) {
-        User user = new User();
-        user.setUsername(assistant.getUser().getUsername());
-        user.setPassword(passwordEncoder.encode(assistant.getUser().getPassword()));
-        user.setEmail(assistant.getUser().getEmail());
-        user.setDob(assistant.getUser().getDob());
-        user.setFirstName(assistant.getUser().getFirstName());
-        user.setLastName(assistant.getUser().getLastName());
-        user.setGender(assistant.getUser().getGender());
-        user.setAvatar(assistant.getUser().getAvatar());
-        user.setRole(User.ASSISTANT);
-        user.setPhone(assistant.getUser().getPhone());
-        user.setIsActive(assistant.getUser().getIsActive());
+        assistant.getUser().setRole(User.ASSISTANT);
 
-        this.userService.addUser(user);
-        assistant.setUser(this.userService.getUserByUsername(user.getUsername()));
+        User u = this.userService.addUser(assistant.getUser());
+        assistant.setUser(u);
 
         Faculty faculty = this.facultyService.getFacultyById(assistant.getFaculty().getId());
         assistant.setFaculty(faculty);
@@ -59,14 +48,26 @@ public class AssistantServiceImpl implements AssistantService {
 
     @Override
     public void updateAssistant(Assistant assistant) {
-        assistant.getUser().setRole(assistant.getUser().getRole());
         User user = this.userService.getUserByUsername(assistant.getUser().getUsername());
         if (passwordEncoder.matches(assistant.getUser().getPassword(), user.getPassword())) {
-            assistant.getUser().setPassword(passwordEncoder.encode(assistant.getUser().getPassword()));
+            user.setPassword(passwordEncoder.encode(assistant.getUser().getPassword()));
         }
-        this.userService.updateUser(assistant.getUser());
+
+        user.setUsername(assistant.getUser().getUsername());
+        user.setEmail(assistant.getUser().getEmail());
+        user.setPhone(assistant.getUser().getPhone());
+        user.setFirstName(assistant.getUser().getFirstName());
+        user.setLastName(assistant.getUser().getLastName());
+        user.setGender(assistant.getUser().getGender());
+        user.setDob(assistant.getUser().getDob());
+        if (assistant.getUser().getFile() != null) {
+            user.setFile(assistant.getUser().getFile());
+        }
+
+        this.userService.updateUser(user);
         Faculty faculty = this.facultyService.getFacultyById(assistant.getFaculty().getId());
         assistant.setFaculty(faculty);
+        assistant.setUser(user);
         this.assistantRepository.updateAssistant(assistant);
     }
 

@@ -35,8 +35,8 @@
                         </select>
                         <button id="btnSubmitFaculty" class="btn btn-secondary" onclick="submitFaculty()">Gửi</button>
                     </div>
-                    <div class="d-flex mt-1 justify-content-between">
-                        <button class="btn btn-primary" onclick="generatePdf()">Xuất PDF</button>
+                    <button class="btn btn-primary" onclick="generatePdf()">Xuất PDF</button>
+                    <div class="d-flex mt-1">
                         <h1 id="contentTitle" class="text-center"></h1>
                     </div>
                     <table id="contentTable" class="table table-striped">

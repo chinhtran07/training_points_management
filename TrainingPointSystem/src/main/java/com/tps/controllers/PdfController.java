@@ -27,10 +27,10 @@ public class PdfController {
 
         // Set headers for PDF response
         HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=generated.pdf");
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", "stats.pdf");
 
         // Return PDF bytes as ResponseEntity
-        return new ResponseEntity<>(pdfByteArray, headers, HttpStatus.CREATED);
+        return ResponseEntity.ok().headers(headers).body(pdfByteArray);
     }
 }

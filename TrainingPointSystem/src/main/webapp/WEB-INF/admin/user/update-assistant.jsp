@@ -20,7 +20,7 @@
             ${alert}
         </div>
     </c:if>
-    <c:url value="/admin/assistants" var="action"/>
+    <c:url value="/admin/assistants/update" var="action"/>
     <div class="card">
         <div class="card-header">
             <h3 class="text-center">Thông tin người dùng</h3>
@@ -29,7 +29,7 @@
             <div class="alert alert-danger">${errMsg}</div>
         </c:if>
         <%--@elvariable id="assistant" type="com.tps.pojo.Assistant"--%>
-        <form:form method="put" action="${action}" modelAttribute="assistant" enctype="multipart/form-data">
+        <form:form method="post" action="${action}" modelAttribute="assistant" enctype="multipart/form-data">
         <form:errors path="*" element="div" cssClass="alert alert-danger"/>
         <div class="card-body">
             <div class="form-floating mb-3 mt-3">
@@ -90,7 +90,7 @@
             </div>
             <div class="mb-3 mt-3">
                 <label for="file">Ảnh đại diện</label>
-                <input type="file" accept=".png,.jpg" class="form-control" path="file" id="file" name="file"/>
+                <form:input type="file" accept=".png,.jpg" class="form-control" path="user.file" id="file" name="file"/>
                 <c:if test="${assistant.user.avatar != null}">
                     <img src="${assistant.user.avatar }" width="200"/>
                 </c:if>
