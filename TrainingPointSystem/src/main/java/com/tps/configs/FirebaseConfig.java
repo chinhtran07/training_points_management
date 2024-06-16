@@ -23,7 +23,7 @@ public class FirebaseConfig {
         FileInputStream serviceAccount =
                 new FileInputStream(file.getAbsolutePath());
 
-        FirebaseOptions options = new FirebaseOptions.Builder()
+        FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setDatabaseUrl("https://training-point-70ac7-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .build();
