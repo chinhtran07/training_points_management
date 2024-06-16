@@ -60,6 +60,7 @@ public class AssistantServiceImpl implements AssistantService {
         user.setLastName(assistant.getUser().getLastName());
         user.setGender(assistant.getUser().getGender());
         user.setDob(assistant.getUser().getDob());
+        user.setIsActive(assistant.getUser().getIsActive());
         if (assistant.getUser().getFile() != null) {
             user.setFile(assistant.getUser().getFile());
         }
