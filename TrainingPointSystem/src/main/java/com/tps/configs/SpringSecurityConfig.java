@@ -2,6 +2,11 @@ package com.tps.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,6 +25,10 @@ import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 @Configuration
@@ -53,6 +62,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 "api_key", "381798527745373",
                 "api_secret", "mq7kD-ynrQsabeC3zUXc5zHuDIY"));
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
