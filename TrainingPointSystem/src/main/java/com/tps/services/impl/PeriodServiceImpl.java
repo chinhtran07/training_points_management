@@ -23,4 +23,9 @@ public class PeriodServiceImpl implements PeriodService {
     public Period getPeriod(String year, int semesterId) {
         return this.periodRepository.getPeriod(year, semesterId);
     }
+
+    @Override
+    public List<Period> getAllPeriods(String year) {
+        return this.periodRepository.getAllPeriods(year);
+    }
 }

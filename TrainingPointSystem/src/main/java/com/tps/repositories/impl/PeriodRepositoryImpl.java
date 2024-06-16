@@ -39,4 +39,12 @@ public class PeriodRepositoryImpl implements PeriodRepository {
 
         return (Period) query.getSingleResult();
     }
+
+    @Override
+    public List<Period> getAllPeriods(String year) {
+        Session session =  this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("from Period p where p.year = :year and p.isActive is true");
+        query.setParameter("year", year);
+        return query.getResultList();
+    }
 }

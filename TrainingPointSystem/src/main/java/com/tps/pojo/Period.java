@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -12,7 +14,9 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "period")
-public class Period {
+public class Period implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -28,5 +32,9 @@ public class Period {
 
     @OneToMany(mappedBy = "period")
     private Set<Activity> activities = new LinkedHashSet<>();
+
+    @NotNull
+    @Column(name = "isActive", nullable = false)
+    private Boolean isActive = false;
 
 }
