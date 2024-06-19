@@ -6,6 +6,7 @@ import com.tps.dto.UserAssistantDTO;
 import com.tps.dto.UserDTO;
 import com.tps.pojo.User;
 import com.tps.repositories.UserRepository;
+import com.tps.services.FirebaseService;
 import com.tps.services.UserService;
 //import jdk.internal.org.objectweb.asm.commons.RemappingMethodAdapter;
 import org.hibernate.id.ForeignGenerator;
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private Cloudinary cloudinary;
+
+    @Autowired
+    private FirebaseService firebaseService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -75,7 +79,11 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        return this.userRepository.addUser(user);
+        User newUser = this.userRepository.addUser(user);
+
+        firebaseService.addUserToFirestore(newUser);
+
+        return newUser;
     }
 
     @Override

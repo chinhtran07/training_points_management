@@ -11,7 +11,8 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
                 SpringSecurityConfig.class,
                 JwtConfig.class,
 //                JacksonConfig.class,
-//                SwaggerConfig.class
+//                SwaggerConfig.class,
+                FirebaseConfig.class
         };
     }
 
