@@ -7,7 +7,6 @@ import com.tps.dto.ActivityDTO;
 import com.tps.dto.ActivityDetailDTO;
 import com.tps.dto.MissionDTO;
 import com.tps.pojo.Activity;
-import com.tps.pojo.Mission;
 import com.tps.services.ActivityService;
 import com.tps.services.MissionService;
 import com.tps.services.RegisterMissionService;
@@ -29,17 +28,13 @@ import java.util.stream.Collectors;
 @Api(value = "API")
 public class APIActivityController {
     @Autowired
+    ActivityConverter activityConverter;
+    @Autowired
     private ActivityService activityService;
-
     @Autowired
     private MissionService missionService;
-
     @Autowired
     private RegisterMissionService registerMissionService;
-
-    @Autowired
-    ActivityConverter activityConverter;
-
     @Autowired
     private MissionConverter missionConverter;
 
@@ -93,7 +88,7 @@ public class APIActivityController {
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
     @ResponseStatus(HttpStatus.OK)
-    public void upload(@RequestParam("file")MultipartFile file, @PathVariable String activityId) {
+    public void upload(@RequestParam("file") MultipartFile file, @PathVariable String activityId) {
         this.registerMissionService.updateRegisterMission(file, activityId);
     }
 

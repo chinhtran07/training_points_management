@@ -1,7 +1,6 @@
 package com.tps.components;
 
 import com.tps.pojo.Activity;
-import com.tps.repositories.ActivityRepository;
 import com.tps.services.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

@@ -3,8 +3,6 @@ package com.tps.controllers;
 import com.tps.components.JwtService;
 import com.tps.components.UserConverter;
 import com.tps.dto.UserDTO;
-import com.tps.dto.UserRegisterDTO;
-import com.tps.pojo.Student;
 import com.tps.pojo.User;
 import com.tps.services.StudentService;
 import com.tps.services.UserService;
@@ -27,16 +25,13 @@ import java.util.Map;
 public class APIUserController {
 
     @Autowired
+    StudentService studentService;
+    @Autowired
     private UserService userService;
-
     @Autowired
     private JwtService jwtService;
-
     @Autowired
     private UserConverter userConverter;
-
-    @Autowired
-    StudentService studentService;
 
     @PostMapping(path = "/user/register", consumes = {
             MediaType.MULTIPART_FORM_DATA_VALUE
@@ -93,7 +88,7 @@ public class APIUserController {
     public ResponseEntity<UserDTO> getCurrentUser(Principal principal) throws ParseException {
         User user = userService.getUserByUsername(principal.getName());
 
-        if(user != null) {
+        if (user != null) {
             UserDTO userDTO = this.userConverter.convertToDTO(user);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }

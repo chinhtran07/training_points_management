@@ -14,14 +14,11 @@ import java.util.stream.Collectors;
 public class ActivityConverter {
 
     @Autowired
-    private PointGroupService pointGroupService;
-
-    @Autowired
     MissionConverter missionConverter;
-
     @Autowired
     PointGroupConverter pointGroupConverter;
-
+    @Autowired
+    private PointGroupService pointGroupService;
 
     public Activity toEntity(ActivityDTO dto) {
         Activity activity = new Activity();

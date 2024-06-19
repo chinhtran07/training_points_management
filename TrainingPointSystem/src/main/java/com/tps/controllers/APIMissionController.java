@@ -1,6 +1,5 @@
 package com.tps.controllers;
 
-import com.tps.components.JwtService;
 import com.tps.components.MissionConverter;
 import com.tps.components.RegisterMissionConverter;
 import com.tps.dto.MissionCreateDTO;
@@ -49,7 +48,7 @@ public class APIMissionController {
 
     @GetMapping("/user-mission")
     public ResponseEntity<List<RegisterMissionDTO>> getUserMission(@RequestParam Map<String, String> params,
-                                                                  Principal principal) throws ParseException {
+                                                                   Principal principal) throws ParseException {
         User user = userService.getUserByUsername(principal.getName());
         List<RegisterMissionDTO> registerMission = missionService.getUserMission(user.getId(), params);
         return new ResponseEntity<>(registerMission, HttpStatus.OK);

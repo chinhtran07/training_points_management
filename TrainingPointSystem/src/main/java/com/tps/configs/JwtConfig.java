@@ -4,7 +4,6 @@ import com.tps.filters.CorsFilter;
 import com.tps.filters.CustomAccessDeniedHandler;
 import com.tps.filters.JwtAuthenticationTokenFilter;
 import com.tps.filters.RestAuthenticationEntryPoint;
-import com.tps.pojo.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import static com.tps.pojo.User.ADMIN;
 
 @Configuration
 @EnableWebMvc
@@ -31,6 +29,11 @@ import static com.tps.pojo.User.ADMIN;
         "com.tps.components"}
 )
 public class JwtConfig extends WebSecurityConfigurerAdapter {
+    String[] POST_PUBLIC_ENDPOINT = {
+            "/api/login",
+            "/api/user/register"
+    };
+
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
         JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
@@ -48,7 +51,6 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
         return new CustomAccessDeniedHandler();
     }
 
-
     @Bean
     public CorsFilter corsFilter() {
         return new CorsFilter();
@@ -59,11 +61,6 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
-
-    String[] POST_PUBLIC_ENDPOINT = {
-            "/api/login",
-            "/api/user/register"
-    };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -80,7 +77,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests(request ->
-                        request.antMatchers("/api/stats/training-points").access("hasRole('ROLE_ADMIN')")
+                        request.antMatchers("/api/stats/training-points").access("hasRole('ROLE_ASSISTANT')")
                                 .anyRequest().authenticated()
                 ).addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)

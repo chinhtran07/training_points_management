@@ -117,6 +117,6 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     public List<Mission> getMissionsByActivity(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Activity activity = session.get(Activity.class, id);
-        return activity.getMissions().stream().sorted((x,y) -> x.getId().compareTo(y.getId())).collect(Collectors.toList());
+        return activity.getMissions().stream().sorted((x, y) -> x.getId().compareTo(y.getId())).collect(Collectors.toList());
     }
 }

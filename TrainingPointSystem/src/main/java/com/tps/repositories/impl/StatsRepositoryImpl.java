@@ -1,8 +1,8 @@
 package com.tps.repositories.impl;
 
 
-import com.tps.pojo.*;
 import com.tps.pojo.Class;
+import com.tps.pojo.*;
 import com.tps.repositories.StatsRepository;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,21 +10,15 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 @Transactional
 public class StatsRepositoryImpl implements StatsRepository {
-
-    private enum TypeStats {
-        FACULTY, RANK, CLASS
-    }
 
     @Autowired
     private LocalSessionFactoryBean sessionFactory;
@@ -159,6 +153,10 @@ public class StatsRepositoryImpl implements StatsRepository {
 
         Query query = session.createQuery(mainQuery);
         return query.getResultList();
+    }
+
+    private enum TypeStats {
+        FACULTY, RANK, CLASS
     }
 
 }

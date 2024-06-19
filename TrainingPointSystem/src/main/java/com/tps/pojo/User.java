@@ -1,6 +1,5 @@
 package com.tps.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,12 +22,10 @@ import java.util.Set;
 @Entity
 @Table(name = "user", schema = "training_point")
 public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     public static final String ADMIN = "ROLE_ADMIN";
     public static final String ASSISTANT = "ROLE_ASSISTANT";
     public static final String STUDENT = "ROLE_STUDENT";
-
+    private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +77,7 @@ public class User implements Serializable {
     private LocalDate dob;
 
     @Column(name = "is_active")
-    private Boolean isActive =true;
+    private Boolean isActive = true;
 
     @ManyToMany
     @JoinTable(name = "assistant",

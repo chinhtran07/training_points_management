@@ -6,7 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
@@ -49,14 +48,13 @@ public class MissingReport implements Serializable {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status = Status.WAITING;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "missingReport")
+    private List<MissingReportImage> images;
 
     public enum Status {
         WAITING,
         DENY,
         ACCEPT
     }
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "missingReport")
-    private List<MissingReportImage> images;
 
 }

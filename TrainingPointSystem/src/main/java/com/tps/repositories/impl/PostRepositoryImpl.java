@@ -40,8 +40,8 @@ public class PostRepositoryImpl implements PostRepository {
         Query query = session.createQuery(criteriaQuery);
 
         String page = params.get("page");
-        if(page != null && !page.isEmpty()) {
-            int pageSize = Integer.parseInt(env.getProperty("post.pageSize").toString());
+        if (page != null && !page.isEmpty()) {
+            int pageSize = Integer.parseInt(env.getProperty("post.pageSize"));
             int start = (Integer.parseInt(page) - 1) * pageSize;
             query.setFirstResult(start);
             query.setMaxResults(pageSize);
@@ -61,7 +61,7 @@ public class PostRepositoryImpl implements PostRepository {
     public Post addPost(Post post) {
         Session session = sessionFactory.getObject().getCurrentSession();
         session.save(post);
-        return (post) ;
+        return (post);
     }
 
     @Override

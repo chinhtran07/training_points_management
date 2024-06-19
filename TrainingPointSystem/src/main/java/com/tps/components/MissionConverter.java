@@ -7,7 +7,6 @@ import com.tps.services.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ejb.Local;
 import java.time.LocalDate;
 
 @Component

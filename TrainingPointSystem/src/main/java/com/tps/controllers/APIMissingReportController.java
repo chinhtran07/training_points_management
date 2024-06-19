@@ -3,10 +3,9 @@ package com.tps.controllers;
 import com.tps.components.MissingReportConverter;
 import com.tps.dto.MissingReportDTO;
 import com.tps.dto.MissingReportFacultyDTO;
-
+import com.tps.dto.MissingReportStudentDTO;
 import com.tps.pojo.MissingReport;
 import com.tps.pojo.RegisterMission;
-import com.tps.dto.MissingReportStudentDTO;
 import com.tps.services.MissingReportService;
 import com.tps.services.RegisterMissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +87,7 @@ public class APIMissingReportController {
         }
         return new ResponseEntity<>(missingReportConverter.toDTO(missingReport), HttpStatus.OK);
     }
+
     @GetMapping("/student")
     public ResponseEntity<List<MissingReportStudentDTO>> getMissingReportOfStudent(@RequestParam int studentId, @RequestParam int periodId) {
         if (studentId <= 0) {

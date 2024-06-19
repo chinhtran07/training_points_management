@@ -5,11 +5,8 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import com.tps.pojo.User;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -74,7 +71,7 @@ public class JwtService {
         try {
             JWTClaimsSet claimsSet = getClaimFromToken(token);
             username = claimsSet.getStringClaim(USERNAME);
-        }catch (ParseException ex) {
+        } catch (ParseException ex) {
             System.err.println(ex.getMessage());
         }
 

@@ -2,10 +2,8 @@ package com.tps.services.impl;
 
 
 import com.tps.pojo.Activity;
-
 import com.tps.pojo.Mission;
 import com.tps.repositories.ActivityRepository;
-import com.tps.repositories.PointGroupRepository;
 import com.tps.services.ActivityService;
 import com.tps.services.PointGroupService;
 import org.springframework.beans.factory.annotation.Autowired;

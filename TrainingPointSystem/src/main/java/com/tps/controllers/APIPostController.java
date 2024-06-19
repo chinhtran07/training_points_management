@@ -6,8 +6,8 @@ import com.tps.dto.CommentDTO;
 import com.tps.dto.PostCreateDTO;
 import com.tps.dto.PostDTO;
 import com.tps.pojo.Comment;
-import com.tps.pojo.Reaction;
 import com.tps.pojo.Post;
+import com.tps.pojo.Reaction;
 import com.tps.pojo.User;
 import com.tps.services.InteractionService;
 import com.tps.services.PostService;
@@ -70,10 +70,10 @@ public class APIPostController {
     @GetMapping("/{postId}")
     public ResponseEntity detailPost(@PathVariable int postId) {
         Post post = postService.getPostById(postId);
-        if ( post == null) {
+        if (post == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(postConverter.convertToDTO(post),HttpStatus.OK);
+        return new ResponseEntity(postConverter.convertToDTO(post), HttpStatus.OK);
     }
 
     @PutMapping("/{postId}")

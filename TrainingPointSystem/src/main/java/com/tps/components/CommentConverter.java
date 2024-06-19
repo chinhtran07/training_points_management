@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 public class CommentConverter {
     @Autowired
     UserConverter userConverter;
-    public CommentDTO toDTO (Comment comment) {
+
+    public CommentDTO toDTO(Comment comment) {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setId(comment.getId());
         commentDTO.setContent(comment.getContent());

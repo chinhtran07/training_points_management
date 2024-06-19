@@ -17,7 +17,7 @@
     </div>
     <c:if test="${alert != null}">
         <div class="alert alert-info">
-            ${alert}
+                ${alert}
         </div>
     </c:if>
     <c:url value="/admin/assistants/update" var="action"/>
@@ -33,13 +33,14 @@
         <form:errors path="*" element="div" cssClass="alert alert-danger"/>
         <div class="card-body">
             <div class="form-floating mb-3 mt-3">
-                <form:input type="text" class="form-control" path="user.username" id="username" placeholder="Tên đăng nhập"
+                <form:input type="text" class="form-control" path="user.username" id="username"
+                            placeholder="Tên đăng nhập"
                             name="username"/>
                 <label for="username">Tên đăng nhập</label>
             </div>
             <div class="form-floating mb-3 mt-3">
                 <form:input class="form-control" path="user.password" id="password" placeholder="Mật khẩu"
-                               name="password"/>
+                            name="password"/>
                 <label for="password">Mật khẩu</label>
             </div>
             <div class="form-floating mb-3 mt-3">
@@ -53,7 +54,8 @@
                 <label for="lastName">Tên</label>
             </div>
             <div class="form-floating mb-3 mt-3">
-                <form:input type="text" class="form-control" path="user.email" id="email" placeholder="Email" name="email"/>
+                <form:input type="text" class="form-control" path="user.email" id="email" placeholder="Email"
+                            name="email"/>
                 <label for="email">Email</label>
             </div>
             <div class="form-floating mb-3 mt-3">
@@ -63,7 +65,7 @@
             </div>
             <div class="form-floating mb-3 mt-3">
                 <form:select class="form-select" path="user.gender" id="gender" name="gender">
-                    <option value="Male" >Nam</option>
+                    <option value="Male">Nam</option>
                     <option value="Female">Nữ</option>
                 </form:select>
                 <label for="gender" class="form-label">Giới tính</label>
@@ -96,7 +98,7 @@
                 </c:if>
             </div>
             <div class="form-check form-switch mb-3 mt-3">
-                <form:checkbox class="form-check-input" id="isActive" path="user.isActive" name="isActive" />
+                <form:checkbox class="form-check-input" id="isActive" path="user.isActive" name="isActive"/>
                 <label class="form-check-label" for="isActive">Hoạt động</label>
             </div>
             <div class="form-floating mb-3 mt-3">

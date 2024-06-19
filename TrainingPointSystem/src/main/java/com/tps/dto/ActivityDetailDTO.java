@@ -1,7 +1,5 @@
 package com.tps.dto;
 
-import com.tps.pojo.Mission;
-import com.tps.pojo.PointGroup;
 import lombok.Data;
 
 import java.util.List;

@@ -18,7 +18,7 @@
 </head>
 <body>
 <h2 class="text-center">Login</h2>
-<c:url value="/login" var="action" />
+<c:url value="/login" var="action"/>
 <div class="container-fluid">
     <form action="${action}" method="post" class="form-signin">
         <div class="form-floating mb-3 mt-3">

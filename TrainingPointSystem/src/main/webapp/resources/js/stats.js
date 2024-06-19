@@ -212,7 +212,7 @@ function generatePdf() {
             responseType: 'blob'
         },
         success: function (response) {
-            let blob = new Blob([response], { type: 'application/pdf' });
+            let blob = new Blob([response], {type: 'application/pdf'});
             let url = window.URL.createObjectURL(blob);
             let a = document.createElement('a');
             a.href = url;

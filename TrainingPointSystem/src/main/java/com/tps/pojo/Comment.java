@@ -1,7 +1,6 @@
 package com.tps.pojo;
 
 import lombok.Data;
-import net.bytebuddy.utility.nullability.MaybeNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

@@ -12,7 +12,7 @@ public class MissingReportFacultyDTO {
     private String studentId;
     private String activityName;
     private String missionName;
-//    private String missionId;
+    //    private String missionId;
     private String status;
     private String createdDate;
     private boolean isActive;

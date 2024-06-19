@@ -1,8 +1,6 @@
 package com.tps.controllers;
 
-import com.tps.pojo.User;
 import com.tps.services.FacultyService;
-import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
-
-import static com.tps.pojo.User.ADMIN;
 
 @Controller
 @ControllerAdvice

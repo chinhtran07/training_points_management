@@ -7,6 +7,8 @@ import java.util.Map;
 
 public interface StudentService {
     Student findStudentByStudentId(String studentId);
+
     List<Object> getResultOfTrainingPointById(int id);
+
     void addStudent(Map<String, String> params);
 }

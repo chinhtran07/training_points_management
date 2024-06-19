@@ -47,5 +47,4 @@ public class Student implements Serializable {
     private Set<RegisterMission> registerMissions = new LinkedHashSet<>();
 
 
-
 }

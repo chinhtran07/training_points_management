@@ -16,7 +16,7 @@
                 <select id="years" name="year" class="form-select">
                     <option value="">Chọn năm</option>
                     <c:forEach items="${years}" var="year">
-                        <option value="${year}" >${year}</option>
+                        <option value="${year}">${year}</option>
                     </c:forEach>
                 </select>
             </div>

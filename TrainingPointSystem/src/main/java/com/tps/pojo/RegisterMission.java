@@ -32,7 +32,7 @@ public class RegisterMission implements Serializable {
     private Mission mission;
 
     @Column(name = "is_completed")
-    private Boolean isCompleted=false;
+    private Boolean isCompleted = false;
 
     @Column(name = "is_active")
     private Boolean isActive = true;

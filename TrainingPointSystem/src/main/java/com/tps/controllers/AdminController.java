@@ -3,12 +3,9 @@ package com.tps.controllers;
 
 import com.tps.components.StatsConverter;
 import com.tps.components.UserConverter;
-import com.tps.dto.TotalPointsDTO;
 import com.tps.dto.UserAssistantDTO;
 import com.tps.pojo.Assistant;
-import com.tps.pojo.Faculty;
 import com.tps.pojo.PointGroup;
-import com.tps.pojo.User;
 import com.tps.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +14,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller

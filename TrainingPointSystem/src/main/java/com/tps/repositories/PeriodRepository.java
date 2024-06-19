@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface PeriodRepository {
     List<String> getYears();
+
     Period getPeriod(String year, int semesterId);
+
     List<Period> getAllPeriods(String year);
 }

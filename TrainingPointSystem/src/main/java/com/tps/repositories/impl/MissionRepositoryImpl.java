@@ -2,11 +2,8 @@ package com.tps.repositories.impl;
 
 import com.tps.pojo.Mission;
 import com.tps.pojo.RegisterMission;
-import com.tps.repositories.ActivityRepository;
 import com.tps.repositories.MissionRepository;
 import com.tps.services.ActivityService;
-import org.hibernate.Session;
-import com.tps.repositories.MissionRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +77,7 @@ public class MissionRepositoryImpl implements MissionRepository {
         }
 
         List<Object[]> result = new ArrayList<>();
-        for (Mission mission: allMission) {
+        for (Mission mission : allMission) {
             Object[] obj = new Object[2];
             obj[0] = mission;
             obj[1] = registerMap.get(mission.getId());
