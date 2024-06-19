@@ -42,6 +42,14 @@
                     <input type="search" id="search" name="kw" class="form-control" placeholder="Nhập username"/>
                     <label for="search" class="form-label"></label>
                 </div>
+                <div class="p-2">
+                    <select id="activate" name="isActive" class="form-select">
+                        <option value="">Chọn trạng thái</option>
+                        <option value="true">Hoạt động</option>
+                        <option value="false">Không hoạt động</option>
+                    </select>
+                    <label for="activate" class="form-label"></label>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Lọc</button>
         </form>
@@ -72,10 +80,10 @@
                         <td>
                             <c:choose>
                                 <c:when test="${u.isActive}">
-                                    activate
+                                    <img src="${pageContext.request.contextPath}/resources/images/active.png" height="30px" alt="activate"/>
                                 </c:when>
                                 <c:otherwise>
-                                    deactivate
+                                    <img src="${pageContext.request.contextPath}/resources/images/deactivate.png" height="30px" alt="activate"/>
                                 </c:otherwise>
                             </c:choose>
                         </td>

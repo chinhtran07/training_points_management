@@ -70,7 +70,7 @@ public class StatsRepositoryImpl implements StatsRepository {
                     .when(builder.isTrue(missionPointsRegisterJoin.get("isCompleted")), missionPointsMissionJoin.get("point"))
                     .otherwise(0));
 
-            List<Predicate> predicates = new ArrayList<Predicate>();
+            List<Predicate> predicates = new ArrayList<>();
             String periodId = params.get("periodId");
             if (periodId != null && !periodId.isEmpty()) {
                 predicates.add(builder.equal(missionActivityJoin.get("period").get("id"), periodId));
@@ -132,7 +132,8 @@ public class StatsRepositoryImpl implements StatsRepository {
                 mainQuery.where(builder.equal(studentRoot.get("faculty").get("id"), facultyId));
             }
             mainQuery.groupBy(classJoin.get("name"));
-        } else if (type == TypeStats.RANK) {
+        }
+        if (type == TypeStats.RANK) {
             mainQuery.multiselect(
                     builder.count(builder.selectCase().when(builder.between(totalPointsSubquery, 90, 100), 1)),
                     builder.count(builder.selectCase().when(builder.between(totalPointsSubquery, 80, 89), 1)),
@@ -145,7 +146,8 @@ public class StatsRepositoryImpl implements StatsRepository {
             if (facultyId != null && !facultyId.isEmpty()) {
                 mainQuery.where(builder.equal(studentRoot.get("faculty").get("id"), facultyId));
             }
-        } else {
+        }
+        if (type == TypeStats.FACULTY) {
             Join<Student, Faculty> facultyJoin = studentRoot.join("faculty");
             mainQuery.multiselect(
                     facultyJoin.get("name").alias("facultyName"),

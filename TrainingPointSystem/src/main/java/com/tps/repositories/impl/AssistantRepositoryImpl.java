@@ -91,6 +91,14 @@ public class AssistantRepositoryImpl implements AssistantRepository {
             predicates.add(builder.like(userRoot.get("user").get("username"), String.format("%%%s%%", kw)));
         }
 
+        String activate = params.get("isActive");
+        if(activate != null && !activate.isEmpty()) {
+            if (activate.equals("true"))
+                predicates.add(builder.isTrue(userRoot.get("user").get("isActive")));
+            else
+                predicates.add(builder.isFalse(userRoot.get("user").get("isActive")));
+        }
+
         criteria.where(predicates.toArray(Predicate[]::new));
 
         Query<Object[]> query = session.createQuery(criteria);

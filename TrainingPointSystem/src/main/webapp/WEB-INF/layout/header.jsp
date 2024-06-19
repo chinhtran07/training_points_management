@@ -16,7 +16,7 @@
         </div>
         <c:forEach items="${views}" var="view">
             <div>
-                <a href="${view.key.toLowerCase()}" class="text-white text-decoration-none fs-5 mx-2">${view.value}</a>
+                <a href="${pageContext.request.contextPath}/admin/${view.key.toLowerCase()}" class="text-white text-decoration-none fs-5 mx-2">${view.value}</a>
             </div>
         </c:forEach>
         <div>

@@ -27,7 +27,7 @@ public class APIAssistantController {
     @Autowired
     private FacultyConverter facultyConverter;
 
-    @GetMapping("/faculty")
+    @GetMapping("/faculties")
     public ResponseEntity<FacultyDTO> getFaculty(Principal principal) {
         User user = this.userService.getUserByUsername(principal.getName());
 
