@@ -166,7 +166,7 @@ function extractTableData() {
 
     // Get the table element by its ID
     let table = document.getElementById("contentTable");
-    let title = "Thống kê điểm rèn luyện " + document.getElementById("contentTitle");
+    let title = "Thống kê điểm rèn luyện " + document.getElementById("contentTitle").innerText;
 
     // Get the table headers (first row)
     let headerRow = table.rows[0];
@@ -208,12 +208,20 @@ function generatePdf() {
         type: "POST",
         contentType: "application/json",
         data: data,
+        xhrFields: {
+            responseType: 'blob'
+        },
         success: function (response) {
-            console.log("PDF generated successfully");
-
-            let blob = new Blob([response], {type: 'application/pdf'});
+            let blob = new Blob([response], { type: 'application/pdf' });
             let url = window.URL.createObjectURL(blob);
-            window.open(url);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            console.log("PDF generated successfully")
         }
     })
 }

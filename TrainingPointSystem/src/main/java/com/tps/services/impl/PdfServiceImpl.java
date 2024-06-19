@@ -12,6 +12,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.tps.dto.TableData;
 import com.tps.services.PdfService;
@@ -39,22 +40,17 @@ public class PdfServiceImpl implements PdfService {
                 .setTextAlignment(TextAlignment.CENTER)
                 .setFontSize(20));
 
-        Table table = new Table(tableData.getHeaders().size() + 1);
+        Table table = new Table(UnitValue.createPercentArray(tableData.getHeaders().size())).useAllAvailableWidth();
         Color textHeaderColor = new DeviceGray(0.5f);
 
-        table.addHeaderCell(new Cell().add(new Paragraph("STT"))
-                .setFont(font)
-                .setFontColor(textHeaderColor));
+
         for (String header : tableData.getHeaders()) {
             table.addHeaderCell(new Cell().add(new Paragraph(header))
                     .setFont(font)
                     .setFontColor(textHeaderColor));
         }
 
-        int stt = 1;
         for (List<String> row : tableData.getRows()) {
-            table.addCell(new Cell().add(new Paragraph(String.format("%d", stt++))
-                    .setFont(font)));
             for (String cell : row) {
                 table.addCell(new Cell().add(new Paragraph(cell)).setFont(font));
             }
