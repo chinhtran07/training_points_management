@@ -12,5 +12,5 @@ public class MissionDTO {
     private String endDate;
 //    private int pointGroup;
 //    private String semester;
-//    private ActivityDTO activity;
+    private ActivityDTO activity;
 }

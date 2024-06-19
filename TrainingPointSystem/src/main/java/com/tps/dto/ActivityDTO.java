@@ -8,4 +8,5 @@ public class ActivityDTO {
     private String Name;
     private int pointGroup;
     private int maxPoint;
+    private int faculty;
 }

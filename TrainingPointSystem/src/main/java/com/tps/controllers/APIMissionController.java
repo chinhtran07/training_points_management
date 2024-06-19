@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/missions")
+@CrossOrigin
 public class APIMissionController {
 
     @Autowired
@@ -50,7 +51,6 @@ public class APIMissionController {
     public ResponseEntity<List<RegisterMissionDTO>> getUserMission(@RequestParam Map<String, String> params,
                                                                   Principal principal) throws ParseException {
         User user = userService.getUserByUsername(principal.getName());
-
         List<RegisterMissionDTO> registerMission = missionService.getUserMission(user.getId(), params);
         return new ResponseEntity<>(registerMission, HttpStatus.OK);
     }

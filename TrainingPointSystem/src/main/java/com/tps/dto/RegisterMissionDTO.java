@@ -8,4 +8,5 @@ public class RegisterMissionDTO {
     private Boolean isCompleted;
     private String registerDate;
     private boolean isActive;
+
 }

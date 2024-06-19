@@ -43,9 +43,4 @@ public class Comment implements Serializable {
     @JoinColumn(name = "reply_for")
     @ManyToOne()
     private Comment replyFor;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
-    private Student student;
-
 }
