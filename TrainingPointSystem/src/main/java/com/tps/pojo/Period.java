@@ -31,9 +31,6 @@ public class Period implements Serializable {
     @Column(name = "year", length = 4, nullable = true)
     private String year;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
-
     @OneToMany(mappedBy = "period")
     private Set<Activity> activities = new LinkedHashSet<>();
 
