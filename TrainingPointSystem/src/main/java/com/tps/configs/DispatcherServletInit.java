@@ -12,7 +12,6 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
                 JwtConfig.class,
 //                JacksonConfig.class,
 //                SwaggerConfig.class
-                FirebaseConfig.class
         };
     }
 
