@@ -138,7 +138,8 @@ public class MissingReportRepositoryImpl implements MissingReportRepository {
                 pointGroupJoin.get("name"),
                 activityJoin.get("name"),
                 missionJoin.get("id"), missionJoin.get("name"), missionJoin.get("point"),
-                missingReportJoin.get("description"), missingReportJoin.get("status")
+                missingReportJoin.get("description"), missingReportJoin.get("status"),
+                missingReportJoin.get("id")
         );
 
         List<Predicate> predicates = new ArrayList<>();

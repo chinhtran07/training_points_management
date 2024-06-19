@@ -47,7 +47,6 @@ public class ActivityConverter {
 
     public ActivityDetailDTO toDetailDTO(Activity activity) {
         ActivityDetailDTO dto = new ActivityDetailDTO();
-
         dto.setId(activity.getId());
         dto.setName(activity.getName());
         dto.setPointGroup(pointGroupConverter.toDTO(pointGroupService.getPointGroup(activity.getPointGroup().getId())));

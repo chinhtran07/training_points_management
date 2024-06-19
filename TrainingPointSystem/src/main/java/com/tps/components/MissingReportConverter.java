@@ -56,6 +56,7 @@ public class MissingReportConverter {
         missingReportStudentDTO.setMissionPoint((Integer) o[4]);
         missingReportStudentDTO.setDescription(o[5].toString());
         missingReportStudentDTO.setStatus(o[6].toString());
+        missingReportStudentDTO.setId((Integer) o[7]);
 
         return missingReportStudentDTO;
     }

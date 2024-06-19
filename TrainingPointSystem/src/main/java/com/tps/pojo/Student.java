@@ -46,10 +46,6 @@ public class Student implements Serializable {
     @OneToMany(mappedBy = "student")
     private Set<RegisterMission> registerMissions = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "student")
-    private Set<Comment> comments = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "student")
-    private Set<Reaction> reactions = new LinkedHashSet<>();
 
 }

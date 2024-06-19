@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class MissingReportStudentDTO {
+    private int id;
     private String pointGroupName;
     private String activityName;
     private String missionId;

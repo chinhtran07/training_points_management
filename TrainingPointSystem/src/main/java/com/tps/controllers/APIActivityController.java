@@ -74,8 +74,12 @@ public class APIActivityController {
         if (activity == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        activityDTO.setId(activityId);
-        this.activityService.updateActivity(activityConverter.toEntity(activityDTO));
+//        activityDTO.setId(activityId);
+        activity.setName(activityDTO.getName());
+        activity.setMaxPoint(activityDTO.getMaxPoint());
+        activity.getPointGroup().setId(activityDTO.getPointGroup());
+        activity.getFaculty().setId(activityDTO.getFaculty());
+        this.activityService.updateActivity(activity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

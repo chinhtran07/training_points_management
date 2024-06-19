@@ -29,7 +29,12 @@ public class StudentRepositoryImpl implements StudentRepository {
         criteria.select(root);
         criteria.where(builder.equal(root.get("studentId"), studentId));
         Query query = session.createQuery(criteria);
-        return (Student) query.getSingleResult();
+        List<Student> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        } else {
+            return results.get(0);
+        }
     }
 
     @Override
