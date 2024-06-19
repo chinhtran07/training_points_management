@@ -10,7 +10,7 @@ public class MissionDTO {
     private String content;
     private String startDate;
     private String endDate;
-//    private int pointGroup;
-//    private String semester;
-//    private ActivityDTO activity;
+    private int pointGroup;
+    private String semester;
+    private ActivityDTO activity;
 }

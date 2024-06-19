@@ -26,15 +26,21 @@ public class Period implements Serializable {
     @JoinColumn(name = "semester_id")
     private Semester semester;
 
+    @Basic
     @Size(max = 4)
-    @Column(name = "year", length = 4)
+    @Column(name = "year", length = 4, nullable = true)
     private String year;
 
     @OneToMany(mappedBy = "period")
     private Set<Activity> activities = new LinkedHashSet<>();
 
+    @Basic
     @NotNull
-    @Column(name = "isActive", nullable = false)
+    @Column(name = "is_active", nullable = true)
     private Boolean isActive = false;
 
+    @Override
+    public String toString() {
+        return String.format("%s", "Học kì" + this.getSemester().getId() + " - " + this.getYear());
+    }
 }

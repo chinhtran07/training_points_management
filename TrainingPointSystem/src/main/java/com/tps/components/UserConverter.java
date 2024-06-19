@@ -2,6 +2,7 @@ package com.tps.components;
 
 import com.tps.dto.StudentDTO;
 import com.tps.dto.UserAssistantDTO;
+import com.tps.dto.UserChat;
 import com.tps.dto.UserDTO;
 import com.tps.pojo.Assistant;
 import com.tps.pojo.Student;
@@ -77,5 +78,13 @@ public class UserConverter {
         studentDTO.setUser(this.convertToDTO(student.getUser()));
 
         return studentDTO;
+    }
+
+    public UserChat toUserChat(User user) {
+        UserChat userChat = new UserChat();
+        userChat.setId(String.valueOf(user.getId()));
+        userChat.setName(user.getLastName() + user.getFirstName());
+
+        return userChat;
     }
 }
