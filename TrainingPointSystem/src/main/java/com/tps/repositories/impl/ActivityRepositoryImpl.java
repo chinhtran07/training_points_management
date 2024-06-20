@@ -82,7 +82,9 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     @Override
     public Activity getActivityById(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        return session.get(Activity.class, id);
+        Query query = session.createQuery("from Activity a where a.id =: id");
+        query.setParameter("id", id);
+        return (Activity) query.getSingleResult();
     }
 
     @Override

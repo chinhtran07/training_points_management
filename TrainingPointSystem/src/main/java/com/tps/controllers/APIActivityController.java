@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/activities")
-@Api(value = "API")
 public class APIActivityController {
     @Autowired
     ActivityConverter activityConverter;
