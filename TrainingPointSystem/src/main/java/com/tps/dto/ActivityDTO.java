@@ -9,4 +9,5 @@ public class ActivityDTO {
     private int pointGroup;
     private int maxPoint;
     private int faculty;
+    private int period;
 }

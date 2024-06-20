@@ -56,6 +56,7 @@ public class APIActivityController {
         return new ResponseEntity<>(activityConverter.toDetailDTO(activity), HttpStatus.OK);
     }
 
+
     @PostMapping("/{activityId}/missions")
     public ResponseEntity<MissionDTO> addMission(@PathVariable int activityId,
                                                  @RequestBody MissionDTO missionDTO) {
@@ -65,6 +66,16 @@ public class APIActivityController {
         }
         MissionDTO result = missionConverter.toDTO(this.missionService.addMission(missionConverter.toEntity(missionDTO), activityId));
         return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{activityId}/missions")
+    public ResponseEntity<List<MissionDTO>> getActivityMission(@PathVariable int activityId) {
+        Activity activity = activityService.getActivityById(activityId);
+        if (activity == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<MissionDTO> result = activity.getMissions().stream().map(mission -> missionConverter.toDTO(mission)).collect(Collectors.toList());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/{activityId}")
@@ -78,6 +89,7 @@ public class APIActivityController {
         activity.setMaxPoint(activityDTO.getMaxPoint());
         activity.getPointGroup().setId(activityDTO.getPointGroup());
         activity.getFaculty().setId(activityDTO.getFaculty());
+        activity.getPeriod().setId(activityDTO.getPeriod());
         this.activityService.updateActivity(activity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -93,7 +105,7 @@ public class APIActivityController {
             MediaType.MULTIPART_FORM_DATA_VALUE
     })
     @ResponseStatus(HttpStatus.OK)
-    public void upload(@RequestParam("file")MultipartFile file, @PathVariable String activityId) {
+    public void upload(@RequestParam("file") MultipartFile file, @PathVariable String activityId) {
         this.registerMissionService.updateRegisterMission(file, activityId);
     }
 
