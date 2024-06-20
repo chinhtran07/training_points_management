@@ -10,7 +10,6 @@ import com.tps.pojo.Activity;
 import com.tps.services.ActivityService;
 import com.tps.services.MissionService;
 import com.tps.services.RegisterMissionService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -72,6 +71,7 @@ public class APIActivityController {
         activity.setMaxPoint(activityDTO.getMaxPoint());
         activity.getPointGroup().setId(activityDTO.getPointGroup());
         activity.getFaculty().setId(activityDTO.getFaculty());
+        activity.getPeriod().setId(activityDTO.getPeriod());
         this.activityService.updateActivity(activity);
         return new ResponseEntity<>(HttpStatus.OK);
     }

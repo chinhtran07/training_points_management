@@ -27,7 +27,7 @@ public class MissionConverter {
         dto.setEndDate(mission.getEndDate().toString());
         dto.setActivity(activityConverter.toDTO(mission.getActivity()));
         dto.setPointGroup(mission.getActivity().getPointGroup().getId());
-        dto.setSemester(mission.getActivity().getPeriod().toString());
+//        dto.setSemester(mission.getActivity().getPeriod().toString());
         return dto;
     }
 
