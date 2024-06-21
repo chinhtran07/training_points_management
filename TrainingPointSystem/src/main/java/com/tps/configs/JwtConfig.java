@@ -71,15 +71,16 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests(request ->
                 request.antMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll());
 
+        http.authorizeRequests().antMatchers("/api/stats/training-points/**")
+                .access("hasAnyRole('ROLE_ASSISTANT', 'ROLE_ADMIN')");
 
-        http.antMatcher("/api/**")
-                .httpBasic()
-                .authenticationEntryPoint(restServicesEntryPoint()).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests(request ->
-                        request.antMatchers("/api/stats/training-points").access("hasRole('ROLE_ASSISTANT')")
-                                .anyRequest().authenticated()
-                ).addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
+
+        http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
+                .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
+                .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
+                .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }

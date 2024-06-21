@@ -7,6 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -42,4 +44,8 @@ public class Comment implements Serializable {
     @JoinColumn(name = "reply_for")
     @ManyToOne()
     private Comment replyFor;
+
+    @OneToMany(mappedBy = "replyFor")
+    private Set<Comment> comments = new LinkedHashSet<>();
+
 }
