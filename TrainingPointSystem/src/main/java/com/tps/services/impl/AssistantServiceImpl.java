@@ -4,8 +4,6 @@ import com.tps.pojo.Assistant;
 import com.tps.pojo.Faculty;
 import com.tps.pojo.User;
 import com.tps.repositories.AssistantRepository;
-import com.tps.repositories.FacultyRepository;
-import com.tps.repositories.UserRepository;
 import com.tps.services.AssistantService;
 import com.tps.services.FacultyService;
 import com.tps.services.UserService;
@@ -13,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

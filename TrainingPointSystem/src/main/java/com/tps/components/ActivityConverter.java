@@ -18,7 +18,6 @@ public class ActivityConverter {
 
     @Autowired
     MissionConverter missionConverter;
-
     @Autowired
     PointGroupConverter pointGroupConverter;
 

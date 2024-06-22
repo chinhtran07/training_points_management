@@ -9,6 +9,7 @@ public interface InteractionRepository {
     Reaction getReactionByUserPost(int userId, int postId);
 
     List<Comment> getPostComments(int postId);
+
     Comment getCommentById(int id);
 
     Comment addComment(Comment comment);
@@ -22,6 +23,8 @@ public interface InteractionRepository {
     void deleteComment(Comment comment);
 
     boolean getLiked(int postId, int ussrId);
+
     int getCommentCount(int postId);
+
     int getLikeCount(int postId);
 }

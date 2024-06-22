@@ -83,7 +83,9 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     @Override
     public Activity getActivityById(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        return session.get(Activity.class, id);
+        Query query = session.createQuery("from Activity a where a.id =: id");
+        query.setParameter("id", id);
+        return (Activity) query.getSingleResult();
     }
 
     @Override
@@ -118,6 +120,6 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     public List<Mission> getMissionsByActivity(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Activity activity = session.get(Activity.class, id);
-        return activity.getMissions().stream().sorted((x,y) -> x.getId().compareTo(y.getId())).collect(Collectors.toList());
+        return activity.getMissions().stream().sorted((x, y) -> x.getId().compareTo(y.getId())).collect(Collectors.toList());
     }
 }

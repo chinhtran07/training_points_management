@@ -30,7 +30,7 @@ public class Reaction implements Serializable {
     private Post post;
 
     @Column(name = "is_active")
-    private Boolean isActive=true;
+    private Boolean isActive = true;
 
     @Column(name = "created_date")
     @CreationTimestamp

@@ -9,7 +9,8 @@ import org.springframework.validation.Validator;
 public class PassValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return User.class.isAssignableFrom(clazz);    }
+        return User.class.isAssignableFrom(clazz);
+    }
 
     @Override
     public void validate(Object target, Errors errors) {

@@ -6,8 +6,6 @@ import com.tps.dto.MissionDTO;
 import com.tps.dto.RegisterMissionDTO;
 import com.tps.pojo.Mission;
 import com.tps.pojo.RegisterMission;
-import com.tps.pojo.Activity;
-import com.tps.pojo.Mission;
 import com.tps.repositories.ActivityRepository;
 import com.tps.repositories.MissionRepository;
 import com.tps.services.MissionService;

@@ -92,7 +92,7 @@ public class AssistantRepositoryImpl implements AssistantRepository {
         }
 
         String activate = params.get("isActive");
-        if(activate != null && !activate.isEmpty()) {
+        if (activate != null && !activate.isEmpty()) {
             if (activate.equals("true"))
                 predicates.add(builder.isTrue(userRoot.get("user").get("isActive")));
             else

@@ -29,8 +29,7 @@ public class UserConverter {
         dto.setRole(user.getRole());
         if (Objects.equals(user.getRole(), User.ASSISTANT)) {
             dto.setFaculty(facultyConverter.toDTO(user.getAssistant().getFaculty()));
-        }
-        else if (Objects.equals(user.getRole(), User.STUDENT)) {
+        } else if (Objects.equals(user.getRole(), User.STUDENT)) {
             dto.setFaculty(facultyConverter.toDTO(user.getStudent().getFaculty()));
         }
         return dto;

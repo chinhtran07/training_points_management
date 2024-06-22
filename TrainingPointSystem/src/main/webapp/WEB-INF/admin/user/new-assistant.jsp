@@ -61,7 +61,7 @@
             </div>
             <div class="form-floating mb-3 mt-3">
                 <form:select class="form-select" path="user.gender" id="gender" name="gender">
-                    <form:option value="Male" >Nam</form:option>
+                    <form:option value="Male">Nam</form:option>
                     <form:option value="Female">Nữ</form:option>
                 </form:select>
                 <label for="gender" class="form-label">Giới tính</label>

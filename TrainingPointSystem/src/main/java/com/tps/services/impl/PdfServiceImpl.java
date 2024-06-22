@@ -1,6 +1,5 @@
 package com.tps.services.impl;
 
-import com.google.common.eventbus.DeadEvent;
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceGray;
 import com.itextpdf.kernel.font.PdfFont;
@@ -13,7 +12,6 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
-import com.itextpdf.layout.properties.VerticalAlignment;
 import com.tps.dto.TableData;
 import com.tps.services.PdfService;
 import org.springframework.stereotype.Service;

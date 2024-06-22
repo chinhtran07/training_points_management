@@ -2,13 +2,10 @@ package com.tps.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.tps.dto.UserAssistantDTO;
-import com.tps.dto.UserDTO;
 import com.tps.pojo.User;
 import com.tps.repositories.UserRepository;
+import com.tps.services.FirebaseService;
 import com.tps.services.UserService;
-//import jdk.internal.org.objectweb.asm.commons.RemappingMethodAdapter;
-import org.hibernate.id.ForeignGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.*;
 
-import static com.tps.pojo.User.*;
+import static com.tps.pojo.User.STUDENT;
 
 @Service("userDetailService")
 public class UserServiceImpl implements UserService {
@@ -32,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private Cloudinary cloudinary;
+
+    @Autowired
+    private FirebaseService firebaseService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -75,7 +75,11 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        return this.userRepository.addUser(user);
+        User newUser = this.userRepository.addUser(user);
+
+        firebaseService.addUserToFirestore(newUser);
+
+        return newUser;
     }
 
     @Override

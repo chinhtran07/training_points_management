@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface RegisterMissionRepository {
     RegisterMission getRegisterByStudentMission(int studentId, int missionId);
-    void updateRegistermission (RegisterMission registermission);
+
+    void updateRegistermission(RegisterMission registermission);
+
     RegisterMission addRegisterMission(RegisterMission registermission);
+
     void updateStatus(List<RegisterMission> registerMissionList);
 }

@@ -40,7 +40,7 @@ public class PostConverter {
         post.setContent(postDTO.getContent());
         post.setActivity(activityConverter.toEntity(postDTO.getActivity()));
         post.setImages(postDTO.getImages()
-                .stream().map(i->imageConverter.toEntity(i))
+                .stream().map(i -> imageConverter.toEntity(i))
                 .collect(Collectors.toList()));
 
         return post;
@@ -62,7 +62,7 @@ public class PostConverter {
         postDTO.setAssistant(userConverter.toUserAssistantDTO(post.getUser().getAssistant()));
         postDTO.setActivity(activityConverter.toDTO(post.getActivity()));
         postDTO.setCreatedDate(post.getCreatedDate().toString());
-        if(post.getImages() != null) {
+        if (post.getImages() != null) {
             postDTO.setImages(post.getImages()
                     .stream().map(i -> imageConverter.toDTO(i))
                     .collect(Collectors.toList()));

@@ -31,7 +31,7 @@
             <div class="d-flex">
                 <div class="p-2">
                     <select id="faculties" name="facultyId" class="form-select">
-                        <option value="">Chọn khoa: </option>
+                        <option value="">Chọn khoa:</option>
                         <c:forEach items="${faculties}" var="faculty">
                             <option value="${faculty.id}">${faculty.name}</option>
                         </c:forEach>
@@ -80,10 +80,12 @@
                         <td>
                             <c:choose>
                                 <c:when test="${u.isActive}">
-                                    <img src="${pageContext.request.contextPath}/resources/images/active.png" height="30px" alt="activate"/>
+                                    <img src="${pageContext.request.contextPath}/resources/images/active.png"
+                                         height="30px" alt="activate"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <img src="${pageContext.request.contextPath}/resources/images/deactivate.png" height="30px" alt="activate"/>
+                                    <img src="${pageContext.request.contextPath}/resources/images/deactivate.png"
+                                         height="30px" alt="activate"/>
                                 </c:otherwise>
                             </c:choose>
                         </td>

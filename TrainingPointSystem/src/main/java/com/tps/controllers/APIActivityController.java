@@ -7,11 +7,9 @@ import com.tps.dto.ActivityDTO;
 import com.tps.dto.ActivityDetailDTO;
 import com.tps.dto.MissionDTO;
 import com.tps.pojo.Activity;
-import com.tps.pojo.Mission;
 import com.tps.services.ActivityService;
 import com.tps.services.MissionService;
 import com.tps.services.RegisterMissionService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,20 +24,15 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/activities")
-@Api(value = "API")
 public class APIActivityController {
     @Autowired
+    ActivityConverter activityConverter;
+    @Autowired
     private ActivityService activityService;
-
     @Autowired
     private MissionService missionService;
-
     @Autowired
     private RegisterMissionService registerMissionService;
-
-    @Autowired
-    ActivityConverter activityConverter;
-
     @Autowired
     private MissionConverter missionConverter;
 

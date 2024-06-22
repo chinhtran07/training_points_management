@@ -3,9 +3,7 @@ package com.tps.filters;
 import com.tps.components.JwtService;
 import com.tps.pojo.User;
 import com.tps.services.UserService;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,8 +44,7 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
                     boolean accountNonLocked = true;
 
                     UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                            username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, user.getGrantedAuthorities()
-                    );
+                            username, user.getPassword(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, user.getGrantedAuthorities());
 
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
                             null, userDetails.getAuthorities());

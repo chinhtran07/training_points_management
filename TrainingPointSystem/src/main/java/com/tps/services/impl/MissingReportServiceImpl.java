@@ -2,8 +2,6 @@ package com.tps.services.impl;
 
 import com.tps.pojo.MissingReport;
 import com.tps.repositories.MissingReportRepository;
-import com.tps.repositories.MissionRepository;
-import com.tps.repositories.UserRepository;
 import com.tps.services.MissingReportService;
 import com.tps.services.MissionService;
 import com.tps.services.UserService;
@@ -53,7 +51,8 @@ public class MissingReportServiceImpl implements MissingReportService {
         missingReport.setStudent(userService.getUserById(studentId).getStudent());
         missingReport.setDescription(params.get("description"));
 
-        return this.missingReportRepository.addMissingReport(missingReport);    }
+        return this.missingReportRepository.addMissingReport(missingReport);
+    }
 
     @Override
     public void uploadMissingImages(List<MultipartFile> files, int missing_id) {

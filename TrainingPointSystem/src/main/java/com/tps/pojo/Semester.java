@@ -28,5 +28,4 @@ public class Semester implements Serializable {
     @OneToMany(mappedBy = "semester", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Period> periods = new LinkedHashSet<>();
-
 }

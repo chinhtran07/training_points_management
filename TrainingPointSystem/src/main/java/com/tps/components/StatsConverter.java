@@ -6,9 +6,6 @@ import com.tps.dto.RankTotalPointsDTO;
 import com.tps.dto.TotalPointsDTO;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 @Component
 public class StatsConverter {
 
@@ -16,7 +13,7 @@ public class StatsConverter {
         ClassTotalPointsDTO dto = new ClassTotalPointsDTO();
         dto.setName((o[0].toString()));
         dto.setTotalStudents((Long) o[1]);
-        dto.setAvgTotalPoints(o[2] != null ? (Double) o[2]: 0.0 );
+        dto.setAvgTotalPoints(o[2] != null ? (Double) o[2] : 0.0);
 
         return dto;
     }

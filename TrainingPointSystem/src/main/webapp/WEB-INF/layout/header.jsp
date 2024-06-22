@@ -10,20 +10,23 @@
 <%@page isELIgnored="false" %>
 <div class="container-fluid bg-secondary p-3 mb-2">
     <div class="d-flex align-items-center">
-        <c:url var="home" value="/admin/" />
+        <c:url var="home" value="/admin/"/>
         <div>
             <a href="${home}" class="text-uppercase fs-2 fw-bold text-white text-decoration-none">Quản trị hệ thống</a>
         </div>
         <c:forEach items="${views}" var="view">
             <div>
-                <a href="${pageContext.request.contextPath}/admin/${view.key.toLowerCase()}" class="text-white text-decoration-none fs-5 mx-2">${view.value}</a>
+                <a href="${pageContext.request.contextPath}/admin/${view.key.toLowerCase()}"
+                   class="text-white text-decoration-none fs-5 mx-2">${view.value}</a>
             </div>
         </c:forEach>
         <div>
-            <a href="${pageContext.request.contextPath}/admin/stats" class="text-white text-decoration-none fs-5 mx-2">Thống kê</a>
+            <a href="${pageContext.request.contextPath}/admin/stats" class="text-white text-decoration-none fs-5 mx-2">Thống
+                kê</a>
         </div>
         <div>
-            <a href="${pageContext.request.contextPath}/logout" class="text-white text-decoration-none fs-5 mx-2">Đăng xuất</a>
+            <a href="${pageContext.request.contextPath}/logout" class="text-white text-decoration-none fs-5 mx-2">Đăng
+                xuất</a>
         </div>
     </div>
 </div>

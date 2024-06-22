@@ -1,8 +1,5 @@
 package com.tps.repositories.impl;
 
-import com.tps.dto.UserAssistantDTO;
-import com.tps.pojo.Assistant;
-import com.tps.pojo.Faculty;
 import com.tps.pojo.User;
 import com.tps.repositories.UserRepository;
 import org.hibernate.Session;
@@ -13,7 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

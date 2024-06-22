@@ -4,7 +4,6 @@ import com.tps.filters.CorsFilter;
 import com.tps.filters.CustomAccessDeniedHandler;
 import com.tps.filters.JwtAuthenticationTokenFilter;
 import com.tps.filters.RestAuthenticationEntryPoint;
-import com.tps.pojo.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import static com.tps.pojo.User.ADMIN;
 
 @Configuration
 @EnableWebMvc
@@ -31,6 +29,7 @@ import static com.tps.pojo.User.ADMIN;
         "com.tps.components"}
 )
 public class JwtConfig extends WebSecurityConfigurerAdapter {
+
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
         JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
@@ -47,7 +46,6 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
     public CustomAccessDeniedHandler customAccessDeniedHandler() {
         return new CustomAccessDeniedHandler();
     }
-
 
     @Bean
     public CorsFilter corsFilter() {
@@ -108,18 +106,18 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
 
 
         http.authorizeRequests().antMatchers(PUBLIC_ENDPOINTS).permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET, STUDENT_READ_ONLY).access("hasAnyRole(\"ROLE_ASSISTANT\", \"ROLE_STUDENT\")");
+//        http.authorizeRequests().antMatchers(HttpMethod.GET, STUDENT_READ_ONLY).access("hasAnyRole(\"ROLE_ASSISTANT\", \"ROLE_STUDENT\")");
         http.authorizeRequests().antMatchers(ASSISTANT_API_ENDPOINTS).access("hasRole(\"ROLE_ASSISTANT\")");
-        http.authorizeRequests().antMatchers(STUDENT_CAN_EDIT).access("hasAnyRole(\"ROLE_ASSISTANT\", \"ROLE_STUDENT\")");
+//        http.authorizeRequests().antMatchers(STUDENT_CAN_EDIT).access("hasAnyRole(\"ROLE_ASSISTANT\", \"ROLE_STUDENT\")");
         http.authorizeRequests().antMatchers("/api/stats/training-points").access("hasRole(\"ROLE_ADMIN\")");
 
-        http.antMatcher("/api/**")
-                .httpBasic()
-                .authenticationEntryPoint(restServicesEntryPoint()).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
+
+        http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
+                .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
+                .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .and()
-                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }
