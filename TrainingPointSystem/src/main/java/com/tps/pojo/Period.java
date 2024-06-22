@@ -42,6 +42,6 @@ public class Period implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s", "Học kì" + this.getSemester().getId() + " - " + this.getYear());
+        return String.format("%s", "Học kì " + this.getSemester().getId() + " - " + this.getYear());
     }
 }

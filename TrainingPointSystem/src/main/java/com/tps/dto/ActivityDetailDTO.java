@@ -13,5 +13,7 @@ public class ActivityDetailDTO {
     private String Name;
     private int maxPoint;
     private PointGroupDTO pointGroup;
+    private FacultyDTO faculty;
+    private String periodName;
     private List<MissionDTO> missions;
 }

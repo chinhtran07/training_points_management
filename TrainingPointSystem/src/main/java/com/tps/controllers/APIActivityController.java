@@ -79,6 +79,7 @@ public class APIActivityController {
     }
 
     @PutMapping("/{activityId}")
+    @CrossOrigin
     public ResponseEntity updateActivity(@PathVariable int activityId, @RequestBody ActivityDTO activityDTO) {
         Activity activity = this.activityService.getActivityById(activityId);
         if (activity == null) {

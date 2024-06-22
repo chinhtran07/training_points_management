@@ -61,6 +61,7 @@ public class ActivityRepositoryImpl implements ActivityRepository {
             predicates.add(builder.equal(root.get("pointGroupId"), Integer.parseInt(pointGroupId)));
         }
 
+        predicates.add(builder.equal(root.get("isActive"), true));
         criteria.where(predicates.toArray(Predicate[]::new));
         criteria.orderBy(builder.asc(root.get("id")));
 
