@@ -73,7 +73,9 @@ public class StudentRepositoryImpl implements StudentRepository {
 
 
     @Override
-    public void addStudent(Student student) {
+    public Student addStudent(Student student) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
+        session.save(student);
+        return student;
     }
 }

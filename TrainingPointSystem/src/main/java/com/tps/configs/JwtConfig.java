@@ -106,9 +106,9 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
 
 
         http.authorizeRequests().antMatchers(PUBLIC_ENDPOINTS).permitAll();
-//        http.authorizeRequests().antMatchers(HttpMethod.GET, STUDENT_READ_ONLY).access("hasAnyRole(\"ROLE_ASSISTANT\", \"ROLE_STUDENT\")");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, STUDENT_READ_ONLY).access("hasAnyRole('ROLE_ASSISTANT', 'ROLE_STUDENT')");
         http.authorizeRequests().antMatchers(ASSISTANT_API_ENDPOINTS).access("hasRole('ROLE_ASSISTANT')");
-//        http.authorizeRequests().antMatchers(STUDENT_CAN_EDIT).access("hasAnyRole(\"ROLE_ASSISTANT\", \"ROLE_STUDENT\")");
+        http.authorizeRequests().antMatchers(STUDENT_CAN_EDIT).access("hasAnyRole('ROLE_ASSISTANT', 'ROLE_STUDENT')");
         http.authorizeRequests().antMatchers("/api/stats/training-points").access("hasRole('ROLE_ADMIN')");
 
 
@@ -117,6 +117,8 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
+                .antMatchers(HttpMethod.PUT, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
+                .antMatchers(ASSISTANT_API_ENDPOINTS).access("hasRole(\"ROLE_ASSISTANT\")")
                 .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());

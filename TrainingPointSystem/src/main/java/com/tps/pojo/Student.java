@@ -27,9 +27,9 @@ public class Student implements Serializable {
     @JoinColumn(name = "id", nullable = false)
     private User user;
 
-    @Size(max = 11)
+    @Size(max = 14)
     @NotNull
-    @Column(name = "student_id", nullable = false, length = 11)
+    @Column(name = "student_id", nullable = false, length = 14)
     private String studentId;
 
     @ManyToOne(fetch = FetchType.EAGER)
