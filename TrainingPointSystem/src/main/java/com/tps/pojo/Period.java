@@ -22,7 +22,7 @@ public class Period implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "semester_id")
     private Semester semester;
 
@@ -30,6 +30,7 @@ public class Period implements Serializable {
     @Size(max = 4)
     @Column(name = "year", length = 4, nullable = true)
     private String year;
+
 
     @OneToMany(mappedBy = "period")
     private Set<Activity> activities = new LinkedHashSet<>();
@@ -41,6 +42,6 @@ public class Period implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s", "Học kì" + this.getSemester().getId() + " - " + this.getYear());
+        return String.format("%s", "Học kì " + this.getSemester().getId() + " - " + this.getYear());
     }
 }

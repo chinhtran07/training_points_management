@@ -49,6 +49,7 @@ public class APIActivityController {
         return new ResponseEntity<>(activityConverter.toDetailDTO(activity), HttpStatus.OK);
     }
 
+
     @PostMapping("/{activityId}/missions")
     public ResponseEntity<MissionDTO> addMission(@PathVariable int activityId,
                                                  @RequestBody MissionDTO missionDTO) {
@@ -60,7 +61,18 @@ public class APIActivityController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{activityId}/missions")
+    public ResponseEntity<List<MissionDTO>> getActivityMission(@PathVariable int activityId) {
+        Activity activity = activityService.getActivityById(activityId);
+        if (activity == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<MissionDTO> result = activity.getMissions().stream().map(mission -> missionConverter.toDTO(mission)).collect(Collectors.toList());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @PutMapping("/{activityId}")
+    @CrossOrigin
     public ResponseEntity updateActivity(@PathVariable int activityId, @RequestBody ActivityDTO activityDTO) {
         Activity activity = this.activityService.getActivityById(activityId);
         if (activity == null) {
