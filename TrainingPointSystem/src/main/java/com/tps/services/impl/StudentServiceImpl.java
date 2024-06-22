@@ -4,13 +4,20 @@ import com.tps.dto.ActivityResultDTO;
 import com.tps.dto.MissionResultDTO;
 import com.tps.dto.StudentResultDTO;
 import com.tps.pojo.Student;
+import com.tps.pojo.User;
 import com.tps.repositories.StudentRepository;
+import com.tps.repositories.UserRepository;
 import com.tps.services.ClassService;
 import com.tps.services.FacultyService;
 import com.tps.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +28,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     private ClassService classService;
@@ -74,9 +84,32 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void addStudent(Map<String, String> params) {
+    public User addStudent(Map<String, String> params, MultipartFile[] files) {
+        Integer id = 2100000000;
+        User user = new User();
+        user.setFirstName(params.get("firstName"));
+        user.setLastName(params.get("lastName"));
+        user.setUsername(params.get("username"));
+        user.setPassword(params.get("password"));
+        user.setEmail(params.get("email"));
+        user.setDob(LocalDate.parse(params.get("dob")));
+        user.setRole(User.STUDENT);
+
+        if (files.length > 0) {
+            user.setFile(files[0]);
+        }
+        userRepository.addUser(user);
+
+
+
         Student student = new Student();
+        student.setStudentId(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));
         student.setClassField(classService.getClassById(Integer.parseInt(params.get("class"))));
         student.setFaculty(facultyService.getFacultyById(Integer.parseInt(params.get("faculty"))));
+        student.setUser(user);
+        user.setStudent(student);
+        studentRepository.addStudent(student);
+
+        return user;
     }
 }

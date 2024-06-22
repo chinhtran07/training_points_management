@@ -39,22 +39,7 @@ public class APIUserController {
     public ResponseEntity<UserDTO> createUser(@RequestParam HashMap<String, String> params,
                                               @RequestParam MultipartFile[] files) {
 
-        User user = new User();
-        user.setFirstName(params.get("firstName"));
-        user.setLastName(params.get("lastName"));
-        user.setUsername(params.get("username"));
-        user.setPassword(params.get("password"));
-        user.setEmail(params.get("email"));
-        user.setDob(LocalDate.parse(params.get("dob")));
-
-
-        if (files.length > 0) {
-            user.setFile(files[0]);
-        }
-
-        studentService.addStudent(params);
-        User createdUser = userService.addUser(user);
-
+        User createdUser = studentService.addStudent(params, files);
 
         if (createdUser != null) {
             UserDTO userDTO = userConverter.convertToDTO(createdUser);

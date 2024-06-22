@@ -1,6 +1,7 @@
 package com.tps.repositories;
 
 import com.tps.pojo.Student;
+import com.tps.pojo.User;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ public interface StudentRepository {
 
     List<Object> getResultOfTrainingPointById(int id);
 
-    void addStudent(Student student);
+    Student addStudent(Student student);
 }
