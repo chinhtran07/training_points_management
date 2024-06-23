@@ -10,6 +10,7 @@ import com.tps.repositories.UserRepository;
 import com.tps.services.ClassService;
 import com.tps.services.FacultyService;
 import com.tps.services.StudentService;
+import com.tps.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +38,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private FacultyService facultyService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public Student findStudentByStudentId(String studentId) {
@@ -85,7 +89,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public User addStudent(Map<String, String> params, MultipartFile[] files) {
-        Integer id = 2100000000;
         User user = new User();
         user.setFirstName(params.get("firstName"));
         user.setLastName(params.get("lastName"));
@@ -98,9 +101,8 @@ public class StudentServiceImpl implements StudentService {
         if (files.length > 0) {
             user.setFile(files[0]);
         }
-        userRepository.addUser(user);
 
-
+        userService.addUser(user);
 
         Student student = new Student();
         student.setStudentId(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")));

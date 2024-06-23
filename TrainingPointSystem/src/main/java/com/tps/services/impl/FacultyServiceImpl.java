@@ -1,6 +1,7 @@
 package com.tps.services.impl;
 
 
+import com.tps.pojo.Class;
 import com.tps.pojo.Faculty;
 import com.tps.repositories.FacultyRepository;
 import com.tps.services.FacultyService;
@@ -40,4 +41,11 @@ public class FacultyServiceImpl implements FacultyService {
     public List<Faculty> getAllFaculty(Map<String, String> params) {
         return this.facultyRepository.getAllFaculty(params);
     }
+
+    @Override
+    public List<Class> getFacultyClasses(int facultyId) {
+        return this.facultyRepository.getFacultyClasses(facultyId);
+    }
+
+
 }
