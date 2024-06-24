@@ -1,6 +1,7 @@
 package com.tps.repositories.impl;
 
 
+import com.tps.pojo.Class;
 import com.tps.pojo.Faculty;
 import com.tps.repositories.FacultyRepository;
 import org.hibernate.Session;
@@ -71,5 +72,16 @@ public class FacultyRepositoryImpl implements FacultyRepository {
         Query query = session.createQuery(cq);
 
         return query.getResultList();
+    }
+
+    @Override
+    public List<Class> getFacultyClasses(int facultyId) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Faculty faculty = session.get(Faculty.class, facultyId);
+        if(faculty != null) {
+            return new ArrayList<>(faculty.getClasses());
+        }
+
+        return null;
     }
 }

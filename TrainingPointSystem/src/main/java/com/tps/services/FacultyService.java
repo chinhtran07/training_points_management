@@ -1,5 +1,6 @@
 package com.tps.services;
 
+import com.tps.pojo.Class;
 import com.tps.pojo.Faculty;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface FacultyService {
     Faculty getFacultyById(int id);
 
     List<Faculty> getAllFaculty(Map<String, String> params);
+
+    List<Class> getFacultyClasses(int facultyId);
 }

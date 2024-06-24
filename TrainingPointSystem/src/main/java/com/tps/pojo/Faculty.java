@@ -39,4 +39,7 @@ public class Faculty implements Serializable {
     @OneToMany(mappedBy = "faculty")
     private Set<Student> students = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "faculty")
+    private  Set<Class> classes;
+
 }

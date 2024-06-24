@@ -13,4 +13,6 @@ public interface AssistantService {
     Assistant getAssistantById(int id);
 
     List<Object[]> getUserAssistants(Map<String, String> params);
+
+    List<Assistant> getAllAssistant();
 }

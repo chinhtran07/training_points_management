@@ -33,4 +33,8 @@ public class Class implements Serializable {
     @OneToMany(mappedBy = "classField")
     private Set<Student> students = new LinkedHashSet<>();
 
+    @JoinColumn(name = "faculty_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Faculty faculty;
+
 }

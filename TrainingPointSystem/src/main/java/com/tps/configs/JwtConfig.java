@@ -60,14 +60,15 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
 
     String[] PUBLIC_ENDPOINTS = {
             "/api/login",
-            "/api/user/register"
+            "/api/user/register",
+            "/api/faculties",
+            "/api/faculties/**/classes",
     };
 
     String[] STUDENT_READ_ONLY = {
             "/api/activities",
             "/api/activities/**",
             "/api/activities/**/missions",
-            "/api/faculties",
             "/api/missions/user-mission",
             "/api/point-groups",
             "/api/posts",
@@ -90,7 +91,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
             "/api/posts",
             "/generatePdf",
             "/api/activities/**/missions",
-            "/api/missions/**",
+//            "/api/missions/**",
             "/api/missing-report/faculty",
             "/api/missing-report/**",
             "/api/missing-report/student",
@@ -103,7 +104,6 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().ignoringAntMatchers("/api/**");
-
 
         http.authorizeRequests().antMatchers(PUBLIC_ENDPOINTS).permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, STUDENT_READ_ONLY).access("hasAnyRole('ROLE_ASSISTANT', 'ROLE_STUDENT')");
@@ -118,6 +118,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.PUT, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .and()
+                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }
