@@ -13,8 +13,7 @@ import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
 
-import static org.hibernate.cfg.AvailableSettings.DIALECT;
-import static org.hibernate.cfg.AvailableSettings.SHOW_SQL;
+import static org.hibernate.cfg.AvailableSettings.*;
 
 @Configuration
 @PropertySource("classpath:database.properties")
@@ -48,6 +47,7 @@ public class HibernateConfig {
         Properties properties = new Properties();
         properties.put(DIALECT, env.getProperty("hibernate.dialect"));
         properties.put(SHOW_SQL, env.getProperty("hibernate.showSql"));
+
 
         return properties;
     }
