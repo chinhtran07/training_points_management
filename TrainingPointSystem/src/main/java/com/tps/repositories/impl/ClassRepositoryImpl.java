@@ -1,6 +1,8 @@
 package com.tps.repositories.impl;
 
 import com.tps.pojo.Class;
+import com.tps.pojo.Faculty;
+import com.tps.pojo.Student;
 import com.tps.repositories.ClassRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Map;
@@ -63,13 +66,22 @@ public class ClassRepositoryImpl implements ClassRepository {
     @Override
     public List<Class> getClassesByFaculty(int facultyId) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        String hql = "Select distinct Class.id, Class.name " +
-                "from Class " +
-                "left join Student s on Class.id = s.classField.id " +
-                "left join Faculty f on s.faculty.id = f.id " +
-                "where f.id =: facultyId";
-        Query query = session.createQuery(hql);
-        query.setParameter("facultyId", facultyId);
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Class> criteria = builder.createQuery(Class.class);
+        Root<Class> root = criteria.from(Class.class);
+
+        Join<Class, Student> classStudentJoin = root.join("students");
+        Join<Student, Faculty> studentFacultyJoin = classStudentJoin.join("faculty");
+
+        criteria.multiselect(
+                root.get("id"),
+                root.get("name")
+        );
+
+        criteria.where(builder.equal(studentFacultyJoin.get("id"), facultyId));
+
+        Query query = session.createQuery(criteria);
+
         return query.getResultList();
     }
 }

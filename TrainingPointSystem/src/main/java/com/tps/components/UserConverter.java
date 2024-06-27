@@ -35,17 +35,6 @@ public class UserConverter {
         return dto;
     }
 
-    public User convertDTOToUser(UserDTO dto) {
-        User user = new User();
-        user.setId(dto.getId());
-        user.setUsername(dto.getUsername());
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setEmail(dto.getEmail());
-        user.setAvatar(dto.getAvatar());
-        return user;
-    }
-
     public UserAssistantDTO toUserAssistantDTO(Object[] o) {
         UserAssistantDTO dto = new UserAssistantDTO();
         dto.setId((Integer) o[0]);

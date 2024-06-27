@@ -17,7 +17,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -83,9 +82,7 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     @Override
     public Activity getActivityById(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        Query query = session.createQuery("from Activity a where a.id =: id");
-        query.setParameter("id", id);
-        return (Activity) query.getSingleResult();
+        return session.get(Activity.class, id);
     }
 
     @Override
@@ -100,20 +97,6 @@ public class ActivityRepositoryImpl implements ActivityRepository {
         Activity activity = this.getActivityById(id);
         activity.setIsActive(false);
         session.update(activity);
-    }
-
-    @Override
-    public List<Activity> findByExpirationDateBeforeAndIsActive(Instant currentDate) {
-        Session session = this.sessionFactory.getObject().getCurrentSession();
-
-        if (currentDate == null) {
-            return null;
-        }
-
-        Query query = session.createQuery("from Activity where updatedDate >= :currentDate or createdDate >= :currentDate and isActive");
-        List<Activity> activities = query.getResultList();
-
-        return activities;
     }
 
     @Override

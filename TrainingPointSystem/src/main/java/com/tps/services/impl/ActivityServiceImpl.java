@@ -9,7 +9,6 @@ import com.tps.services.PointGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -47,11 +46,6 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public void deleteActivity(int id) {
         this.activityRepository.deleteActivity(id);
-    }
-
-    @Override
-    public List<Activity> getExpiredActivity(Instant currentTime) {
-        return this.activityRepository.findByExpirationDateBeforeAndIsActive(currentTime);
     }
 
     @Override

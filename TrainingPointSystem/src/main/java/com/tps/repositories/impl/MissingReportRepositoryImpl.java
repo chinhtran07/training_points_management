@@ -90,7 +90,8 @@ public class MissingReportRepositoryImpl implements MissingReportRepository {
                 missingReportJoin.get("updatedDate"),
                 missingReportJoin.get("isActive"),
                 missingReportJoin.get("status"),
-                missingReportJoin.get("id"));
+                missingReportJoin.get("id")
+        );
 
         Query query = session.createQuery(criteria);
 

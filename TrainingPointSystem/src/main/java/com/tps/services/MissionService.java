@@ -5,6 +5,7 @@ import com.tps.dto.MissionDTO;
 import com.tps.dto.RegisterMissionDTO;
 import com.tps.pojo.Mission;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +23,9 @@ public interface MissionService {
     void deleteMission(int id);
 
     Boolean checkMissionBelongToActivity(String activityId, String missionId);
+
+    List<Mission> getExpiredMissions(LocalDate currentTime);
+
+    Mission updateMission(Mission mission);
 }
  

@@ -2,6 +2,7 @@ package com.tps.repositories;
 
 import com.tps.pojo.Mission;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -20,4 +21,5 @@ public interface MissionRepository {
 
     boolean checkMissionBelongToActivity(String activityId, String missionId);
 
+    List<Mission> getExpiredMissions(LocalDate currentTime);
 }

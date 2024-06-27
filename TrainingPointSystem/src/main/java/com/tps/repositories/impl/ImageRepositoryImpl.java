@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class ImageRepositoryImpl implements ImageRepository {
+
     @Autowired
     LocalSessionFactoryBean factoryBean;
 

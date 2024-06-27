@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +58,7 @@ public class MissionRepositoryImpl implements MissionRepository {
         String pointGroup = params.get("pointGroup");
         if (pointGroup != null && !pointGroup.isEmpty()) {
             predicates.add(builder.
-                    equal(missionRoot.get("activity").get("pointgroup"), Integer.parseInt(pointGroup)));
+                    equal(missionRoot.get("activity").get("pointGroup"), Integer.parseInt(pointGroup)));
         }
 
         String semester = params.get("semester");
@@ -124,11 +125,29 @@ public class MissionRepositoryImpl implements MissionRepository {
 
         Root<Mission> missionRoot = criteria.from(Mission.class);
         criteria.select(builder.count(missionRoot));
-        criteria.where(builder.equal(missionRoot.get("activity").get("id"), Integer.parseInt(activityId)));
-        criteria.where(builder.equal(missionRoot.get("id"), Integer.parseInt(missionId)));
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(builder.equal(missionRoot.get("activity").get("id"), Integer.parseInt(activityId)));
+        predicates.add(builder.equal(missionRoot.get("id"), Integer.parseInt(missionId)));
+
+        criteria.where(predicates.toArray(Predicate[]::new));
 
         Query q = session.createQuery(criteria);
         long count = (Long) q.getSingleResult();
         return count == 1;
+    }
+
+    @Override
+    public List<Mission> getExpiredMissions(LocalDate currentTime) {
+        Session session = this.factoryBean.getObject().getCurrentSession();
+
+        if (currentTime == null) {
+            return null;
+        }
+
+        Query query = session.createQuery("from Mission m where m.endDate >=: currentTime and m.isActive");
+        query.setParameter("currentTime", currentTime);
+
+        return query.getResultList();
     }
 }
