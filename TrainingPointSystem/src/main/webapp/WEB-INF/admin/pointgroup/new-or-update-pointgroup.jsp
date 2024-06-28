@@ -23,8 +23,8 @@
         <c:if test="${errMsg != null}">
             <div class="alert alert-danger">${errMsg}</div>
         </c:if>
-        <%--@elvariable id="pointgroup" type="com.tps.pojo.Pointgroup"--%>
-        <form:form method="post" action="${action}" modelAttribute="pointgroup" enctype="multipart/form-data">
+        <%--@elvariable id="pointgroup" type="com.tps.pojo.PointGroup"--%>
+        <form:form method="post" action="${action}" modelAttribute="pointGroup" enctype="multipart/form-data">
         <form:errors path="*" element="div" cssClass="alert alert-danger"/>
         <div class="card-body">
             <div class="form-floating mb-3 mt-3">

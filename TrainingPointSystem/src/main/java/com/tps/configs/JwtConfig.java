@@ -89,7 +89,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
             "/api/point-groups/**/activities",
             "/api/activities/**",
             "/api/posts",
-            "/generatePdf",
+            "/api/pdf/create",
             "/api/activities/**/missions",
 //            "/api/missions/**",
             "/api/missing-report/faculty",
