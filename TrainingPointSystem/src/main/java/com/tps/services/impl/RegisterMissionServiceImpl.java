@@ -58,8 +58,9 @@ public class RegisterMissionServiceImpl implements RegisterMissionService {
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream()))) {
             List<RegisterMission> updateList = new ArrayList<>();
             String[] nextLine;
+            nextLine = csvReader.readNext();
             while ((nextLine = csvReader.readNext()) != null) {
-                String studentId = nextLine[0].substring(1);
+                String studentId = nextLine[0];
                 String missionId = nextLine[1];
                 boolean isCompleted = nextLine[2].equals("1");
                 if (this.missionService.checkMissionBelongToActivity(activityId, missionId)) {
